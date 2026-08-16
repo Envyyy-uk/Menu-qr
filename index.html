@@ -3,58 +3,756 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PODVAL · Menu</title>
-<meta name="theme-color" content="#f4efe4">
-<meta name="description" content="PODVAL London — drinks menu">
-<link rel="stylesheet" href="assets/styles.css">
+<title>PODVAL · Меню напоїв</title>
+<meta name="theme-color" content="#f7f3ea">
+<meta name="description" content="PODVAL — Drinks menu">
+<!-- Сторінку згенеровано: python3 tools/build.py. Правки — у data/ і assets/. -->
+<style>
+/* ==========================================================================
+   PODVAL — сторінка меню. Друкована картка, а не застосунок: папір, золото,
+   антиква. Один світлий режим навмисно — меню має виглядати як надруковане.
+   ========================================================================== */
+
+:root {
+  --paper:      #f7f3ea;
+  --paper-edge: #e6dfd1;
+  --ink:        #1d1a16;
+  --muted:      #6d6455;
+  --faint:      #8d8474;
+  --gold:       #a8843f;
+  --gold-soft:  #cbb083;
+  --line:       rgba(168, 132, 63, .28);
+  --line-soft:  rgba(29, 26, 22, .12);
+
+  --serif: "Cormorant Garamond", "Didot", "Bodoni MT", "Playfair Display",
+           "Times New Roman", Times, Georgia, serif;
+  --sans:  "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
+
+  --wrap: 1080px;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper-edge);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ------------------------------------------------------- вибір мови --- */
+/* Три копії меню лежать в одному файлі, показує потрібну радіокнопка. Так
+   мова перемикається без скрипта — меню читається навіть там, де JS вимкнено.
+   Самі кнопки не ховаємо через display:none: інакше їх втрачає клавіатура. */
+.langsel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page { display: none; }
+
+#lang-uk:checked ~ .sheet .page--uk,
+#lang-en:checked ~ .sheet .page--en,
+#lang-ru:checked ~ .sheet .page--ru { display: block; }
+
+/* Те, чого без скрипта немає сенсу показувати. */
+.js-only { display: none; }
+.js .js-only { display: block; }
+
+/* ------------------------------------------------------------- шапка --- */
+.site {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(29, 26, 22, .96);
+  color: var(--paper);
+  border-bottom: 1px solid rgba(203, 176, 131, .35);
+}
+
+.site__bar {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mark {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .28em;
+  color: var(--gold-soft);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.mark small {
+  font-size: 9px;
+  letter-spacing: .3em;
+  color: rgba(247, 243, 234, .55);
+}
+
+.langs { display: flex; gap: 4px; }
+
+.lang {
+  background: transparent;
+  border: 1px solid rgba(203, 176, 131, .35);
+  color: rgba(247, 243, 234, .75);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  padding: 6px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.lang:hover { border-color: var(--gold-soft); color: var(--paper); }
+
+#lang-uk:checked ~ .site .lang[for="lang-uk"],
+#lang-en:checked ~ .site .lang[for="lang-en"],
+#lang-ru:checked ~ .site .lang[for="lang-ru"] {
+  background: var(--gold-soft);
+  border-color: var(--gold-soft);
+  color: #1d1a16;
+}
+
+.langsel:focus-visible ~ .site .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+
+/* -------------------------------------------------------------- аркуш --- */
+.sheet {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 18px 12px 40px;
+}
+
+.sheet__inner {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  outline: 1px solid rgba(29, 26, 22, .06);
+  outline-offset: 6px;
+  padding: 34px 20px 30px;
+  box-shadow: 0 18px 50px rgba(29, 26, 22, .10);
+}
+
+/* ------------------------------------------------------------ титул --- */
+.masthead { text-align: center; }
+
+.masthead__brand {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .5em;
+  text-indent: .5em;
+  color: var(--gold);
+}
+
+.masthead__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(30px, 9vw, 62px);
+  line-height: 1.05;
+  letter-spacing: .1em;
+  text-indent: .1em;
+  text-transform: uppercase;
+}
+
+.masthead__sub {
+  margin: 10px 0 0;
+  font-style: italic;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* Тонка лінія з ромбом посередині — розділювач із друкованої картки. */
+.rule {
+  height: 1px;
+  background: var(--line);
+  margin: 16px auto;
+  max-width: 340px;
+  position: relative;
+}
+
+.rule--diamond::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* ---------------------------------------------------------- панель --- */
+.toolbar {
+  position: sticky;
+  top: 45px;
+  z-index: 20;
+  margin: 22px -20px 4px;
+  padding: 10px 20px 8px;
+  background: linear-gradient(var(--paper) 82%, rgba(247, 243, 234, 0));
+}
+
+.field { position: relative; }
+
+.field input {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 30px 8px 2px;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.field input::placeholder { color: var(--faint); }
+
+/* власний хрестик уже є — системний лише дублює його */
+.field input::-webkit-search-cancel-button { display: none; }
+
+.field input:focus { outline: none; border-bottom-color: var(--gold); }
+
+.field__clear {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  appearance: none;
+  background: none;
+  border: 0;
+  color: var(--faint);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 10px 0 2px;
+}
+
+.chips::-webkit-scrollbar { display: none; }
+
+.chip {
+  flex: 0 0 auto;
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s, background .15s;
+}
+
+.chip:hover { color: var(--ink); border-color: var(--gold-soft); }
+
+.chip.is-active {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(168, 132, 63, .07);
+}
+
+.toolbar__count {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--faint);
+}
+
+/* ---------------------------------------------------------- розділи --- */
+.menu { margin-top: 18px; }
+
+.section {
+  break-inside: avoid;
+  margin: 0 0 34px;
+  scroll-margin-top: 150px;
+}
+
+.section__head { margin-bottom: 12px; }
+
+.section__title {
+  margin: 0 0 6px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-indent: .26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+
+.note {
+  margin: 0 0 16px;
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(168, 132, 63, .045);
+}
+
+/* ---------------------------------------------------------- позиція --- */
+.item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.item:last-child { border-bottom: 0; }
+
+.item__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.item__name {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: .01em;
+}
+
+.item__price {
+  margin: 0;
+  flex: 0 0 auto;
+  font-size: 18px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.item__from {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.badge {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  vertical-align: middle;
+  color: var(--gold);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1px 4px;
+}
+
+.item__desc {
+  margin: 4px 0 0;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.item__opt {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.item__optLabel {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-right: 8px;
+}
+
+.choice { white-space: nowrap; }
+.choice__price { color: var(--gold); }
+.sep { color: var(--gold-soft); }
+
+.more { display: inline; }
+
+.more__summary {
+  display: inline;
+  list-style: none;
+  cursor: pointer;
+  margin-left: 8px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px dotted var(--gold-soft);
+}
+
+.more__summary::-webkit-details-marker { display: none; }
+.more[open] .more__summary { color: var(--faint); border-bottom-color: transparent; }
+
+.more__list {
+  margin: 5px 0 0;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.item__ing {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.item__ingLabel {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.empty {
+  margin: 30px 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* ------------------------------------------------------------- підвал --- */
+.foot {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.foot p { margin: 6px 0 0; }
+.foot__fine { color: var(--faint); font-style: italic; }
+
+/* ------------------------------------------------------------- нагору --- */
+.totop {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 25;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  color: var(--paper);
+  background: rgba(29, 26, 22, .88);
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+}
+
+/* display:grid перебиває атрибут hidden — повертаємо його силу */
+.totop[hidden] { display: none; }
+
+/* ------------------------------------------------------- широкий екран --- */
+@media (min-width: 860px) {
+  .sheet { padding: 26px 24px 60px; }
+  .sheet__inner { padding: 46px 44px 38px; }
+  .toolbar { margin: 26px -44px 6px; padding: 12px 44px 10px; }
+
+  .menu {
+    columns: 2;
+    column-gap: 48px;
+  }
+
+  .section { margin-bottom: 30px; }
+}
+
+@media (min-width: 1200px) {
+  body { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* --------------------------------------------------------------- друк --- */
+@media print {
+  .site, .toolbar, .totop { display: none !important; }
+  body { background: #fff; }
+  .sheet__inner { box-shadow: none; border-color: #bbb; }
+  .menu { columns: 2; column-gap: 34px; }
+}
+
+</style>
 </head>
 <body>
 
-<a class="skip" href="#menu">→</a>
+<input class="langsel" type="radio" name="lang" id="lang-uk" aria-label="Українська" checked><input class="langsel" type="radio" name="lang" id="lang-en" aria-label="English"><input class="langsel" type="radio" name="lang" id="lang-ru" aria-label="Русский">
 
-<header class="site">
+<header class="site" id="top">
   <div class="site__bar">
     <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
-    <nav class="langs" id="langs" aria-label="Language"></nav>
+    <nav class="langs" aria-label="Мова"><label class="lang" for="lang-uk" title="Українська">UA</label><label class="lang" for="lang-en" title="English">EN</label><label class="lang" for="lang-ru" title="Русский">RU</label></nav>
   </div>
 </header>
 
-<main class="sheet" id="top">
+<main class="sheet">
   <div class="sheet__inner">
 
-    <div class="masthead">
-      <p class="masthead__brand">PODVAL</p>
-      <div class="rule rule--diamond" aria-hidden="true"></div>
-      <h1 class="masthead__title" id="menu-title">&nbsp;</h1>
-      <div class="rule rule--diamond" aria-hidden="true"></div>
-      <p class="masthead__sub" id="menu-sub"></p>
+<div class="page page--uk" lang="uk">
+
+  <div class="masthead">
+    <p class="masthead__brand">PODVAL</p>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <h1 class="masthead__title">Меню напоїв</h1>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p class="masthead__sub">Бар і кальяни · Лондон</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="field js-only">
+      <input type="search" autocomplete="off" spellcheck="false"
+             placeholder="Пошук за назвою або складником" aria-label="Пошук за назвою або складником">
+      <button class="field__clear" type="button" title="Очистити" hidden>✕</button>
     </div>
+    <nav class="chips" aria-label="Розділи"><a class="chip" href="#uk-cat-spirits" data-cat="spirits">Міцне</a><a class="chip" href="#uk-cat-cocktails" data-cat="cocktails">Коктейлі</a><a class="chip" href="#uk-cat-beer-soft" data-cat="beer-soft">Пиво й безалкогольне</a><a class="chip" href="#uk-cat-wine" data-cat="wine">Вино й ігристе</a><a class="chip" href="#uk-cat-hot" data-cat="hot">Гарячі напої</a><a class="chip" href="#uk-cat-hookah" data-cat="hookah">Кальяни</a></nav>
+    <p class="toolbar__count js-only"
+       data-unit="позицій">30 позицій</p>
+  </div>
 
-    <div class="toolbar">
-      <div class="field">
-        <input id="search" type="search" autocomplete="off" spellcheck="false">
-        <button id="search-clear" class="field__clear" type="button" hidden>✕</button>
-      </div>
-      <nav class="chips" id="chips" aria-label="Sections"></nav>
-      <p class="toolbar__count" id="count"></p>
+  <div class="menu"><section class="section" id="uk-cat-spirits"><header class="section__head"><h2 class="section__title">Міцне</h2></header><p class="note">Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.</p><div class="section__items"><article class="item" data-search="absolut, stoli горілка · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. vodka · mixer for spirits £3. bottle price includes two mixers of your choice. водка · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle вид kind вид absolut stoli міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Absolut, Stoli <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Горілка</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Absolut</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Stoli</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> зерновий спирт, вода</p></article><article class="item" data-search="grey goose, beluga горілка · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. vodka · mixer for spirits £3. bottle price includes two mixers of your choice. водка · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт вода water вода обʼєм size объем bottle вид kind вид grey goose beluga міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Grey Goose, Beluga <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£260</p></div><p class="item__desc">Горілка</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£260</span></span></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Grey Goose</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Beluga</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> зерновий спирт, вода</p></article><article class="item" data-search="jack daniels, black label, jameson віскі · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. whiskey · mixer for spirits £3. bottle price includes two mixers of your choice. виски · микс к крепкому — £3. цена бутылки включает два микса на выбор. ячмінний солод barley malt ячменный солод кукурудза maize кукуруза вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) вид kind вид jack daniels black label jameson міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Jack Daniels, Black Label, Jameson <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Віскі</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Jack Daniels</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black Label</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Jameson</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> ячмінний солод, кукурудза, вода</p></article><article class="item" data-search="bombay джин · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. gin · mixer for spirits £3. bottle price includes two mixers of your choice. джин · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт трави й спеції herbs and spices травы и специи вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Bombay <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Джин</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> зерновий спирт, трави й спеції, вода</p></article><article class="item" data-search="havana club, bacardi ром · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. rum · mixer for spirits £3. bottle price includes two mixers of your choice. ром · микс к крепкому — £3. цена бутылки включает два микса на выбор. цукор sugar сахар вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) вид kind вид havana club bacardi міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Havana Club, Bacardi <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Ром</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Havana Club</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bacardi</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> цукор, вода</p></article><article class="item" data-search="olmeca текіла · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. tequila · mixer for spirits £3. bottle price includes two mixers of your choice. текила · микс к крепкому — £3. цена бутылки включает два микса на выбор. вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Olmeca <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Текіла</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> вода</p></article><article class="item" data-search="patron silver текіла · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. tequila · mixer for spirits £3. bottle price includes two mixers of your choice. текила · микс к крепкому — £3. цена бутылки включает два микса на выбор. вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Patron Silver <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £16</p></div><p class="item__desc">Текіла</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£16</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£270</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£16</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£32</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£48</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£64</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£80</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£96</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£270</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> вода</p></article><article class="item" data-search="hennessy коньяк · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. cognac · mixer for spirits £3. bottle price includes two mixers of your choice. коньяк · микс к крепкому — £3. цена бутылки включает два микса на выбор. виноград grapes виноград вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Hennessy <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Коньяк</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> виноград, вода</p></article><article class="item" data-search="liqueurs лікер на вибір · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. choice of liqueur · mixer for spirits £3. bottle price includes two mixers of your choice. ликер на выбор · микс к крепкому — £3. цена бутылки включает два микса на выбор. цукор sugar сахар трави й спеції herbs and spices травы и специи обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle вид kind вид disaronno amaretto baileys jägermeister malibu міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Liqueurs <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Лікер на вибір</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Disaronno Amaretto</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Baileys</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Jägermeister</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Malibu</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> цукор, трави й спеції</p></article><article class="item" data-search="nalivka настоянка на ягодах і фруктах fruit and berry infusion настойка на ягодах и фруктах зерновий спирт grain spirit зерновой спирт цукор sugar сахар ягоди berries ягоды обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle смак flavour вкус citrus cherry strawberry raspberry black currant міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Nalivka <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £9</p></div><p class="item__desc">Настоянка на ягодах і фруктах</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£9</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span><details class="more"><summary class="more__summary">усі обʼєми</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£9</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£18</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£27</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£36</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£45</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£54</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Смак:</span> <span class="choice"><span class="choice__name">Citrus</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Cherry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black Currant</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> зерновий спирт, цукор, ягоди</p></article></div></section><section class="section" id="uk-cat-cocktails"><header class="section__head"><h2 class="section__title">Коктейлі</h2></header><div class="section__items"><article class="item" data-search="aperol spritz апероль, просекко, свіжий апельсин aperol, prosecco, fresh orange апероль, просекко, свежий апельсин апероль aperol апероль виноград grapes виноград апельсин orange апельсин коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Aperol Spritz <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Апероль, просекко, свіжий апельсин</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> апероль, виноград, апельсин</p></article><article class="item" data-search="porn star martini маракуя, ванільна горілка, просекко passion fruit, vanilla vodka, prosecco маракуйя, ванильная водка, просекко маракуя passion fruit маракуйя горілка vodka водка ваніль vanilla ваниль виноград grapes виноград коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Porn Star Martini <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Маракуя, ванільна горілка, просекко</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> маракуя, горілка, ваніль, виноград</p></article><article class="item" data-search="negroni джин, червоний вермут, campari, апельсин gin, vermouth rosso, campari, orange джин, вермут россо, campari, апельсин джин gin джин червоний вермут vermouth rosso вермут россо гіркий лікер campari campari bitter горький ликер campari апельсин orange апельсин коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Negroni <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Джин, червоний вермут, Campari, апельсин</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> джин, червоний вермут, гіркий лікер Campari, апельсин</p></article><article class="item" data-search="mojito ром, цукор, лайм, мʼята rum, sugar, lime, mint ром, сахар, лайм, мята ром rum ром цукор sugar сахар лайм lime лайм мʼята mint мята смак flavour вкус classic strawberry raspberry passion mango коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Mojito <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Ром, цукор, лайм, мʼята</p><div class="item__opt"><span class="item__optLabel">Смак:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Passion</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mango</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> ром, цукор, лайм, мʼята</p></article><article class="item" data-search="cosmopolitan горілка, cointreau, журавлина, лайм vodka, cointreau, cranberry juice, lime водка, cointreau, клюква, лайм горілка vodka водка апельсиновий лікер orange liqueur апельсиновый ликер журавлина cranberry клюква лайм lime лайм коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Cosmopolitan <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Горілка, Cointreau, журавлина, лайм</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> горілка, апельсиновий лікер, журавлина, лайм</p></article><article class="item" data-search="margarita текіла, трипл сек, лайм tequila, triple sec, lime текила, трипл сек, лайм текіла tequila текила апельсиновий лікер orange liqueur апельсиновый ликер лайм lime лайм подача serve подача martini crushed ice смак flavour вкус classic strawberry raspberry passion mango коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Margarita <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Текіла, трипл сек, лайм</p><div class="item__opt"><span class="item__optLabel">Подача:</span> <span class="choice"><span class="choice__name">Martini</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Crushed Ice</span></span></div><div class="item__opt"><span class="item__optLabel">Смак:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Passion</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mango</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> текіла, апельсиновий лікер, лайм</p></article></div></section><section class="section" id="uk-cat-beer-soft"><header class="section__head"><h2 class="section__title">Пиво й безалкогольне</h2></header><div class="section__items"><article class="item" data-search="corona світле лагер-пиво lager beer светлое лагер-пиво вода water вода ячмінний солод barley malt ячменный солод кукурудза maize кукуруза хміль hops хмель пиво й безалкогольне beer and soft drinks пиво и безалкогольное"><div class="item__head"><h3 class="item__name">Corona <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£8</p></div><p class="item__desc">Світле лагер-пиво</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> вода, ячмінний солод, кукурудза, хміль</p></article><article class="item" data-search="soft drinks / juices газовані напої та соки fizzy drinks and juices газированные напитки и соки вода water вода цукор sugar сахар вид kind вид cola sprite fanta orange juice apple juice cranberry juice red bull пиво й безалкогольне beer and soft drinks пиво и безалкогольное"><div class="item__head"><h3 class="item__name">Soft Drinks / Juices</h3><p class="item__price">£5</p></div><p class="item__desc">Газовані напої та соки</p><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Cola</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Sprite</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Fanta</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Orange Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Apple Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Cranberry Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Red Bull</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> вода, цукор</p></article></div></section><section class="section" id="uk-cat-wine"><header class="section__head"><h2 class="section__title">Вино й ігристе</h2></header><div class="section__items"><article class="item" data-search="white wine біле вино white wine белое вино виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">White Wine <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Біле вино</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> виноград</p></article><article class="item" data-search="red wine червоне вино red wine красное вино виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Red Wine <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Червоне вино</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> виноград</p></article><article class="item" data-search="prosecco італійське ігристе italian sparkling итальянское игристое виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Prosecco <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £13</p></div><p class="item__desc">Італійське ігристе</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> виноград</p></article><article class="item" data-search="moët &amp; chandon шампанське champagne шампанское виноград grapes виноград обʼєм size объем glass 175 ml bottle стиль style стиль classic rosé вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Moët &amp; Chandon <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span class="item__from">від</span> £25</p></div><p class="item__desc">Шампанське</p><div class="item__opt"><span class="item__optLabel">Обʼєм:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£25</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span></div><div class="item__opt"><span class="item__optLabel">Стиль:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Rosé</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> виноград</p></article><article class="item" data-search="dom pérignon шампанське, лише пляшка champagne, bottle only шампанское, только бутылка виноград grapes виноград вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Dom Pérignon <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£500</p></div><p class="item__desc">Шампанське, лише пляшка</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> виноград</p></article><article class="item" data-search="ruinart blanc de blancs шампанське, лише пляшка champagne, bottle only шампанское, только бутылка виноград grapes виноград вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Ruinart Blanc de Blancs <span class="badge" title="Алкоголь. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£350</p></div><p class="item__desc">Шампанське, лише пляшка</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> виноград</p></article></div></section><section class="section" id="uk-cat-hot"><header class="section__head"><h2 class="section__title">Гарячі напої</h2></header><div class="section__items"><article class="item" data-search="tea pot чайник чаю pot of tea чайник чая вода water вода чорний чай black tea черный чай вид kind вид green black camomile гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Tea Pot</h3><p class="item__price">£10</p></div><p class="item__desc">Чайник чаю</p><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Green</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Camomile</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> вода, чорний чай</p></article><article class="item" data-search="tea pot special чайник із ягодами, фруктами та медом pot of tea with berries, fruits and honey чайник с ягодами, фруктами и медом вода water вода чорний чай black tea черный чай ягоди berries ягоды сухофрукти dried fruits сухофрукты мед honey мед гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Tea Pot Special</h3><p class="item__price">£13</p></div><p class="item__desc">Чайник із ягодами, фруктами та медом</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> вода, чорний чай, ягоди, сухофрукти, мед</p></article><article class="item" data-search="hot chocolate гарячий шоколад hot chocolate горячий шоколад какао cocoa какао цукор sugar сахар молоко milk молоко молоко milk молоко milk almond soya гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Hot Chocolate</h3><p class="item__price">£6</p></div><p class="item__desc">Гарячий шоколад</p><div class="item__opt"><span class="item__optLabel">Молоко:</span> <span class="choice"><span class="choice__name">Milk</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Almond</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Soya</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> какао, цукор, молоко</p></article><article class="item" data-search="black coffee. espresso чорна кава black coffee черный кофе кава coffee кофе вода water вода гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Black Coffee. Espresso</h3><p class="item__price">£4</p></div><p class="item__desc">Чорна кава</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> кава, вода</p></article><article class="item" data-search="cappuccino, latte, mocha кава на молоці, мигдалевому або соєвому coffee with dairy, almond or soya milk кофе на молоке, миндальном или соевом кава coffee кофе вода water вода молоко milk молоко вид kind вид cappuccino latte mocha молоко milk молоко milk almond soya гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Cappuccino, Latte, Mocha</h3><p class="item__price">£5</p></div><p class="item__desc">Кава на молоці, мигдалевому або соєвому</p><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Cappuccino</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Latte</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mocha</span></span></div><div class="item__opt"><span class="item__optLabel">Молоко:</span> <span class="choice"><span class="choice__name">Milk</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Almond</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Soya</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> кава, вода, молоко</p></article></div></section><section class="section" id="uk-cat-hookah"><header class="section__head"><h2 class="section__title">Кальяни</h2></header><div class="section__items"><article class="item" data-search="hookah кальян hookah кальян тютюн tobacco табак вугілля charcoal уголь кальяни hookah кальяны"><div class="item__head"><h3 class="item__name">Hookah <span class="badge" title="Тютюн. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price">£50</p></div><p class="item__desc">Кальян</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> тютюн, вугілля</p></article></div></section></div>
+  <p class="empty" hidden>Нічого не знайдено. Спробуйте іншу мову або інший складник.</p>
+
+  <footer class="foot">
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p>Алкоголь і тютюн — лише повнолітнім. Бармен може попросити документ.</p>
+    <p class="foot__fine">Ціни у фунтах стерлінгів. Меню довідкове — замовлення приймає офіціант.</p>
+  </footer>
+
+</div>
+<div class="page page--en" lang="en">
+
+  <div class="masthead">
+    <p class="masthead__brand">PODVAL</p>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <h1 class="masthead__title">Drinks menu</h1>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p class="masthead__sub">Bar and hookah · London</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="field js-only">
+      <input type="search" autocomplete="off" spellcheck="false"
+             placeholder="Search by name or ingredient" aria-label="Search by name or ingredient">
+      <button class="field__clear" type="button" title="Clear" hidden>✕</button>
     </div>
+    <nav class="chips" aria-label="Sections"><a class="chip" href="#en-cat-spirits" data-cat="spirits">Spirits</a><a class="chip" href="#en-cat-cocktails" data-cat="cocktails">Cocktails</a><a class="chip" href="#en-cat-beer-soft" data-cat="beer-soft">Beer and soft drinks</a><a class="chip" href="#en-cat-wine" data-cat="wine">Wine and sparkling</a><a class="chip" href="#en-cat-hot" data-cat="hot">Hot drinks</a><a class="chip" href="#en-cat-hookah" data-cat="hookah">Hookah</a></nav>
+    <p class="toolbar__count js-only"
+       data-unit="items">30 items</p>
+  </div>
 
-    <div id="menu" class="menu"></div>
-    <p id="empty" class="empty" hidden></p>
+  <div class="menu"><section class="section" id="en-cat-spirits"><header class="section__head"><h2 class="section__title">Spirits</h2></header><p class="note">Mixer for spirits £3. Bottle price includes two mixers of your choice.</p><div class="section__items"><article class="item" data-search="absolut, stoli горілка · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. vodka · mixer for spirits £3. bottle price includes two mixers of your choice. водка · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle вид kind вид absolut stoli міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Absolut, Stoli <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Vodka</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Absolut</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Stoli</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grain spirit, water</p></article><article class="item" data-search="grey goose, beluga горілка · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. vodka · mixer for spirits £3. bottle price includes two mixers of your choice. водка · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт вода water вода обʼєм size объем bottle вид kind вид grey goose beluga міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Grey Goose, Beluga <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£260</p></div><p class="item__desc">Vodka</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£260</span></span></div><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Grey Goose</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Beluga</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grain spirit, water</p></article><article class="item" data-search="jack daniels, black label, jameson віскі · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. whiskey · mixer for spirits £3. bottle price includes two mixers of your choice. виски · микс к крепкому — £3. цена бутылки включает два микса на выбор. ячмінний солод barley malt ячменный солод кукурудза maize кукуруза вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) вид kind вид jack daniels black label jameson міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Jack Daniels, Black Label, Jameson <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Whiskey</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Jack Daniels</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black Label</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Jameson</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> barley malt, maize, water</p></article><article class="item" data-search="bombay джин · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. gin · mixer for spirits £3. bottle price includes two mixers of your choice. джин · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт трави й спеції herbs and spices травы и специи вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Bombay <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Gin</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grain spirit, herbs and spices, water</p></article><article class="item" data-search="havana club, bacardi ром · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. rum · mixer for spirits £3. bottle price includes two mixers of your choice. ром · микс к крепкому — £3. цена бутылки включает два микса на выбор. цукор sugar сахар вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) вид kind вид havana club bacardi міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Havana Club, Bacardi <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Rum</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Havana Club</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bacardi</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> sugar, water</p></article><article class="item" data-search="olmeca текіла · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. tequila · mixer for spirits £3. bottle price includes two mixers of your choice. текила · микс к крепкому — £3. цена бутылки включает два микса на выбор. вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Olmeca <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Tequila</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> water</p></article><article class="item" data-search="patron silver текіла · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. tequila · mixer for spirits £3. bottle price includes two mixers of your choice. текила · микс к крепкому — £3. цена бутылки включает два микса на выбор. вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Patron Silver <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £16</p></div><p class="item__desc">Tequila</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£16</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£270</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£16</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£32</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£48</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£64</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£80</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£96</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£270</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> water</p></article><article class="item" data-search="hennessy коньяк · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. cognac · mixer for spirits £3. bottle price includes two mixers of your choice. коньяк · микс к крепкому — £3. цена бутылки включает два микса на выбор. виноград grapes виноград вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Hennessy <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Cognac</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grapes, water</p></article><article class="item" data-search="liqueurs лікер на вибір · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. choice of liqueur · mixer for spirits £3. bottle price includes two mixers of your choice. ликер на выбор · микс к крепкому — £3. цена бутылки включает два микса на выбор. цукор sugar сахар трави й спеції herbs and spices травы и специи обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle вид kind вид disaronno amaretto baileys jägermeister malibu міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Liqueurs <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Choice of liqueur</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Disaronno Amaretto</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Baileys</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Jägermeister</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Malibu</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> sugar, herbs and spices</p></article><article class="item" data-search="nalivka настоянка на ягодах і фруктах fruit and berry infusion настойка на ягодах и фруктах зерновий спирт grain spirit зерновой спирт цукор sugar сахар ягоди berries ягоды обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle смак flavour вкус citrus cherry strawberry raspberry black currant міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Nalivka <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £9</p></div><p class="item__desc">Fruit and berry infusion</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£9</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span><details class="more"><summary class="more__summary">all sizes</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£9</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£18</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£27</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£36</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£45</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£54</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Flavour:</span> <span class="choice"><span class="choice__name">Citrus</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Cherry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black Currant</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grain spirit, sugar, berries</p></article></div></section><section class="section" id="en-cat-cocktails"><header class="section__head"><h2 class="section__title">Cocktails</h2></header><div class="section__items"><article class="item" data-search="aperol spritz апероль, просекко, свіжий апельсин aperol, prosecco, fresh orange апероль, просекко, свежий апельсин апероль aperol апероль виноград grapes виноград апельсин orange апельсин коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Aperol Spritz <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Aperol, prosecco, fresh orange</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> Aperol, grapes, orange</p></article><article class="item" data-search="porn star martini маракуя, ванільна горілка, просекко passion fruit, vanilla vodka, prosecco маракуйя, ванильная водка, просекко маракуя passion fruit маракуйя горілка vodka водка ваніль vanilla ваниль виноград grapes виноград коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Porn Star Martini <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Passion fruit, vanilla vodka, prosecco</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> passion fruit, vodka, vanilla, grapes</p></article><article class="item" data-search="negroni джин, червоний вермут, campari, апельсин gin, vermouth rosso, campari, orange джин, вермут россо, campari, апельсин джин gin джин червоний вермут vermouth rosso вермут россо гіркий лікер campari campari bitter горький ликер campari апельсин orange апельсин коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Negroni <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Gin, vermouth rosso, Campari, orange</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> gin, vermouth rosso, Campari bitter, orange</p></article><article class="item" data-search="mojito ром, цукор, лайм, мʼята rum, sugar, lime, mint ром, сахар, лайм, мята ром rum ром цукор sugar сахар лайм lime лайм мʼята mint мята смак flavour вкус classic strawberry raspberry passion mango коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Mojito <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Rum, sugar, lime, mint</p><div class="item__opt"><span class="item__optLabel">Flavour:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Passion</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mango</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> rum, sugar, lime, mint</p></article><article class="item" data-search="cosmopolitan горілка, cointreau, журавлина, лайм vodka, cointreau, cranberry juice, lime водка, cointreau, клюква, лайм горілка vodka водка апельсиновий лікер orange liqueur апельсиновый ликер журавлина cranberry клюква лайм lime лайм коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Cosmopolitan <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Vodka, Cointreau, cranberry juice, lime</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> vodka, orange liqueur, cranberry, lime</p></article><article class="item" data-search="margarita текіла, трипл сек, лайм tequila, triple sec, lime текила, трипл сек, лайм текіла tequila текила апельсиновий лікер orange liqueur апельсиновый ликер лайм lime лайм подача serve подача martini crushed ice смак flavour вкус classic strawberry raspberry passion mango коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Margarita <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Tequila, triple sec, lime</p><div class="item__opt"><span class="item__optLabel">Serve:</span> <span class="choice"><span class="choice__name">Martini</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Crushed Ice</span></span></div><div class="item__opt"><span class="item__optLabel">Flavour:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Passion</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mango</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> tequila, orange liqueur, lime</p></article></div></section><section class="section" id="en-cat-beer-soft"><header class="section__head"><h2 class="section__title">Beer and soft drinks</h2></header><div class="section__items"><article class="item" data-search="corona світле лагер-пиво lager beer светлое лагер-пиво вода water вода ячмінний солод barley malt ячменный солод кукурудза maize кукуруза хміль hops хмель пиво й безалкогольне beer and soft drinks пиво и безалкогольное"><div class="item__head"><h3 class="item__name">Corona <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£8</p></div><p class="item__desc">Lager beer</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> water, barley malt, maize, hops</p></article><article class="item" data-search="soft drinks / juices газовані напої та соки fizzy drinks and juices газированные напитки и соки вода water вода цукор sugar сахар вид kind вид cola sprite fanta orange juice apple juice cranberry juice red bull пиво й безалкогольне beer and soft drinks пиво и безалкогольное"><div class="item__head"><h3 class="item__name">Soft Drinks / Juices</h3><p class="item__price">£5</p></div><p class="item__desc">Fizzy drinks and juices</p><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Cola</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Sprite</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Fanta</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Orange Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Apple Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Cranberry Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Red Bull</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> water, sugar</p></article></div></section><section class="section" id="en-cat-wine"><header class="section__head"><h2 class="section__title">Wine and sparkling</h2></header><div class="section__items"><article class="item" data-search="white wine біле вино white wine белое вино виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">White Wine <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">White wine</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grapes</p></article><article class="item" data-search="red wine червоне вино red wine красное вино виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Red Wine <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Red wine</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grapes</p></article><article class="item" data-search="prosecco італійське ігристе italian sparkling итальянское игристое виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Prosecco <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £13</p></div><p class="item__desc">Italian sparkling</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grapes</p></article><article class="item" data-search="moët &amp; chandon шампанське champagne шампанское виноград grapes виноград обʼєм size объем glass 175 ml bottle стиль style стиль classic rosé вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Moët &amp; Chandon <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price"><span class="item__from">from</span> £25</p></div><p class="item__desc">Champagne</p><div class="item__opt"><span class="item__optLabel">Size:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£25</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span></div><div class="item__opt"><span class="item__optLabel">Style:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Rosé</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grapes</p></article><article class="item" data-search="dom pérignon шампанське, лише пляшка champagne, bottle only шампанское, только бутылка виноград grapes виноград вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Dom Pérignon <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£500</p></div><p class="item__desc">Champagne, bottle only</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grapes</p></article><article class="item" data-search="ruinart blanc de blancs шампанське, лише пляшка champagne, bottle only шампанское, только бутылка виноград grapes виноград вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Ruinart Blanc de Blancs <span class="badge" title="Alcohol. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£350</p></div><p class="item__desc">Champagne, bottle only</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> grapes</p></article></div></section><section class="section" id="en-cat-hot"><header class="section__head"><h2 class="section__title">Hot drinks</h2></header><div class="section__items"><article class="item" data-search="tea pot чайник чаю pot of tea чайник чая вода water вода чорний чай black tea черный чай вид kind вид green black camomile гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Tea Pot</h3><p class="item__price">£10</p></div><p class="item__desc">Pot of tea</p><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Green</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Camomile</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> water, black tea</p></article><article class="item" data-search="tea pot special чайник із ягодами, фруктами та медом pot of tea with berries, fruits and honey чайник с ягодами, фруктами и медом вода water вода чорний чай black tea черный чай ягоди berries ягоды сухофрукти dried fruits сухофрукты мед honey мед гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Tea Pot Special</h3><p class="item__price">£13</p></div><p class="item__desc">Pot of tea with berries, fruits and honey</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> water, black tea, berries, dried fruits, honey</p></article><article class="item" data-search="hot chocolate гарячий шоколад hot chocolate горячий шоколад какао cocoa какао цукор sugar сахар молоко milk молоко молоко milk молоко milk almond soya гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Hot Chocolate</h3><p class="item__price">£6</p></div><p class="item__desc">Hot chocolate</p><div class="item__opt"><span class="item__optLabel">Milk:</span> <span class="choice"><span class="choice__name">Milk</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Almond</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Soya</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> cocoa, sugar, milk</p></article><article class="item" data-search="black coffee. espresso чорна кава black coffee черный кофе кава coffee кофе вода water вода гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Black Coffee. Espresso</h3><p class="item__price">£4</p></div><p class="item__desc">Black coffee</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> coffee, water</p></article><article class="item" data-search="cappuccino, latte, mocha кава на молоці, мигдалевому або соєвому coffee with dairy, almond or soya milk кофе на молоке, миндальном или соевом кава coffee кофе вода water вода молоко milk молоко вид kind вид cappuccino latte mocha молоко milk молоко milk almond soya гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Cappuccino, Latte, Mocha</h3><p class="item__price">£5</p></div><p class="item__desc">Coffee with dairy, almond or soya milk</p><div class="item__opt"><span class="item__optLabel">Kind:</span> <span class="choice"><span class="choice__name">Cappuccino</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Latte</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mocha</span></span></div><div class="item__opt"><span class="item__optLabel">Milk:</span> <span class="choice"><span class="choice__name">Milk</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Almond</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Soya</span></span></div><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> coffee, water, milk</p></article></div></section><section class="section" id="en-cat-hookah"><header class="section__head"><h2 class="section__title">Hookah</h2></header><div class="section__items"><article class="item" data-search="hookah кальян hookah кальян тютюн tobacco табак вугілля charcoal уголь кальяни hookah кальяны"><div class="item__head"><h3 class="item__name">Hookah <span class="badge" title="Tobacco. Served to over-18s only — the bar will check ID.">18+</span></h3><p class="item__price">£50</p></div><p class="item__desc">Hookah</p><p class="item__ing"><span class="item__ingLabel">Ingredients:</span> tobacco, charcoal</p></article></div></section></div>
+  <p class="empty" hidden>Nothing found. Try another language or another ingredient.</p>
 
-    <footer class="foot">
-      <div class="rule rule--diamond" aria-hidden="true"></div>
-      <p id="foot-age"></p>
-      <p id="foot-prices" class="foot__fine"></p>
-    </footer>
+  <footer class="foot">
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p>Alcohol and tobacco are served to over-18s only. The bar may ask for ID.</p>
+    <p class="foot__fine">Prices are in pounds sterling. The menu is for reference — your server takes the order.</p>
+  </footer>
 
+</div>
+<div class="page page--ru" lang="ru">
+
+  <div class="masthead">
+    <p class="masthead__brand">PODVAL</p>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <h1 class="masthead__title">Меню напитков</h1>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p class="masthead__sub">Бар и кальяны · Лондон</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="field js-only">
+      <input type="search" autocomplete="off" spellcheck="false"
+             placeholder="Поиск по названию или ингредиенту" aria-label="Поиск по названию или ингредиенту">
+      <button class="field__clear" type="button" title="Очистить" hidden>✕</button>
+    </div>
+    <nav class="chips" aria-label="Разделы"><a class="chip" href="#ru-cat-spirits" data-cat="spirits">Крепкое</a><a class="chip" href="#ru-cat-cocktails" data-cat="cocktails">Коктейли</a><a class="chip" href="#ru-cat-beer-soft" data-cat="beer-soft">Пиво и безалкогольное</a><a class="chip" href="#ru-cat-wine" data-cat="wine">Вино и игристое</a><a class="chip" href="#ru-cat-hot" data-cat="hot">Горячие напитки</a><a class="chip" href="#ru-cat-hookah" data-cat="hookah">Кальяны</a></nav>
+    <p class="toolbar__count js-only"
+       data-unit="позиций">30 позиций</p>
+  </div>
+
+  <div class="menu"><section class="section" id="ru-cat-spirits"><header class="section__head"><h2 class="section__title">Крепкое</h2></header><p class="note">Микс к крепкому — £3. Цена бутылки включает два микса на выбор.</p><div class="section__items"><article class="item" data-search="absolut, stoli горілка · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. vodka · mixer for spirits £3. bottle price includes two mixers of your choice. водка · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle вид kind вид absolut stoli міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Absolut, Stoli <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Водка</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Absolut</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Stoli</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> зерновой спирт, вода</p></article><article class="item" data-search="grey goose, beluga горілка · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. vodka · mixer for spirits £3. bottle price includes two mixers of your choice. водка · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт вода water вода обʼєм size объем bottle вид kind вид grey goose beluga міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Grey Goose, Beluga <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£260</p></div><p class="item__desc">Водка</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£260</span></span></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Grey Goose</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Beluga</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> зерновой спирт, вода</p></article><article class="item" data-search="jack daniels, black label, jameson віскі · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. whiskey · mixer for spirits £3. bottle price includes two mixers of your choice. виски · микс к крепкому — £3. цена бутылки включает два микса на выбор. ячмінний солод barley malt ячменный солод кукурудза maize кукуруза вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) вид kind вид jack daniels black label jameson міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Jack Daniels, Black Label, Jameson <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Виски</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Jack Daniels</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black Label</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Jameson</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> ячменный солод, кукуруза, вода</p></article><article class="item" data-search="bombay джин · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. gin · mixer for spirits £3. bottle price includes two mixers of your choice. джин · микс к крепкому — £3. цена бутылки включает два микса на выбор. зерновий спирт grain spirit зерновой спирт трави й спеції herbs and spices травы и специи вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Bombay <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Джин</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> зерновой спирт, травы и специи, вода</p></article><article class="item" data-search="havana club, bacardi ром · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. rum · mixer for spirits £3. bottle price includes two mixers of your choice. ром · микс к крепкому — £3. цена бутылки включает два микса на выбор. цукор sugar сахар вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle bottle (premium) вид kind вид havana club bacardi міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Havana Club, Bacardi <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Ром</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle (Premium)</span> <span class="choice__price">£260</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Havana Club</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bacardi</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> сахар, вода</p></article><article class="item" data-search="olmeca текіла · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. tequila · mixer for spirits £3. bottle price includes two mixers of your choice. текила · микс к крепкому — £3. цена бутылки включает два микса на выбор. вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Olmeca <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Текила</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> вода</p></article><article class="item" data-search="patron silver текіла · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. tequila · mixer for spirits £3. bottle price includes two mixers of your choice. текила · микс к крепкому — £3. цена бутылки включает два микса на выбор. вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Patron Silver <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £16</p></div><p class="item__desc">Текила</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£16</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£270</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£16</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£32</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£48</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£64</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£80</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£96</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£270</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> вода</p></article><article class="item" data-search="hennessy коньяк · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. cognac · mixer for spirits £3. bottle price includes two mixers of your choice. коньяк · микс к крепкому — £3. цена бутылки включает два микса на выбор. виноград grapes виноград вода water вода обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Hennessy <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Коньяк</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> виноград, вода</p></article><article class="item" data-search="liqueurs лікер на вибір · мікс до міцного — £3. ціна пляшки включає два мікси на вибір. choice of liqueur · mixer for spirits £3. bottle price includes two mixers of your choice. ликер на выбор · микс к крепкому — £3. цена бутылки включает два микса на выбор. цукор sugar сахар трави й спеції herbs and spices травы и специи обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle вид kind вид disaronno amaretto baileys jägermeister malibu міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Liqueurs <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Ликёр на выбор</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£26</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£39</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£52</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£65</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£78</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£230</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Disaronno Amaretto</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Baileys</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Jägermeister</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Malibu</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> сахар, травы и специи</p></article><article class="item" data-search="nalivka настоянка на ягодах і фруктах fruit and berry infusion настойка на ягодах и фруктах зерновий спирт grain spirit зерновой спирт цукор sugar сахар ягоди berries ягоды обʼєм size объем 50 ml 100 ml 150 ml 200 ml 250 ml 300 ml bottle смак flavour вкус citrus cherry strawberry raspberry black currant міцне spirits крепкое"><div class="item__head"><h3 class="item__name">Nalivka <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £9</p></div><p class="item__desc">Настойка на ягодах и фруктах</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£9</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span><details class="more"><summary class="more__summary">все объёмы</summary><div class="more__list"><span class="choice"><span class="choice__name">50 ml</span> <span class="choice__price">£9</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">100 ml</span> <span class="choice__price">£18</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">150 ml</span> <span class="choice__price">£27</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">200 ml</span> <span class="choice__price">£36</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">250 ml</span> <span class="choice__price">£45</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">300 ml</span> <span class="choice__price">£54</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div></details></div><div class="item__opt"><span class="item__optLabel">Вкус:</span> <span class="choice"><span class="choice__name">Citrus</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Cherry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black Currant</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> зерновой спирт, сахар, ягоды</p></article></div></section><section class="section" id="ru-cat-cocktails"><header class="section__head"><h2 class="section__title">Коктейли</h2></header><div class="section__items"><article class="item" data-search="aperol spritz апероль, просекко, свіжий апельсин aperol, prosecco, fresh orange апероль, просекко, свежий апельсин апероль aperol апероль виноград grapes виноград апельсин orange апельсин коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Aperol Spritz <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Апероль, просекко, свежий апельсин</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> апероль, виноград, апельсин</p></article><article class="item" data-search="porn star martini маракуя, ванільна горілка, просекко passion fruit, vanilla vodka, prosecco маракуйя, ванильная водка, просекко маракуя passion fruit маракуйя горілка vodka водка ваніль vanilla ваниль виноград grapes виноград коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Porn Star Martini <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Маракуйя, ванильная водка, просекко</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> маракуйя, водка, ваниль, виноград</p></article><article class="item" data-search="negroni джин, червоний вермут, campari, апельсин gin, vermouth rosso, campari, orange джин, вермут россо, campari, апельсин джин gin джин червоний вермут vermouth rosso вермут россо гіркий лікер campari campari bitter горький ликер campari апельсин orange апельсин коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Negroni <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Джин, вермут россо, Campari, апельсин</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> джин, вермут россо, горький ликёр Campari, апельсин</p></article><article class="item" data-search="mojito ром, цукор, лайм, мʼята rum, sugar, lime, mint ром, сахар, лайм, мята ром rum ром цукор sugar сахар лайм lime лайм мʼята mint мята смак flavour вкус classic strawberry raspberry passion mango коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Mojito <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Ром, сахар, лайм, мята</p><div class="item__opt"><span class="item__optLabel">Вкус:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Passion</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mango</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> ром, сахар, лайм, мята</p></article><article class="item" data-search="cosmopolitan горілка, cointreau, журавлина, лайм vodka, cointreau, cranberry juice, lime водка, cointreau, клюква, лайм горілка vodka водка апельсиновий лікер orange liqueur апельсиновый ликер журавлина cranberry клюква лайм lime лайм коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Cosmopolitan <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Водка, Cointreau, клюква, лайм</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> водка, апельсиновый ликёр, клюква, лайм</p></article><article class="item" data-search="margarita текіла, трипл сек, лайм tequila, triple sec, lime текила, трипл сек, лайм текіла tequila текила апельсиновий лікер orange liqueur апельсиновый ликер лайм lime лайм подача serve подача martini crushed ice смак flavour вкус classic strawberry raspberry passion mango коктейлі cocktails коктейли"><div class="item__head"><h3 class="item__name">Margarita <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£16</p></div><p class="item__desc">Текила, трипл сек, лайм</p><div class="item__opt"><span class="item__optLabel">Подача:</span> <span class="choice"><span class="choice__name">Martini</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Crushed Ice</span></span></div><div class="item__opt"><span class="item__optLabel">Вкус:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Raspberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Passion</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mango</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> текила, апельсиновый ликёр, лайм</p></article></div></section><section class="section" id="ru-cat-beer-soft"><header class="section__head"><h2 class="section__title">Пиво и безалкогольное</h2></header><div class="section__items"><article class="item" data-search="corona світле лагер-пиво lager beer светлое лагер-пиво вода water вода ячмінний солод barley malt ячменный солод кукурудза maize кукуруза хміль hops хмель пиво й безалкогольне beer and soft drinks пиво и безалкогольное"><div class="item__head"><h3 class="item__name">Corona <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£8</p></div><p class="item__desc">Светлое лагер-пиво</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> вода, ячменный солод, кукуруза, хмель</p></article><article class="item" data-search="soft drinks / juices газовані напої та соки fizzy drinks and juices газированные напитки и соки вода water вода цукор sugar сахар вид kind вид cola sprite fanta orange juice apple juice cranberry juice red bull пиво й безалкогольне beer and soft drinks пиво и безалкогольное"><div class="item__head"><h3 class="item__name">Soft Drinks / Juices</h3><p class="item__price">£5</p></div><p class="item__desc">Газированные напитки и соки</p><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Cola</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Sprite</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Fanta</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Orange Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Apple Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Cranberry Juice</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Red Bull</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> вода, сахар</p></article></div></section><section class="section" id="ru-cat-wine"><header class="section__head"><h2 class="section__title">Вино и игристое</h2></header><div class="section__items"><article class="item" data-search="white wine біле вино white wine белое вино виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">White Wine <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Белое вино</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> виноград</p></article><article class="item" data-search="red wine червоне вино red wine красное вино виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Red Wine <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Красное вино</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> виноград</p></article><article class="item" data-search="prosecco італійське ігристе italian sparkling итальянское игристое виноград grapes виноград обʼєм size объем glass 175 ml bottle вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Prosecco <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £13</p></div><p class="item__desc">Итальянское игристое</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£13</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£80</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> виноград</p></article><article class="item" data-search="moët &amp; chandon шампанське champagne шампанское виноград grapes виноград обʼєм size объем glass 175 ml bottle стиль style стиль classic rosé вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Moët &amp; Chandon <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price"><span class="item__from">от</span> £25</p></div><p class="item__desc">Шампанское</p><div class="item__opt"><span class="item__optLabel">Объём:</span> <span class="choice"><span class="choice__name">Glass 175 ml</span> <span class="choice__price">£25</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Bottle</span> <span class="choice__price">£200</span></span></div><div class="item__opt"><span class="item__optLabel">Стиль:</span> <span class="choice"><span class="choice__name">Classic</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Rosé</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> виноград</p></article><article class="item" data-search="dom pérignon шампанське, лише пляшка champagne, bottle only шампанское, только бутылка виноград grapes виноград вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Dom Pérignon <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£500</p></div><p class="item__desc">Шампанское, только бутылка</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> виноград</p></article><article class="item" data-search="ruinart blanc de blancs шампанське, лише пляшка champagne, bottle only шампанское, только бутылка виноград grapes виноград вино й ігристе wine and sparkling вино и игристое"><div class="item__head"><h3 class="item__name">Ruinart Blanc de Blancs <span class="badge" title="Алкоголь. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£350</p></div><p class="item__desc">Шампанское, только бутылка</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> виноград</p></article></div></section><section class="section" id="ru-cat-hot"><header class="section__head"><h2 class="section__title">Горячие напитки</h2></header><div class="section__items"><article class="item" data-search="tea pot чайник чаю pot of tea чайник чая вода water вода чорний чай black tea черный чай вид kind вид green black camomile гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Tea Pot</h3><p class="item__price">£10</p></div><p class="item__desc">Чайник чая</p><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Green</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Black</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Camomile</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> вода, чёрный чай</p></article><article class="item" data-search="tea pot special чайник із ягодами, фруктами та медом pot of tea with berries, fruits and honey чайник с ягодами, фруктами и медом вода water вода чорний чай black tea черный чай ягоди berries ягоды сухофрукти dried fruits сухофрукты мед honey мед гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Tea Pot Special</h3><p class="item__price">£13</p></div><p class="item__desc">Чайник с ягодами, фруктами и мёдом</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> вода, чёрный чай, ягоды, сухофрукты, мёд</p></article><article class="item" data-search="hot chocolate гарячий шоколад hot chocolate горячий шоколад какао cocoa какао цукор sugar сахар молоко milk молоко молоко milk молоко milk almond soya гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Hot Chocolate</h3><p class="item__price">£6</p></div><p class="item__desc">Горячий шоколад</p><div class="item__opt"><span class="item__optLabel">Молоко:</span> <span class="choice"><span class="choice__name">Milk</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Almond</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Soya</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> какао, сахар, молоко</p></article><article class="item" data-search="black coffee. espresso чорна кава black coffee черный кофе кава coffee кофе вода water вода гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Black Coffee. Espresso</h3><p class="item__price">£4</p></div><p class="item__desc">Чёрный кофе</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> кофе, вода</p></article><article class="item" data-search="cappuccino, latte, mocha кава на молоці, мигдалевому або соєвому coffee with dairy, almond or soya milk кофе на молоке, миндальном или соевом кава coffee кофе вода water вода молоко milk молоко вид kind вид cappuccino latte mocha молоко milk молоко milk almond soya гарячі напої hot drinks горячие напитки"><div class="item__head"><h3 class="item__name">Cappuccino, Latte, Mocha</h3><p class="item__price">£5</p></div><p class="item__desc">Кофе на молоке, миндальном или соевом</p><div class="item__opt"><span class="item__optLabel">Вид:</span> <span class="choice"><span class="choice__name">Cappuccino</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Latte</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Mocha</span></span></div><div class="item__opt"><span class="item__optLabel">Молоко:</span> <span class="choice"><span class="choice__name">Milk</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Almond</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Soya</span></span></div><p class="item__ing"><span class="item__ingLabel">Состав:</span> кофе, вода, молоко</p></article></div></section><section class="section" id="ru-cat-hookah"><header class="section__head"><h2 class="section__title">Кальяны</h2></header><div class="section__items"><article class="item" data-search="hookah кальян hookah кальян тютюн tobacco табак вугілля charcoal уголь кальяни hookah кальяны"><div class="item__head"><h3 class="item__name">Hookah <span class="badge" title="Табак. Подаётся только совершеннолетним — бармен проверит документ.">18+</span></h3><p class="item__price">£50</p></div><p class="item__desc">Кальян</p><p class="item__ing"><span class="item__ingLabel">Состав:</span> табак, уголь</p></article></div></section></div>
+  <p class="empty" hidden>Ничего не найдено. Попробуйте другой язык или другой ингредиент.</p>
+
+  <footer class="foot">
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p>Алкоголь и табак — только совершеннолетним. Бармен может попросить документ.</p>
+    <p class="foot__fine">Цены в фунтах стерлингов. Меню справочное — заказ принимает официант.</p>
+  </footer>
+
+</div>
   </div>
 </main>
 
-<a href="#top" class="totop" id="totop" hidden>↑</a>
+<a href="#top" class="totop" title="Нагору" hidden>↑</a>
 
-<script src="assets/i18n.js"></script>
-<script src="assets/menu-data.js"></script>
-<script src="assets/app.js"></script>
+<script>
+/* ==========================================================================
+   Покращення, а не основа. Меню вже в HTML і читається без цього файлу:
+   мова перемикається на CSS, розділи — звичайні якорі, обʼєми — <details>.
+   Скрипт додає пошук, підсвітку поточного розділу й памʼять про мову.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var LANGS = ['uk', 'en', 'ru'];
+  var STORAGE_KEY = 'menu-lang';
+
+  document.documentElement.className += ' js';
+
+  /* ------------------------------------------------------------- мова --- */
+  function savedLang() {
+    var url = (location.search.match(/[?&]lang=([a-z]{2})/) || [])[1];
+    if (LANGS.indexOf(url) > -1) return url;
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (LANGS.indexOf(saved) > -1) return saved;
+    } catch (err) { /* приватний режим */ }
+    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    return LANGS.indexOf(nav) > -1 ? nav : null;
+  }
+
+  function applyLang(code) {
+    var radio = document.getElementById('lang-' + code);
+    if (radio) radio.checked = true;
+    document.documentElement.lang = code;
+  }
+
+  LANGS.forEach(function (code) {
+    var radio = document.getElementById('lang-' + code);
+    if (!radio) return;
+    radio.addEventListener('change', function () {
+      if (!radio.checked) return;
+      document.documentElement.lang = code;
+      try { localStorage.setItem(STORAGE_KEY, code); } catch (err) { /* ігноруємо */ }
+    });
+  });
+
+  var start = savedLang();
+  if (start) applyLang(start);
+
+  /* ------------------------------------------------------------ пошук --- */
+  function fold(text) {
+    return (text || '').toLowerCase().replace(/ё/g, 'е').replace(/['’`]/g, 'ʼ').trim();
+  }
+
+  function wireSearch(page) {
+    var input = page.querySelector('.field input');
+    var clear = page.querySelector('.field__clear');
+    var count = page.querySelector('.toolbar__count');
+    var empty = page.querySelector('.empty');
+    var sections = [].slice.call(page.querySelectorAll('.section'));
+    var items = [].slice.call(page.querySelectorAll('.item'));
+    if (!input) return;
+
+    function filter() {
+      var query = fold(input.value);
+      var shown = 0;
+
+      items.forEach(function (item) {
+        var hit = !query || item.getAttribute('data-search').indexOf(query) > -1;
+        item.hidden = !hit;
+        if (hit) shown++;
+      });
+
+      sections.forEach(function (section) {
+        var any = section.querySelector('.item:not([hidden])');
+        section.hidden = !any;
+        /* Спільна примітка розділу стосується всього розділу, а не знахідки —
+           під час пошуку вона тільки заважає читати результат. */
+        var note = section.querySelector('.note');
+        if (note) note.hidden = !!query;
+      });
+
+      page.querySelectorAll('.chip').forEach(function (chip) {
+        var section = page.querySelector('.section[id$="cat-' + chip.getAttribute('data-cat') + '"]');
+        chip.hidden = !section || section.hidden;
+      });
+
+      if (count) count.textContent = shown + ' ' + count.getAttribute('data-unit');
+      if (empty) empty.hidden = shown > 0;
+      if (clear) clear.hidden = !input.value;
+    }
+
+    input.addEventListener('input', filter);
+    clear.addEventListener('click', function () {
+      input.value = '';
+      filter();
+      input.focus();
+    });
+    filter();
+  }
+
+  /* -------------------------------------------- підсвітка розділу --- */
+  function wireSpy(page) {
+    var sections = [].slice.call(page.querySelectorAll('.section'));
+    if (!sections.length || !window.IntersectionObserver) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var active = entry.target.id.replace(/^.*cat-/, '');
+        page.querySelectorAll('.chip').forEach(function (chip) {
+          var on = chip.getAttribute('data-cat') === active;
+          chip.className = on ? 'chip is-active' : 'chip';
+          if (on) chip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+
+    sections.forEach(function (section) { observer.observe(section); });
+  }
+
+  [].slice.call(document.querySelectorAll('.page')).forEach(function (page) {
+    wireSearch(page);
+    wireSpy(page);
+  });
+
+  /* ----------------------------------------------------------- нагору --- */
+  var totop = document.querySelector('.totop');
+  if (totop) {
+    var onScroll = function () { totop.hidden = window.pageYOffset < 600; };
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+  }
+}());
+
+</script>
 </body>
 </html>

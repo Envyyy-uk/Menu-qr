@@ -36,10 +36,27 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-.skip {
+/* ------------------------------------------------------- вибір мови --- */
+/* Три копії меню лежать в одному файлі, показує потрібну радіокнопка. Так
+   мова перемикається без скрипта — меню читається навіть там, де JS вимкнено.
+   Самі кнопки не ховаємо через display:none: інакше їх втрачає клавіатура. */
+.langsel {
   position: absolute;
-  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
+
+.page { display: none; }
+
+#lang-uk:checked ~ .sheet .page--uk,
+#lang-en:checked ~ .sheet .page--en,
+#lang-ru:checked ~ .sheet .page--ru { display: block; }
+
+/* Те, чого без скрипта немає сенсу показувати. */
+.js-only { display: none; }
+.js .js-only { display: block; }
 
 /* ------------------------------------------------------------- шапка --- */
 .site {
@@ -81,7 +98,6 @@ body {
 .langs { display: flex; gap: 4px; }
 
 .lang {
-  appearance: none;
   background: transparent;
   border: 1px solid rgba(203, 176, 131, .35);
   color: rgba(247, 243, 234, .75);
@@ -92,16 +108,21 @@ body {
   padding: 6px 10px;
   border-radius: 2px;
   cursor: pointer;
+  user-select: none;
   transition: background .15s, color .15s, border-color .15s;
 }
 
 .lang:hover { border-color: var(--gold-soft); color: var(--paper); }
 
-.lang.is-active {
+#lang-uk:checked ~ .site .lang[for="lang-uk"],
+#lang-en:checked ~ .site .lang[for="lang-en"],
+#lang-ru:checked ~ .site .lang[for="lang-ru"] {
   background: var(--gold-soft);
   border-color: var(--gold-soft);
   color: #1d1a16;
 }
+
+.langsel:focus-visible ~ .site .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
 
 /* -------------------------------------------------------------- аркуш --- */
 .sheet {
@@ -443,6 +464,9 @@ body {
   border: 1px solid var(--gold-soft);
   border-radius: 50%;
 }
+
+/* display:grid перебиває атрибут hidden — повертаємо його силу */
+.totop[hidden] { display: none; }
 
 /* ------------------------------------------------------- широкий екран --- */
 @media (min-width: 860px) {
