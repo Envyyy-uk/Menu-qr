@@ -112,6 +112,10 @@ def search_key(item):
     for opt in item.get("options") or []:
         parts += [t(opt["label"], code) for code, _, _ in LANGS]
         parts += [c["name"] for c in opt.get("choices") or []]
+    for key in item.get("add") or []:
+        addon = MENU["addons"].get(key)
+        if addon:
+            parts += list(addon["names"].values())
     cat = next((c for c in MENU["categories"] if c["key"] == item["category"]), None)
     if cat:
         parts += list(cat["names"].values())
@@ -153,6 +157,16 @@ def item_html(item, lang, note):
                      f'<div class="more__list">{choices_html(opt["choices"])}</div>'
                      '</details>')
         out.append(f'<div class="item__opt">{line}</div>')
+
+    # Мікс — доплата зверху, а не варіант позиції, тож і показуємо його як
+    # доплату: «+£3» біля кожного міцного, а не лише прописом у примітці.
+    for key in item.get("add") or []:
+        addon = MENU["addons"].get(key)
+        if not addon:
+            continue
+        out.append(f'<div class="item__opt">'
+                   f'<span class="item__optLabel">{e(pick(addon["names"], lang))}:</span> '
+                   f'<span class="item__add">+{e(money(addon["price_pence"]))}</span></div>')
 
     ing = ", ".join(pick(MENU["lexicon"].get(k), lang) or k for k in item.get("ing") or [])
     if ing:

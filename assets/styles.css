@@ -403,6 +403,12 @@ body {
 
 .choice { white-space: nowrap; }
 .choice__price { color: var(--gold); }
+
+/* доплата зверху до ціни позиції — має читатися як ціна, а не як варіант */
+.item__add {
+  color: var(--gold);
+  border-bottom: 1px solid var(--line);
+}
 .sep { color: var(--gold-soft); }
 
 .more { display: inline; }
