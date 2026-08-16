@@ -8,8 +8,12 @@
 
   var LANGS = ['ru', 'en', 'uk'];
   var STORAGE_KEY = 'menu-lang';
-  /* висота прибитої панелі — та сама, що в --bar */
-  var BAR = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bar'), 10) || 100;
+  /* Висоту панелі питаємо в неї самої: вона залежить від відступу під
+     системний рядок, а той у кожного пристрою свій. */
+  function barHeight() {
+    var bar = document.querySelector('.topbar');
+    return bar ? bar.getBoundingClientRect().height : 100;
+  }
 
   document.documentElement.className += ' js';
 
@@ -36,6 +40,7 @@
   /* Місце в меню при зміні мови. Сторінки трьох мов різної висоти, тож без
      цього гість, перемкнувши мову посеред вина, опинявся десь у коктейлях. */
   function anchorNow() {
+    var bar = barHeight();
     var page = document.querySelector('.page:not([hidden])');
     var visible = [].slice.call(document.querySelectorAll('.page')).filter(function (el) {
       return el.offsetParent !== null;
@@ -44,7 +49,7 @@
     var found = null;
     [].slice.call(visible.querySelectorAll('.section')).forEach(function (section) {
       var top = section.getBoundingClientRect().top;
-      if (top <= BAR + 1) found = { cat: section.id.replace(/^.*cat-/, ''), top: top };
+      if (top <= bar + 1) found = { cat: section.id.replace(/^.*cat-/, ''), top: top };
     });
     return found;
   }

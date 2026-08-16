@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PODVAL · Меню напитков</title>
 <meta name="theme-color" content="#f7f3ea">
 <meta name="description" content="PODVAL — Drinks menu">
@@ -42,7 +42,7 @@ body {
   font-size: 17px;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
-  padding-top: var(--bar);
+  padding-top: calc(var(--bar) + var(--inset));
 }
 
 /* ------------------------------------------------------- вибір мови --- */
@@ -79,11 +79,14 @@ body {
    а меню проходить під ними. Висота панелі описана змінною — з неї ж
    береться відступ сторінки, щоб перший рядок меню не ховався під панеллю.
 
-   Відступу під виріз екрана тут навмисно немає, і сторінка не просить
-   viewport-fit=cover: у вбудованих переглядачах цей відступ роздувається до
-   пів екрана й панель перетворюється на чорну смугу. Без нього браузер сам
-   тримає сторінку нижче системного рядка. */
-:root { --bar: 100px; }   /* висота панелі: марка + стрічка розділів */
+   Відступ під системний рядок обмежений навмисно. Без нього годинник і
+   заряд лягають просто на панель; з голим env(safe-area-inset-top) деякі
+   вбудовані переглядачі повідомляють пів екрана, і над маркою повисає чорна
+   смуга. Обмеження лишає рівно висоту системного рядка й не більше. */
+:root {
+  --bar: 100px;                                  /* марка + стрічка розділів */
+  --inset: min(env(safe-area-inset-top, 0px), 52px);   /* під системний рядок */
+}
 
 .topbar {
   position: fixed;
@@ -91,6 +94,7 @@ body {
   left: 0;
   right: 0;
   z-index: 30;
+  padding-top: var(--inset);
   background: #1d1a16;
   box-shadow: 0 8px 20px rgba(29, 26, 22, .18);
 }
@@ -178,7 +182,7 @@ body {
 /* Ціль кнопки «нагору». Запас зверху дорівнює висоті панелі, інакше перехід
    лишав би початок аркуша під нею. */
 .sheet {
-  scroll-margin-top: var(--bar);
+  scroll-margin-top: calc(var(--bar) + var(--inset));
   max-width: var(--wrap);
   margin: 0 auto;
   padding: 18px 12px 40px;
@@ -337,7 +341,7 @@ body {
 .section {
   break-inside: avoid;
   margin: 0 0 34px;
-  scroll-margin-top: calc(var(--bar) + 12px);
+  scroll-margin-top: calc(var(--bar) + var(--inset) + 12px);
 }
 
 .section__head { margin-bottom: 12px; }
@@ -662,8 +666,12 @@ body {
 
   var LANGS = ['ru', 'en', 'uk'];
   var STORAGE_KEY = 'menu-lang';
-  /* висота прибитої панелі — та сама, що в --bar */
-  var BAR = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bar'), 10) || 100;
+  /* Висоту панелі питаємо в неї самої: вона залежить від відступу під
+     системний рядок, а той у кожного пристрою свій. */
+  function barHeight() {
+    var bar = document.querySelector('.topbar');
+    return bar ? bar.getBoundingClientRect().height : 100;
+  }
 
   document.documentElement.className += ' js';
 
@@ -690,6 +698,7 @@ body {
   /* Місце в меню при зміні мови. Сторінки трьох мов різної висоти, тож без
      цього гість, перемкнувши мову посеред вина, опинявся десь у коктейлях. */
   function anchorNow() {
+    var bar = barHeight();
     var page = document.querySelector('.page:not([hidden])');
     var visible = [].slice.call(document.querySelectorAll('.page')).filter(function (el) {
       return el.offsetParent !== null;
@@ -698,7 +707,7 @@ body {
     var found = null;
     [].slice.call(visible.querySelectorAll('.section')).forEach(function (section) {
       var top = section.getBoundingClientRect().top;
-      if (top <= BAR + 1) found = { cat: section.id.replace(/^.*cat-/, ''), top: top };
+      if (top <= bar + 1) found = { cat: section.id.replace(/^.*cat-/, ''), top: top };
     });
     return found;
   }
