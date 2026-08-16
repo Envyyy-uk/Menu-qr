@@ -69,13 +69,17 @@ body {
 .js .js-only { display: block; }
 
 /* ------------------------------------------------------------- шапка --- */
-.site {
+/* Марка й стрічка розділів липнуть до верху одним блоком: два окремі липкі
+   елементи неминуче лишають між собою шпарину, крізь яку видно текст меню. */
+.topbar {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(29, 26, 22, .96);
+}
+
+.site {
+  background: #1d1a16;
   color: var(--paper);
-  border-bottom: 1px solid rgba(203, 176, 131, .35);
 }
 
 .site__bar {
@@ -124,15 +128,34 @@ body {
 
 .lang:hover { border-color: var(--gold-soft); color: var(--paper); }
 
-#lang-uk:checked ~ .site .lang[for="lang-uk"],
-#lang-en:checked ~ .site .lang[for="lang-en"],
-#lang-ru:checked ~ .site .lang[for="lang-ru"] {
+#lang-uk:checked ~ .topbar .lang[for="lang-uk"],
+#lang-en:checked ~ .topbar .lang[for="lang-en"],
+#lang-ru:checked ~ .topbar .lang[for="lang-ru"] {
   background: var(--gold-soft);
   border-color: var(--gold-soft);
   color: #1d1a16;
 }
 
-.langsel:focus-visible ~ .site .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+.langsel:focus-visible ~ .topbar .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+
+/* ------------------------------------------------- стрічка розділів --- */
+.subbar {
+  background: var(--paper-edge);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 6px 14px rgba(29, 26, 22, .06);
+}
+
+.subbar__inner {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 9px 18px;
+}
+
+.chips { display: none; }
+
+#lang-uk:checked ~ .topbar .chips--uk,
+#lang-en:checked ~ .topbar .chips--en,
+#lang-ru:checked ~ .topbar .chips--ru { display: flex; }
 
 /* -------------------------------------------------------------- аркуш --- */
 .sheet {
@@ -201,14 +224,9 @@ body {
 }
 
 /* ---------------------------------------------------------- панель --- */
-.toolbar {
-  position: sticky;
-  top: 45px;
-  z-index: 20;
-  margin: 22px -20px 4px;
-  padding: 10px 20px 8px;
-  background: linear-gradient(var(--paper) 82%, rgba(247, 243, 234, 0));
-}
+/* Пошук лишається на аркуші й гортається разом із ним: липким тут має бути
+   лише те, чим гість користується постійно, — розділи. */
+.toolbar { margin: 24px 0 4px; }
 
 .field { position: relative; }
 
@@ -247,11 +265,9 @@ body {
 }
 
 .chips {
-  display: flex;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding: 10px 0 2px;
 }
 
 .chips::-webkit-scrollbar { display: none; }
@@ -293,7 +309,7 @@ body {
 .section {
   break-inside: avoid;
   margin: 0 0 34px;
-  scroll-margin-top: 150px;
+  scroll-margin-top: 108px;
 }
 
 .section__head { margin-bottom: 12px; }
@@ -482,7 +498,8 @@ body {
 @media (min-width: 860px) {
   .sheet { padding: 26px 24px 60px; }
   .sheet__inner { padding: 46px 44px 38px; }
-  .toolbar { margin: 26px -44px 6px; padding: 12px 44px 10px; }
+  .toolbar { margin: 28px 0 6px; }
+  .subbar__inner { padding: 10px 24px; }
 
   .menu {
     columns: 2;
@@ -502,7 +519,7 @@ body {
 
 /* --------------------------------------------------------------- друк --- */
 @media print {
-  .site, .toolbar, .totop { display: none !important; }
+  .topbar, .toolbar, .totop { display: none !important; }
   body { background: #fff; }
   .sheet__inner { box-shadow: none; border-color: #bbb; }
   .menu { columns: 2; column-gap: 34px; }
@@ -514,12 +531,17 @@ body {
 
 <input class="langsel" type="radio" name="lang" id="lang-ru" aria-label="Русский" checked><input class="langsel" type="radio" name="lang" id="lang-en" aria-label="English"><input class="langsel" type="radio" name="lang" id="lang-uk" aria-label="Українська">
 
-<header class="site" id="top">
-  <div class="site__bar">
-    <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
-    <nav class="langs" aria-label="Язык"><label class="lang" for="lang-ru" title="Русский">RU</label><label class="lang" for="lang-en" title="English">EN</label><label class="lang" for="lang-uk" title="Українська">UA</label></nav>
+<div class="topbar" id="top">
+  <header class="site">
+    <div class="site__bar">
+      <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
+      <nav class="langs" aria-label="Язык"><label class="lang" for="lang-ru" title="Русский">RU</label><label class="lang" for="lang-en" title="English">EN</label><label class="lang" for="lang-uk" title="Українська">UA</label></nav>
+    </div>
+  </header>
+  <div class="subbar">
+    <div class="subbar__inner"><nav class="chips chips--ru" id="chips-ru" aria-label="Разделы"><a class="chip" href="#ru-cat-spirits" data-cat="spirits">Крепкое</a><a class="chip" href="#ru-cat-cocktails" data-cat="cocktails">Коктейли</a><a class="chip" href="#ru-cat-beer-soft" data-cat="beer-soft">Пиво и безалкогольное</a><a class="chip" href="#ru-cat-wine" data-cat="wine">Вино и игристое</a><a class="chip" href="#ru-cat-hot" data-cat="hot">Горячие напитки</a><a class="chip" href="#ru-cat-hookah" data-cat="hookah">Кальяны</a></nav><nav class="chips chips--en" id="chips-en" aria-label="Sections"><a class="chip" href="#en-cat-spirits" data-cat="spirits">Spirits</a><a class="chip" href="#en-cat-cocktails" data-cat="cocktails">Cocktails</a><a class="chip" href="#en-cat-beer-soft" data-cat="beer-soft">Beer and soft drinks</a><a class="chip" href="#en-cat-wine" data-cat="wine">Wine and sparkling</a><a class="chip" href="#en-cat-hot" data-cat="hot">Hot drinks</a><a class="chip" href="#en-cat-hookah" data-cat="hookah">Hookah</a></nav><nav class="chips chips--uk" id="chips-uk" aria-label="Розділи"><a class="chip" href="#uk-cat-spirits" data-cat="spirits">Міцне</a><a class="chip" href="#uk-cat-cocktails" data-cat="cocktails">Коктейлі</a><a class="chip" href="#uk-cat-beer-soft" data-cat="beer-soft">Пиво й безалкогольне</a><a class="chip" href="#uk-cat-wine" data-cat="wine">Вино й ігристе</a><a class="chip" href="#uk-cat-hot" data-cat="hot">Гарячі напої</a><a class="chip" href="#uk-cat-hookah" data-cat="hookah">Кальяни</a></nav></div>
   </div>
-</header>
+</div>
 
 <main class="sheet">
   <div class="sheet__inner">
@@ -534,14 +556,13 @@ body {
     <p class="masthead__sub">Бар и кальяны · Лондон</p>
   </div>
 
-  <div class="toolbar">
-    <div class="field js-only">
+  <div class="toolbar js-only">
+    <div class="field">
       <input type="search" autocomplete="off" spellcheck="false"
              placeholder="Поиск по названию или ингредиенту" aria-label="Поиск по названию или ингредиенту">
       <button class="field__clear" type="button" title="Очистить" hidden>✕</button>
     </div>
-    <nav class="chips" aria-label="Разделы"><a class="chip" href="#ru-cat-spirits" data-cat="spirits">Крепкое</a><a class="chip" href="#ru-cat-cocktails" data-cat="cocktails">Коктейли</a><a class="chip" href="#ru-cat-beer-soft" data-cat="beer-soft">Пиво и безалкогольное</a><a class="chip" href="#ru-cat-wine" data-cat="wine">Вино и игристое</a><a class="chip" href="#ru-cat-hot" data-cat="hot">Горячие напитки</a><a class="chip" href="#ru-cat-hookah" data-cat="hookah">Кальяны</a></nav>
-    <p class="toolbar__count js-only"
+    <p class="toolbar__count"
        data-unit="позиций">30 позиций</p>
   </div>
 
@@ -565,14 +586,13 @@ body {
     <p class="masthead__sub">Bar and hookah · London</p>
   </div>
 
-  <div class="toolbar">
-    <div class="field js-only">
+  <div class="toolbar js-only">
+    <div class="field">
       <input type="search" autocomplete="off" spellcheck="false"
              placeholder="Search by name or ingredient" aria-label="Search by name or ingredient">
       <button class="field__clear" type="button" title="Clear" hidden>✕</button>
     </div>
-    <nav class="chips" aria-label="Sections"><a class="chip" href="#en-cat-spirits" data-cat="spirits">Spirits</a><a class="chip" href="#en-cat-cocktails" data-cat="cocktails">Cocktails</a><a class="chip" href="#en-cat-beer-soft" data-cat="beer-soft">Beer and soft drinks</a><a class="chip" href="#en-cat-wine" data-cat="wine">Wine and sparkling</a><a class="chip" href="#en-cat-hot" data-cat="hot">Hot drinks</a><a class="chip" href="#en-cat-hookah" data-cat="hookah">Hookah</a></nav>
-    <p class="toolbar__count js-only"
+    <p class="toolbar__count"
        data-unit="items">30 items</p>
   </div>
 
@@ -596,14 +616,13 @@ body {
     <p class="masthead__sub">Бар і кальяни · Лондон</p>
   </div>
 
-  <div class="toolbar">
-    <div class="field js-only">
+  <div class="toolbar js-only">
+    <div class="field">
       <input type="search" autocomplete="off" spellcheck="false"
              placeholder="Пошук за назвою або складником" aria-label="Пошук за назвою або складником">
       <button class="field__clear" type="button" title="Очистити" hidden>✕</button>
     </div>
-    <nav class="chips" aria-label="Розділи"><a class="chip" href="#uk-cat-spirits" data-cat="spirits">Міцне</a><a class="chip" href="#uk-cat-cocktails" data-cat="cocktails">Коктейлі</a><a class="chip" href="#uk-cat-beer-soft" data-cat="beer-soft">Пиво й безалкогольне</a><a class="chip" href="#uk-cat-wine" data-cat="wine">Вино й ігристе</a><a class="chip" href="#uk-cat-hot" data-cat="hot">Гарячі напої</a><a class="chip" href="#uk-cat-hookah" data-cat="hookah">Кальяни</a></nav>
-    <p class="toolbar__count js-only"
+    <p class="toolbar__count"
        data-unit="позицій">30 позицій</p>
   </div>
 
@@ -674,6 +693,12 @@ body {
     return (text || '').toLowerCase().replace(/ё/g, 'е').replace(/['’`]/g, 'ʼ').trim();
   }
 
+  /* Стрічка розділів живе у верхній панелі, тож шукаємо її за мовою сторінки */
+  function chipsOf(page) {
+    var box = document.getElementById('chips-' + page.getAttribute('lang'));
+    return box ? [].slice.call(box.querySelectorAll('.chip')) : [];
+  }
+
   function wireSearch(page) {
     var input = page.querySelector('.field input');
     var clear = page.querySelector('.field__clear');
@@ -702,7 +727,7 @@ body {
         if (note) note.hidden = !!query;
       });
 
-      page.querySelectorAll('.chip').forEach(function (chip) {
+      chipsOf(page).forEach(function (chip) {
         var section = page.querySelector('.section[id$="cat-' + chip.getAttribute('data-cat') + '"]');
         chip.hidden = !section || section.hidden;
       });
@@ -724,13 +749,14 @@ body {
   /* -------------------------------------------- підсвітка розділу --- */
   function wireSpy(page) {
     var sections = [].slice.call(page.querySelectorAll('.section'));
-    if (!sections.length || !window.IntersectionObserver) return;
+    var chips = chipsOf(page);
+    if (!sections.length || !chips.length || !window.IntersectionObserver) return;
 
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         var active = entry.target.id.replace(/^.*cat-/, '');
-        page.querySelectorAll('.chip').forEach(function (chip) {
+        chips.forEach(function (chip) {
           var on = chip.getAttribute('data-cat') === active;
           chip.className = on ? 'chip is-active' : 'chip';
           if (on) chip.scrollIntoView({ block: 'nearest', inline: 'nearest' });

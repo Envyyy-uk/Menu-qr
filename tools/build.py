@@ -165,16 +165,27 @@ def item_html(item, lang, note):
 
 
 # ------------------------------------------------------------------ сторінка --
+def chips_html(lang):
+    """Стрічка розділів. Живе у верхній панелі, а не на аркуші: липкий елемент
+    із прозорим тлом пропускав крізь себе текст меню під час гортання."""
+    chips = []
+    for cat in MENU["categories"]:
+        if not any(i["category"] == cat["key"] for i in MENU["items"]):
+            continue
+        chips.append(f'<a class="chip" href="#{lang}-cat-{cat["key"]}" '
+                     f'data-cat="{e(cat["key"])}">{e(pick(cat["names"], lang))}</a>')
+    return (f'<nav class="chips chips--{lang}" id="chips-{lang}" '
+            f'aria-label="{e(t("nav.label", lang))}">{"".join(chips)}</nav>')
+
+
 def page_html(lang):
-    chips, sections = [], []
+    sections = []
 
     for cat in MENU["categories"]:
         items = [i for i in MENU["items"] if i["category"] == cat["key"]]
         if not items:
             continue
         cid = f"{lang}-cat-{cat['key']}"
-        chips.append(f'<a class="chip" href="#{cid}" data-cat="{e(cat["key"])}">'
-                     f'{e(pick(cat["names"], lang))}</a>')
 
         note = shared_note(items, lang)
         body = [f'<section class="section" id="{cid}">',
@@ -198,14 +209,13 @@ def page_html(lang):
     <p class="masthead__sub">{e(t('brand.sub', lang))}</p>
   </div>
 
-  <div class="toolbar">
-    <div class="field js-only">
+  <div class="toolbar js-only">
+    <div class="field">
       <input type="search" autocomplete="off" spellcheck="false"
              placeholder="{e(t('tb.search', lang))}" aria-label="{e(t('tb.search', lang))}">
       <button class="field__clear" type="button" title="{e(t('tb.clear', lang))}" hidden>✕</button>
     </div>
-    <nav class="chips" aria-label="{e(t('nav.label', lang))}">{''.join(chips)}</nav>
-    <p class="toolbar__count js-only"
+    <p class="toolbar__count"
        data-unit="{e(t('count.items', lang))}">{len(MENU['items'])} {e(t('count.items', lang))}</p>
   </div>
 
@@ -247,12 +257,17 @@ def document():
 
 {radios}
 
-<header class="site" id="top">
-  <div class="site__bar">
-    <span class="mark" aria-hidden="true">{e(MENU['venue']['name'])}<small>LONDON</small></span>
-    <nav class="langs" aria-label="{e(t('lang.label', DEFAULT_LANG))}">{switches}</nav>
+<div class="topbar" id="top">
+  <header class="site">
+    <div class="site__bar">
+      <span class="mark" aria-hidden="true">{e(MENU['venue']['name'])}<small>LONDON</small></span>
+      <nav class="langs" aria-label="{e(t('lang.label', DEFAULT_LANG))}">{switches}</nav>
+    </div>
+  </header>
+  <div class="subbar">
+    <div class="subbar__inner">{"".join(chips_html(code) for code, _, _ in LANGS)}</div>
   </div>
-</header>
+</div>
 
 <main class="sheet">
   <div class="sheet__inner">

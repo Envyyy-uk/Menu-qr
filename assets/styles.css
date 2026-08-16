@@ -59,13 +59,17 @@ body {
 .js .js-only { display: block; }
 
 /* ------------------------------------------------------------- шапка --- */
-.site {
+/* Марка й стрічка розділів липнуть до верху одним блоком: два окремі липкі
+   елементи неминуче лишають між собою шпарину, крізь яку видно текст меню. */
+.topbar {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(29, 26, 22, .96);
+}
+
+.site {
+  background: #1d1a16;
   color: var(--paper);
-  border-bottom: 1px solid rgba(203, 176, 131, .35);
 }
 
 .site__bar {
@@ -114,15 +118,34 @@ body {
 
 .lang:hover { border-color: var(--gold-soft); color: var(--paper); }
 
-#lang-uk:checked ~ .site .lang[for="lang-uk"],
-#lang-en:checked ~ .site .lang[for="lang-en"],
-#lang-ru:checked ~ .site .lang[for="lang-ru"] {
+#lang-uk:checked ~ .topbar .lang[for="lang-uk"],
+#lang-en:checked ~ .topbar .lang[for="lang-en"],
+#lang-ru:checked ~ .topbar .lang[for="lang-ru"] {
   background: var(--gold-soft);
   border-color: var(--gold-soft);
   color: #1d1a16;
 }
 
-.langsel:focus-visible ~ .site .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+.langsel:focus-visible ~ .topbar .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+
+/* ------------------------------------------------- стрічка розділів --- */
+.subbar {
+  background: var(--paper-edge);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 6px 14px rgba(29, 26, 22, .06);
+}
+
+.subbar__inner {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 9px 18px;
+}
+
+.chips { display: none; }
+
+#lang-uk:checked ~ .topbar .chips--uk,
+#lang-en:checked ~ .topbar .chips--en,
+#lang-ru:checked ~ .topbar .chips--ru { display: flex; }
 
 /* -------------------------------------------------------------- аркуш --- */
 .sheet {
@@ -191,14 +214,9 @@ body {
 }
 
 /* ---------------------------------------------------------- панель --- */
-.toolbar {
-  position: sticky;
-  top: 45px;
-  z-index: 20;
-  margin: 22px -20px 4px;
-  padding: 10px 20px 8px;
-  background: linear-gradient(var(--paper) 82%, rgba(247, 243, 234, 0));
-}
+/* Пошук лишається на аркуші й гортається разом із ним: липким тут має бути
+   лише те, чим гість користується постійно, — розділи. */
+.toolbar { margin: 24px 0 4px; }
 
 .field { position: relative; }
 
@@ -237,11 +255,9 @@ body {
 }
 
 .chips {
-  display: flex;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding: 10px 0 2px;
 }
 
 .chips::-webkit-scrollbar { display: none; }
@@ -283,7 +299,7 @@ body {
 .section {
   break-inside: avoid;
   margin: 0 0 34px;
-  scroll-margin-top: 150px;
+  scroll-margin-top: 108px;
 }
 
 .section__head { margin-bottom: 12px; }
@@ -472,7 +488,8 @@ body {
 @media (min-width: 860px) {
   .sheet { padding: 26px 24px 60px; }
   .sheet__inner { padding: 46px 44px 38px; }
-  .toolbar { margin: 26px -44px 6px; padding: 12px 44px 10px; }
+  .toolbar { margin: 28px 0 6px; }
+  .subbar__inner { padding: 10px 24px; }
 
   .menu {
     columns: 2;
@@ -492,7 +509,7 @@ body {
 
 /* --------------------------------------------------------------- друк --- */
 @media print {
-  .site, .toolbar, .totop { display: none !important; }
+  .topbar, .toolbar, .totop { display: none !important; }
   body { background: #fff; }
   .sheet__inner { box-shadow: none; border-color: #bbb; }
   .menu { columns: 2; column-gap: 34px; }

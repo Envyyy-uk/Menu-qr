@@ -49,6 +49,12 @@
     return (text || '').toLowerCase().replace(/ё/g, 'е').replace(/['’`]/g, 'ʼ').trim();
   }
 
+  /* Стрічка розділів живе у верхній панелі, тож шукаємо її за мовою сторінки */
+  function chipsOf(page) {
+    var box = document.getElementById('chips-' + page.getAttribute('lang'));
+    return box ? [].slice.call(box.querySelectorAll('.chip')) : [];
+  }
+
   function wireSearch(page) {
     var input = page.querySelector('.field input');
     var clear = page.querySelector('.field__clear');
@@ -77,7 +83,7 @@
         if (note) note.hidden = !!query;
       });
 
-      page.querySelectorAll('.chip').forEach(function (chip) {
+      chipsOf(page).forEach(function (chip) {
         var section = page.querySelector('.section[id$="cat-' + chip.getAttribute('data-cat') + '"]');
         chip.hidden = !section || section.hidden;
       });
@@ -99,13 +105,14 @@
   /* -------------------------------------------- підсвітка розділу --- */
   function wireSpy(page) {
     var sections = [].slice.call(page.querySelectorAll('.section'));
-    if (!sections.length || !window.IntersectionObserver) return;
+    var chips = chipsOf(page);
+    if (!sections.length || !chips.length || !window.IntersectionObserver) return;
 
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         var active = entry.target.id.replace(/^.*cat-/, '');
-        page.querySelectorAll('.chip').forEach(function (chip) {
+        chips.forEach(function (chip) {
           var on = chip.getAttribute('data-cat') === active;
           chip.className = on ? 'chip is-active' : 'chip';
           if (on) chip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
