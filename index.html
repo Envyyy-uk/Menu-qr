@@ -34,8 +34,6 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
-
 body {
   margin: 0;
   background: var(--paper-edge);
@@ -50,9 +48,16 @@ body {
 /* ------------------------------------------------------- вибір мови --- */
 /* Три копії меню лежать в одному файлі, показує потрібну радіокнопка. Так
    мова перемикається без скрипта — меню читається навіть там, де JS вимкнено.
-   Самі кнопки не ховаємо через display:none: інакше їх втрачає клавіатура. */
+   Самі кнопки не ховаємо через display:none: інакше їх втрачає клавіатура.
+
+   Прибиті до вікна (fixed) вони не випадково: коли гість тисне «EN», браузер
+   переводить фокус на радіокнопку й підтягує її в поле зору. Лежала вона на
+   початку сторінки — і сторінка відлітала на початок із середини меню.
+   Прибита кнопка завжди в полі зору, тож тягнути нема куди. */
 .langsel {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 1px;
   height: 1px;
   opacity: 0;
@@ -523,10 +528,6 @@ body {
   body { font-size: 18px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-}
-
 /* --------------------------------------------------------------- друк --- */
 @media print {
   .topbar, .toolbar { display: none !important; }
@@ -661,6 +662,8 @@ body {
 
   var LANGS = ['ru', 'en', 'uk'];
   var STORAGE_KEY = 'menu-lang';
+  /* висота прибитої панелі — та сама, що в --bar */
+  var BAR = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bar'), 10) || 100;
 
   document.documentElement.className += ' js';
 
@@ -684,12 +687,40 @@ body {
     document.documentElement.lang = code;
   }
 
+  /* Місце в меню при зміні мови. Сторінки трьох мов різної висоти, тож без
+     цього гість, перемкнувши мову посеред вина, опинявся десь у коктейлях. */
+  function anchorNow() {
+    var page = document.querySelector('.page:not([hidden])');
+    var visible = [].slice.call(document.querySelectorAll('.page')).filter(function (el) {
+      return el.offsetParent !== null;
+    })[0] || page;
+    if (!visible) return null;
+    var found = null;
+    [].slice.call(visible.querySelectorAll('.section')).forEach(function (section) {
+      var top = section.getBoundingClientRect().top;
+      if (top <= BAR + 1) found = { cat: section.id.replace(/^.*cat-/, ''), top: top };
+    });
+    return found;
+  }
+
+  function restore(anchor, code) {
+    if (!anchor) return;
+    var section = document.getElementById(code + '-cat-' + anchor.cat);
+    if (!section) return;
+    window.scrollBy(0, Math.round(section.getBoundingClientRect().top - anchor.top));
+  }
+
   LANGS.forEach(function (code) {
     var radio = document.getElementById('lang-' + code);
     if (!radio) return;
+    var anchor = null;
+    [].slice.call(document.querySelectorAll('.lang[for="lang-' + code + '"]')).forEach(function (label) {
+      label.addEventListener('pointerdown', function () { anchor = anchorNow(); });
+    });
     radio.addEventListener('change', function () {
       if (!radio.checked) return;
       document.documentElement.lang = code;
+      restore(anchor, code);
       try { localStorage.setItem(STORAGE_KEY, code); } catch (err) { /* ігноруємо */ }
     });
   });

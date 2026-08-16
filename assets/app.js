@@ -8,6 +8,8 @@
 
   var LANGS = ['ru', 'en', 'uk'];
   var STORAGE_KEY = 'menu-lang';
+  /* висота прибитої панелі — та сама, що в --bar */
+  var BAR = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bar'), 10) || 100;
 
   document.documentElement.className += ' js';
 
@@ -31,12 +33,40 @@
     document.documentElement.lang = code;
   }
 
+  /* Місце в меню при зміні мови. Сторінки трьох мов різної висоти, тож без
+     цього гість, перемкнувши мову посеред вина, опинявся десь у коктейлях. */
+  function anchorNow() {
+    var page = document.querySelector('.page:not([hidden])');
+    var visible = [].slice.call(document.querySelectorAll('.page')).filter(function (el) {
+      return el.offsetParent !== null;
+    })[0] || page;
+    if (!visible) return null;
+    var found = null;
+    [].slice.call(visible.querySelectorAll('.section')).forEach(function (section) {
+      var top = section.getBoundingClientRect().top;
+      if (top <= BAR + 1) found = { cat: section.id.replace(/^.*cat-/, ''), top: top };
+    });
+    return found;
+  }
+
+  function restore(anchor, code) {
+    if (!anchor) return;
+    var section = document.getElementById(code + '-cat-' + anchor.cat);
+    if (!section) return;
+    window.scrollBy(0, Math.round(section.getBoundingClientRect().top - anchor.top));
+  }
+
   LANGS.forEach(function (code) {
     var radio = document.getElementById('lang-' + code);
     if (!radio) return;
+    var anchor = null;
+    [].slice.call(document.querySelectorAll('.lang[for="lang-' + code + '"]')).forEach(function (label) {
+      label.addEventListener('pointerdown', function () { anchor = anchorNow(); });
+    });
     radio.addEventListener('change', function () {
       if (!radio.checked) return;
       document.documentElement.lang = code;
+      restore(anchor, code);
       try { localStorage.setItem(STORAGE_KEY, code); } catch (err) { /* ігноруємо */ }
     });
   });
