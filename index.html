@@ -44,7 +44,7 @@ body {
   font-size: 17px;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
-  padding-bottom: calc(58px + env(safe-area-inset-bottom));
+  padding-top: calc(var(--bar) + env(safe-area-inset-top));
 }
 
 /* ------------------------------------------------------- вибір мови --- */
@@ -70,13 +70,25 @@ body {
 .js .js-only { display: block; }
 
 /* ------------------------------------------------------------- шапка --- */
-/* Марка гортається разом зі сторінкою. Липкої шапки тут нема навмисно: угорі
-   екрана в неї впираються системний рядок і кнопки переглядача, і саме там,
-   де вона потрібна, її не натиснути. Керування живе внизу — див. .navbar. */
+/* Панель прикріплена до верху вікна: марка, мови й розділи стоять на місці,
+   а меню проходить під ними. Висота панелі описана змінною — з неї ж
+   береться відступ сторінки, щоб перший рядок меню не ховався під панеллю. */
+:root { --bar: 100px; }   /* висота панелі: марка + стрічка розділів */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding-top: env(safe-area-inset-top);
+  background: #1d1a16;
+  box-shadow: 0 8px 20px rgba(29, 26, 22, .18);
+}
+
 .site {
   background: #1d1a16;
   color: var(--paper);
-  padding-top: env(safe-area-inset-top);
 }
 
 .site__bar {
@@ -135,45 +147,29 @@ body {
 
 .langsel:focus-visible ~ * .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
 
-/* --------------------------------------------------- нижня панель --- */
-/* Розділи й мови — там, куди дістає великий палець і куди не лізе ні
-   системний рядок, ні кнопки браузера. */
-.navbar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 30;
-  background: rgba(29, 26, 22, .97);
-  border-top: 1px solid rgba(203, 176, 131, .35);
-  padding-bottom: env(safe-area-inset-bottom);
+/* ------------------------------------------------- стрічка розділів --- */
+.subbar {
+  border-top: 1px solid rgba(203, 176, 131, .18);
 }
 
-.navbar__inner {
+.subbar__inner {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: 9px 12px;
+  padding: 8px 12px;
   display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .chips { display: none; }
 
-#lang-uk:checked ~ .navbar .chips--uk,
-#lang-en:checked ~ .navbar .chips--en,
-#lang-ru:checked ~ .navbar .chips--ru { display: flex; }
-
-.langs--bottom {
-  flex: 0 0 auto;
-  padding-left: 10px;
-  border-left: 1px solid rgba(203, 176, 131, .25);
-}
-
-.langs--bottom .lang { padding: 6px 7px; font-size: 10px; letter-spacing: .08em; }
+#lang-uk:checked ~ .topbar .chips--uk,
+#lang-en:checked ~ .topbar .chips--en,
+#lang-ru:checked ~ .topbar .chips--ru { display: flex; }
 
 /* -------------------------------------------------------------- аркуш --- */
+/* Ціль кнопки «нагору». Запас зверху дорівнює висоті панелі, інакше перехід
+   лишав би початок аркуша під нею. */
 .sheet {
+  scroll-margin-top: calc(var(--bar) + env(safe-area-inset-top));
   max-width: var(--wrap);
   margin: 0 auto;
   padding: 18px 12px 40px;
@@ -332,7 +328,7 @@ body {
 .section {
   break-inside: avoid;
   margin: 0 0 34px;
-  scroll-margin-top: 16px;
+  scroll-margin-top: calc(var(--bar) + env(safe-area-inset-top) + 12px);
 }
 
 .section__head { margin-bottom: 12px; }
@@ -507,8 +503,9 @@ body {
 @media (min-width: 860px) {
   .sheet { padding: 26px 24px 60px; }
   .sheet__inner { padding: 46px 44px 38px; }
+  :root { --bar: 102px; }
   .toolbar { margin: 28px 0 6px; }
-  .navbar__inner { padding: 10px 24px; }
+  .subbar__inner { padding: 9px 24px; }
 
   .menu {
     columns: 2;
@@ -528,7 +525,7 @@ body {
 
 /* --------------------------------------------------------------- друк --- */
 @media print {
-  .site, .navbar, .toolbar { display: none !important; }
+  .topbar, .toolbar { display: none !important; }
   body { background: #fff; }
   .sheet__inner { box-shadow: none; border-color: #bbb; }
   .menu { columns: 2; column-gap: 34px; }
@@ -540,14 +537,20 @@ body {
 
 <input class="langsel" type="radio" name="lang" id="lang-ru" aria-label="Русский" checked><input class="langsel" type="radio" name="lang" id="lang-en" aria-label="English"><input class="langsel" type="radio" name="lang" id="lang-uk" aria-label="Українська">
 
-<header class="site" id="top">
-  <div class="site__bar">
-    <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
-    <nav class="langs" aria-label="Язык"><label class="lang" for="lang-ru" title="Русский" id="lang-top-ru">RU</label><label class="lang" for="lang-en" title="English" id="lang-top-en">EN</label><label class="lang" for="lang-uk" title="Українська" id="lang-top-uk">UA</label></nav>
-  </div>
-</header>
+<!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
+<div class="topbar">
+  <header class="site">
+    <div class="site__bar">
+      <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
+      <nav class="langs" aria-label="Язык"><label class="lang" for="lang-ru" title="Русский">RU</label><label class="lang" for="lang-en" title="English">EN</label><label class="lang" for="lang-uk" title="Українська">UA</label></nav>
+    </div>
+  </header>
+  <nav class="subbar" aria-label="Разделы">
+    <div class="subbar__inner"><nav class="chips chips--ru" id="chips-ru" aria-label="Разделы"><a class="chip chip--top" href="#top" title="Наверх" aria-label="Наверх">↑</a><a class="chip" href="#ru-cat-spirits" data-cat="spirits">Крепкое</a><a class="chip" href="#ru-cat-cocktails" data-cat="cocktails">Коктейли</a><a class="chip" href="#ru-cat-beer-soft" data-cat="beer-soft">Пиво и безалкогольное</a><a class="chip" href="#ru-cat-wine" data-cat="wine">Вино и игристое</a><a class="chip" href="#ru-cat-hot" data-cat="hot">Горячие напитки</a><a class="chip" href="#ru-cat-hookah" data-cat="hookah">Кальяны</a></nav><nav class="chips chips--en" id="chips-en" aria-label="Sections"><a class="chip chip--top" href="#top" title="Back to top" aria-label="Back to top">↑</a><a class="chip" href="#en-cat-spirits" data-cat="spirits">Spirits</a><a class="chip" href="#en-cat-cocktails" data-cat="cocktails">Cocktails</a><a class="chip" href="#en-cat-beer-soft" data-cat="beer-soft">Beer and soft drinks</a><a class="chip" href="#en-cat-wine" data-cat="wine">Wine and sparkling</a><a class="chip" href="#en-cat-hot" data-cat="hot">Hot drinks</a><a class="chip" href="#en-cat-hookah" data-cat="hookah">Hookah</a></nav><nav class="chips chips--uk" id="chips-uk" aria-label="Розділи"><a class="chip chip--top" href="#top" title="Нагору" aria-label="Нагору">↑</a><a class="chip" href="#uk-cat-spirits" data-cat="spirits">Міцне</a><a class="chip" href="#uk-cat-cocktails" data-cat="cocktails">Коктейлі</a><a class="chip" href="#uk-cat-beer-soft" data-cat="beer-soft">Пиво й безалкогольне</a><a class="chip" href="#uk-cat-wine" data-cat="wine">Вино й ігристе</a><a class="chip" href="#uk-cat-hot" data-cat="hot">Гарячі напої</a><a class="chip" href="#uk-cat-hookah" data-cat="hookah">Кальяни</a></nav></div>
+  </nav>
+</div>
 
-<main class="sheet">
+<main class="sheet" id="top">
   <div class="sheet__inner">
 
 <div class="page page--ru" lang="ru">
@@ -642,15 +645,6 @@ body {
 </div>
   </div>
 </main>
-
-<!-- Керування внизу: угорі його перекривають системний рядок і кнопки
-     переглядача, а великому пальцю туди не дотягнутися. -->
-<nav class="navbar" aria-label="Разделы">
-  <div class="navbar__inner">
-    <nav class="chips chips--ru" id="chips-ru" aria-label="Разделы"><a class="chip chip--top" href="#top" title="Наверх" aria-label="Наверх">↑</a><a class="chip" href="#ru-cat-spirits" data-cat="spirits">Крепкое</a><a class="chip" href="#ru-cat-cocktails" data-cat="cocktails">Коктейли</a><a class="chip" href="#ru-cat-beer-soft" data-cat="beer-soft">Пиво и безалкогольное</a><a class="chip" href="#ru-cat-wine" data-cat="wine">Вино и игристое</a><a class="chip" href="#ru-cat-hot" data-cat="hot">Горячие напитки</a><a class="chip" href="#ru-cat-hookah" data-cat="hookah">Кальяны</a></nav><nav class="chips chips--en" id="chips-en" aria-label="Sections"><a class="chip chip--top" href="#top" title="Back to top" aria-label="Back to top">↑</a><a class="chip" href="#en-cat-spirits" data-cat="spirits">Spirits</a><a class="chip" href="#en-cat-cocktails" data-cat="cocktails">Cocktails</a><a class="chip" href="#en-cat-beer-soft" data-cat="beer-soft">Beer and soft drinks</a><a class="chip" href="#en-cat-wine" data-cat="wine">Wine and sparkling</a><a class="chip" href="#en-cat-hot" data-cat="hot">Hot drinks</a><a class="chip" href="#en-cat-hookah" data-cat="hookah">Hookah</a></nav><nav class="chips chips--uk" id="chips-uk" aria-label="Розділи"><a class="chip chip--top" href="#top" title="Нагору" aria-label="Нагору">↑</a><a class="chip" href="#uk-cat-spirits" data-cat="spirits">Міцне</a><a class="chip" href="#uk-cat-cocktails" data-cat="cocktails">Коктейлі</a><a class="chip" href="#uk-cat-beer-soft" data-cat="beer-soft">Пиво й безалкогольне</a><a class="chip" href="#uk-cat-wine" data-cat="wine">Вино й ігристе</a><a class="chip" href="#uk-cat-hot" data-cat="hot">Гарячі напої</a><a class="chip" href="#uk-cat-hookah" data-cat="hookah">Кальяни</a></nav>
-    <div class="langs langs--bottom"><label class="lang" for="lang-ru" title="Русский" id="lang-bottom-ru">RU</label><label class="lang" for="lang-en" title="English" id="lang-bottom-en">EN</label><label class="lang" for="lang-uk" title="Українська" id="lang-bottom-uk">UA</label></div>
-  </div>
-</nav>
 
 <script>
 /* ==========================================================================

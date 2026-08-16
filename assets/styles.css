@@ -34,7 +34,7 @@ body {
   font-size: 17px;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
-  padding-bottom: calc(58px + env(safe-area-inset-bottom));
+  padding-top: calc(var(--bar) + env(safe-area-inset-top));
 }
 
 /* ------------------------------------------------------- вибір мови --- */
@@ -60,13 +60,25 @@ body {
 .js .js-only { display: block; }
 
 /* ------------------------------------------------------------- шапка --- */
-/* Марка гортається разом зі сторінкою. Липкої шапки тут нема навмисно: угорі
-   екрана в неї впираються системний рядок і кнопки переглядача, і саме там,
-   де вона потрібна, її не натиснути. Керування живе внизу — див. .navbar. */
+/* Панель прикріплена до верху вікна: марка, мови й розділи стоять на місці,
+   а меню проходить під ними. Висота панелі описана змінною — з неї ж
+   береться відступ сторінки, щоб перший рядок меню не ховався під панеллю. */
+:root { --bar: 100px; }   /* висота панелі: марка + стрічка розділів */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding-top: env(safe-area-inset-top);
+  background: #1d1a16;
+  box-shadow: 0 8px 20px rgba(29, 26, 22, .18);
+}
+
 .site {
   background: #1d1a16;
   color: var(--paper);
-  padding-top: env(safe-area-inset-top);
 }
 
 .site__bar {
@@ -125,45 +137,29 @@ body {
 
 .langsel:focus-visible ~ * .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
 
-/* --------------------------------------------------- нижня панель --- */
-/* Розділи й мови — там, куди дістає великий палець і куди не лізе ні
-   системний рядок, ні кнопки браузера. */
-.navbar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 30;
-  background: rgba(29, 26, 22, .97);
-  border-top: 1px solid rgba(203, 176, 131, .35);
-  padding-bottom: env(safe-area-inset-bottom);
+/* ------------------------------------------------- стрічка розділів --- */
+.subbar {
+  border-top: 1px solid rgba(203, 176, 131, .18);
 }
 
-.navbar__inner {
+.subbar__inner {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: 9px 12px;
+  padding: 8px 12px;
   display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .chips { display: none; }
 
-#lang-uk:checked ~ .navbar .chips--uk,
-#lang-en:checked ~ .navbar .chips--en,
-#lang-ru:checked ~ .navbar .chips--ru { display: flex; }
-
-.langs--bottom {
-  flex: 0 0 auto;
-  padding-left: 10px;
-  border-left: 1px solid rgba(203, 176, 131, .25);
-}
-
-.langs--bottom .lang { padding: 6px 7px; font-size: 10px; letter-spacing: .08em; }
+#lang-uk:checked ~ .topbar .chips--uk,
+#lang-en:checked ~ .topbar .chips--en,
+#lang-ru:checked ~ .topbar .chips--ru { display: flex; }
 
 /* -------------------------------------------------------------- аркуш --- */
+/* Ціль кнопки «нагору». Запас зверху дорівнює висоті панелі, інакше перехід
+   лишав би початок аркуша під нею. */
 .sheet {
+  scroll-margin-top: calc(var(--bar) + env(safe-area-inset-top));
   max-width: var(--wrap);
   margin: 0 auto;
   padding: 18px 12px 40px;
@@ -322,7 +318,7 @@ body {
 .section {
   break-inside: avoid;
   margin: 0 0 34px;
-  scroll-margin-top: 16px;
+  scroll-margin-top: calc(var(--bar) + env(safe-area-inset-top) + 12px);
 }
 
 .section__head { margin-bottom: 12px; }
@@ -497,8 +493,9 @@ body {
 @media (min-width: 860px) {
   .sheet { padding: 26px 24px 60px; }
   .sheet__inner { padding: 46px 44px 38px; }
+  :root { --bar: 102px; }
   .toolbar { margin: 28px 0 6px; }
-  .navbar__inner { padding: 10px 24px; }
+  .subbar__inner { padding: 9px 24px; }
 
   .menu {
     columns: 2;
@@ -518,7 +515,7 @@ body {
 
 /* --------------------------------------------------------------- друк --- */
 @media print {
-  .site, .navbar, .toolbar { display: none !important; }
+  .topbar, .toolbar { display: none !important; }
   body { background: #fff; }
   .sheet__inner { box-shadow: none; border-color: #bbb; }
   .menu { columns: 2; column-gap: 34px; }

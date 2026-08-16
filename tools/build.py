@@ -180,7 +180,7 @@ def item_html(item, lang, note):
 
 # ------------------------------------------------------------------ сторінка --
 def chips_html(lang):
-    """Стрічка розділів для нижньої панелі. Починається кнопкою «нагору»:
+    """Стрічка розділів у верхній панелі. Починається кнопкою «нагору»:
     окремий плаваючий кружечок над текстом заважав більше, ніж допомагав."""
     chips = [f'<a class="chip chip--top" href="#top" '
              f'title="{e(t("ui.top", lang))}" aria-label="{e(t("ui.top", lang))}">↑</a>']
@@ -251,11 +251,9 @@ def document():
         f'<input class="langsel" type="radio" name="lang" id="lang-{code}" '
         f'aria-label="{e(label)}"{" checked" if code == DEFAULT_LANG else ""}>'
         for code, _, label in LANGS)
-    def switches(where):
-        return "".join(
-            f'<label class="lang" for="lang-{code}" title="{e(label)}" '
-            f'id="lang-{where}-{code}">{e(short)}</label>'
-            for code, short, label in LANGS)
+    switches = "".join(
+        f'<label class="lang" for="lang-{code}" title="{e(label)}">{e(short)}</label>'
+        for code, short, label in LANGS)
 
     return f"""<!doctype html>
 <html lang="{DEFAULT_LANG}">
@@ -274,27 +272,24 @@ def document():
 
 {radios}
 
-<header class="site" id="top">
-  <div class="site__bar">
-    <span class="mark" aria-hidden="true">{e(MENU['venue']['name'])}<small>LONDON</small></span>
-    <nav class="langs" aria-label="{e(t('lang.label', DEFAULT_LANG))}">{switches('top')}</nav>
-  </div>
-</header>
+<!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
+<div class="topbar">
+  <header class="site">
+    <div class="site__bar">
+      <span class="mark" aria-hidden="true">{e(MENU['venue']['name'])}<small>LONDON</small></span>
+      <nav class="langs" aria-label="{e(t('lang.label', DEFAULT_LANG))}">{switches}</nav>
+    </div>
+  </header>
+  <nav class="subbar" aria-label="{e(t('nav.label', DEFAULT_LANG))}">
+    <div class="subbar__inner">{"".join(chips_html(code) for code, _, _ in LANGS)}</div>
+  </nav>
+</div>
 
-<main class="sheet">
+<main class="sheet" id="top">
   <div class="sheet__inner">
 {"".join(page_html(code) for code, _, _ in LANGS)}
   </div>
 </main>
-
-<!-- Керування внизу: угорі його перекривають системний рядок і кнопки
-     переглядача, а великому пальцю туди не дотягнутися. -->
-<nav class="navbar" aria-label="{e(t('nav.label', DEFAULT_LANG))}">
-  <div class="navbar__inner">
-    {"".join(chips_html(code) for code, _, _ in LANGS)}
-    <div class="langs langs--bottom">{switches('bottom')}</div>
-  </div>
-</nav>
 
 <script>
 {JS}
