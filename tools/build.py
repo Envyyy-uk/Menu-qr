@@ -24,8 +24,10 @@ CSS = (ROOT / "assets" / "styles.css").read_text(encoding="utf-8")
 JS = (ROOT / "assets" / "app.js").read_text(encoding="utf-8")
 OUT = ROOT / "index.html"
 
-LANGS = [("uk", "UA", "Українська"), ("en", "EN", "English"), ("ru", "RU", "Русский")]
-DEFAULT_LANG = "uk"
+# Порядок тут — це порядок кнопок у шапці, а перша мова ще й та, яку бачить
+# гість, поки нічого не обрав.
+LANGS = [("ru", "RU", "Русский"), ("en", "EN", "English"), ("uk", "UA", "Українська")]
+DEFAULT_LANG = LANGS[0][0]
 
 ML_STEP = re.compile(r"^\d+\s*ml$", re.I)
 

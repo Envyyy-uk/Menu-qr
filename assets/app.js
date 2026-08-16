@@ -6,12 +6,15 @@
 (function () {
   'use strict';
 
-  var LANGS = ['uk', 'en', 'ru'];
+  var LANGS = ['ru', 'en', 'uk'];
   var STORAGE_KEY = 'menu-lang';
 
   document.documentElement.className += ' js';
 
   /* ------------------------------------------------------------- мова --- */
+  /* Мову беремо тільки з посилання або з попереднього вибору гостя. Мову
+     браузера навмисно не питаємо: основна мова меню — російська, і сторінка
+     має відкриватися нею, поки гість сам не перемкнув. */
   function savedLang() {
     var url = (location.search.match(/[?&]lang=([a-z]{2})/) || [])[1];
     if (LANGS.indexOf(url) > -1) return url;
@@ -19,8 +22,7 @@
       var saved = localStorage.getItem(STORAGE_KEY);
       if (LANGS.indexOf(saved) > -1) return saved;
     } catch (err) { /* приватний режим */ }
-    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
-    return LANGS.indexOf(nav) > -1 ? nav : null;
+    return null;
   }
 
   function applyLang(code) {
