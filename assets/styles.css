@@ -1,0 +1,475 @@
+/* ==========================================================================
+   PODVAL — сторінка меню. Друкована картка, а не застосунок: папір, золото,
+   антиква. Один світлий режим навмисно — меню має виглядати як надруковане.
+   ========================================================================== */
+
+:root {
+  --paper:      #f7f3ea;
+  --paper-edge: #e6dfd1;
+  --ink:        #1d1a16;
+  --muted:      #6d6455;
+  --faint:      #8d8474;
+  --gold:       #a8843f;
+  --gold-soft:  #cbb083;
+  --line:       rgba(168, 132, 63, .28);
+  --line-soft:  rgba(29, 26, 22, .12);
+
+  --serif: "Cormorant Garamond", "Didot", "Bodoni MT", "Playfair Display",
+           "Times New Roman", Times, Georgia, serif;
+  --sans:  "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
+
+  --wrap: 1080px;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper-edge);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+
+/* ------------------------------------------------------------- шапка --- */
+.site {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(29, 26, 22, .96);
+  color: var(--paper);
+  border-bottom: 1px solid rgba(203, 176, 131, .35);
+}
+
+.site__bar {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mark {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .28em;
+  color: var(--gold-soft);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.mark small {
+  font-size: 9px;
+  letter-spacing: .3em;
+  color: rgba(247, 243, 234, .55);
+}
+
+.langs { display: flex; gap: 4px; }
+
+.lang {
+  appearance: none;
+  background: transparent;
+  border: 1px solid rgba(203, 176, 131, .35);
+  color: rgba(247, 243, 234, .75);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  padding: 6px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.lang:hover { border-color: var(--gold-soft); color: var(--paper); }
+
+.lang.is-active {
+  background: var(--gold-soft);
+  border-color: var(--gold-soft);
+  color: #1d1a16;
+}
+
+/* -------------------------------------------------------------- аркуш --- */
+.sheet {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 18px 12px 40px;
+}
+
+.sheet__inner {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  outline: 1px solid rgba(29, 26, 22, .06);
+  outline-offset: 6px;
+  padding: 34px 20px 30px;
+  box-shadow: 0 18px 50px rgba(29, 26, 22, .10);
+}
+
+/* ------------------------------------------------------------ титул --- */
+.masthead { text-align: center; }
+
+.masthead__brand {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .5em;
+  text-indent: .5em;
+  color: var(--gold);
+}
+
+.masthead__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(30px, 9vw, 62px);
+  line-height: 1.05;
+  letter-spacing: .1em;
+  text-indent: .1em;
+  text-transform: uppercase;
+}
+
+.masthead__sub {
+  margin: 10px 0 0;
+  font-style: italic;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* Тонка лінія з ромбом посередині — розділювач із друкованої картки. */
+.rule {
+  height: 1px;
+  background: var(--line);
+  margin: 16px auto;
+  max-width: 340px;
+  position: relative;
+}
+
+.rule--diamond::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* ---------------------------------------------------------- панель --- */
+.toolbar {
+  position: sticky;
+  top: 45px;
+  z-index: 20;
+  margin: 22px -20px 4px;
+  padding: 10px 20px 8px;
+  background: linear-gradient(var(--paper) 82%, rgba(247, 243, 234, 0));
+}
+
+.field { position: relative; }
+
+.field input {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 30px 8px 2px;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.field input::placeholder { color: var(--faint); }
+
+/* власний хрестик уже є — системний лише дублює його */
+.field input::-webkit-search-cancel-button { display: none; }
+
+.field input:focus { outline: none; border-bottom-color: var(--gold); }
+
+.field__clear {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  appearance: none;
+  background: none;
+  border: 0;
+  color: var(--faint);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 10px 0 2px;
+}
+
+.chips::-webkit-scrollbar { display: none; }
+
+.chip {
+  flex: 0 0 auto;
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s, background .15s;
+}
+
+.chip:hover { color: var(--ink); border-color: var(--gold-soft); }
+
+.chip.is-active {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(168, 132, 63, .07);
+}
+
+.toolbar__count {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--faint);
+}
+
+/* ---------------------------------------------------------- розділи --- */
+.menu { margin-top: 18px; }
+
+.section {
+  break-inside: avoid;
+  margin: 0 0 34px;
+  scroll-margin-top: 150px;
+}
+
+.section__head { margin-bottom: 12px; }
+
+.section__title {
+  margin: 0 0 6px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-indent: .26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+
+.note {
+  margin: 0 0 16px;
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(168, 132, 63, .045);
+}
+
+/* ---------------------------------------------------------- позиція --- */
+.item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.item:last-child { border-bottom: 0; }
+
+.item__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.item__name {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: .01em;
+}
+
+.item__price {
+  margin: 0;
+  flex: 0 0 auto;
+  font-size: 18px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.item__from {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.badge {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  vertical-align: middle;
+  color: var(--gold);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1px 4px;
+}
+
+.item__desc {
+  margin: 4px 0 0;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.item__opt {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.item__optLabel {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-right: 8px;
+}
+
+.choice { white-space: nowrap; }
+.choice__price { color: var(--gold); }
+.sep { color: var(--gold-soft); }
+
+.more { display: inline; }
+
+.more__summary {
+  display: inline;
+  list-style: none;
+  cursor: pointer;
+  margin-left: 8px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px dotted var(--gold-soft);
+}
+
+.more__summary::-webkit-details-marker { display: none; }
+.more[open] .more__summary { color: var(--faint); border-bottom-color: transparent; }
+
+.more__list {
+  margin: 5px 0 0;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.item__ing {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.item__ingLabel {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.empty {
+  margin: 30px 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* ------------------------------------------------------------- підвал --- */
+.foot {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.foot p { margin: 6px 0 0; }
+.foot__fine { color: var(--faint); font-style: italic; }
+
+/* ------------------------------------------------------------- нагору --- */
+.totop {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 25;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  color: var(--paper);
+  background: rgba(29, 26, 22, .88);
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+}
+
+/* ------------------------------------------------------- широкий екран --- */
+@media (min-width: 860px) {
+  .sheet { padding: 26px 24px 60px; }
+  .sheet__inner { padding: 46px 44px 38px; }
+  .toolbar { margin: 26px -44px 6px; padding: 12px 44px 10px; }
+
+  .menu {
+    columns: 2;
+    column-gap: 48px;
+  }
+
+  .section { margin-bottom: 30px; }
+}
+
+@media (min-width: 1200px) {
+  body { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* --------------------------------------------------------------- друк --- */
+@media print {
+  .site, .toolbar, .totop { display: none !important; }
+  body { background: #fff; }
+  .sheet__inner { box-shadow: none; border-color: #bbb; }
+  .menu { columns: 2; column-gap: 34px; }
+}

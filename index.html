@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PODVAL · Menu</title>
+<meta name="theme-color" content="#f4efe4">
+<meta name="description" content="PODVAL London — drinks menu">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#menu">→</a>
+
+<header class="site">
+  <div class="site__bar">
+    <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
+    <nav class="langs" id="langs" aria-label="Language"></nav>
+  </div>
+</header>
+
+<main class="sheet" id="top">
+  <div class="sheet__inner">
+
+    <div class="masthead">
+      <p class="masthead__brand">PODVAL</p>
+      <div class="rule rule--diamond" aria-hidden="true"></div>
+      <h1 class="masthead__title" id="menu-title">&nbsp;</h1>
+      <div class="rule rule--diamond" aria-hidden="true"></div>
+      <p class="masthead__sub" id="menu-sub"></p>
+    </div>
+
+    <div class="toolbar">
+      <div class="field">
+        <input id="search" type="search" autocomplete="off" spellcheck="false">
+        <button id="search-clear" class="field__clear" type="button" hidden>✕</button>
+      </div>
+      <nav class="chips" id="chips" aria-label="Sections"></nav>
+      <p class="toolbar__count" id="count"></p>
+    </div>
+
+    <div id="menu" class="menu"></div>
+    <p id="empty" class="empty" hidden></p>
+
+    <footer class="foot">
+      <div class="rule rule--diamond" aria-hidden="true"></div>
+      <p id="foot-age"></p>
+      <p id="foot-prices" class="foot__fine"></p>
+    </footer>
+
+  </div>
+</main>
+
+<a href="#top" class="totop" id="totop" hidden>↑</a>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/menu-data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
