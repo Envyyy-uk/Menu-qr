@@ -44,6 +44,7 @@ body {
   font-size: 17px;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
+  padding-bottom: calc(58px + env(safe-area-inset-bottom));
 }
 
 /* ------------------------------------------------------- вибір мови --- */
@@ -69,17 +70,13 @@ body {
 .js .js-only { display: block; }
 
 /* ------------------------------------------------------------- шапка --- */
-/* Марка й стрічка розділів липнуть до верху одним блоком: два окремі липкі
-   елементи неминуче лишають між собою шпарину, крізь яку видно текст меню. */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-}
-
+/* Марка гортається разом зі сторінкою. Липкої шапки тут нема навмисно: угорі
+   екрана в неї впираються системний рядок і кнопки переглядача, і саме там,
+   де вона потрібна, її не натиснути. Керування живе внизу — див. .navbar. */
 .site {
   background: #1d1a16;
   color: var(--paper);
+  padding-top: env(safe-area-inset-top);
 }
 
 .site__bar {
@@ -128,34 +125,52 @@ body {
 
 .lang:hover { border-color: var(--gold-soft); color: var(--paper); }
 
-#lang-uk:checked ~ .topbar .lang[for="lang-uk"],
-#lang-en:checked ~ .topbar .lang[for="lang-en"],
-#lang-ru:checked ~ .topbar .lang[for="lang-ru"] {
+#lang-uk:checked ~ * .lang[for="lang-uk"],
+#lang-en:checked ~ * .lang[for="lang-en"],
+#lang-ru:checked ~ * .lang[for="lang-ru"] {
   background: var(--gold-soft);
   border-color: var(--gold-soft);
   color: #1d1a16;
 }
 
-.langsel:focus-visible ~ .topbar .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+.langsel:focus-visible ~ * .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
 
-/* ------------------------------------------------- стрічка розділів --- */
-.subbar {
-  background: var(--paper-edge);
-  border-bottom: 1px solid var(--line);
-  box-shadow: 0 6px 14px rgba(29, 26, 22, .06);
+/* --------------------------------------------------- нижня панель --- */
+/* Розділи й мови — там, куди дістає великий палець і куди не лізе ні
+   системний рядок, ні кнопки браузера. */
+.navbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  background: rgba(29, 26, 22, .97);
+  border-top: 1px solid rgba(203, 176, 131, .35);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-.subbar__inner {
+.navbar__inner {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: 9px 18px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .chips { display: none; }
 
-#lang-uk:checked ~ .topbar .chips--uk,
-#lang-en:checked ~ .topbar .chips--en,
-#lang-ru:checked ~ .topbar .chips--ru { display: flex; }
+#lang-uk:checked ~ .navbar .chips--uk,
+#lang-en:checked ~ .navbar .chips--en,
+#lang-ru:checked ~ .navbar .chips--ru { display: flex; }
+
+.langs--bottom {
+  flex: 0 0 auto;
+  padding-left: 10px;
+  border-left: 1px solid rgba(203, 176, 131, .25);
+}
+
+.langs--bottom .lang { padding: 6px 7px; font-size: 10px; letter-spacing: .08em; }
 
 /* -------------------------------------------------------------- аркуш --- */
 .sheet {
@@ -265,6 +280,8 @@ body {
 }
 
 .chips {
+  flex: 1 1 auto;
+  min-width: 0;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
@@ -280,20 +297,26 @@ body {
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--muted);
-  border: 1px solid var(--line-soft);
+  color: rgba(247, 243, 234, .72);
+  border: 1px solid rgba(203, 176, 131, .3);
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 7px 13px;
   white-space: nowrap;
   transition: color .15s, border-color .15s, background .15s;
 }
 
-.chip:hover { color: var(--ink); border-color: var(--gold-soft); }
+.chip:hover { color: var(--paper); border-color: var(--gold-soft); }
+
+.chip--top {
+  font-size: 14px;
+  line-height: 1;
+  padding: 6px 11px;
+}
 
 .chip.is-active {
-  color: var(--gold);
-  border-color: var(--gold);
-  background: rgba(168, 132, 63, .07);
+  color: #1d1a16;
+  border-color: var(--gold-soft);
+  background: var(--gold-soft);
 }
 
 .toolbar__count {
@@ -309,7 +332,7 @@ body {
 .section {
   break-inside: avoid;
   margin: 0 0 34px;
-  scroll-margin-top: 108px;
+  scroll-margin-top: 16px;
 }
 
 .section__head { margin-bottom: 12px; }
@@ -480,32 +503,12 @@ body {
 .foot p { margin: 6px 0 0; }
 .foot__fine { color: var(--faint); font-style: italic; }
 
-/* ------------------------------------------------------------- нагору --- */
-.totop {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 25;
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  text-decoration: none;
-  color: var(--paper);
-  background: rgba(29, 26, 22, .88);
-  border: 1px solid var(--gold-soft);
-  border-radius: 50%;
-}
-
-/* display:grid перебиває атрибут hidden — повертаємо його силу */
-.totop[hidden] { display: none; }
-
 /* ------------------------------------------------------- широкий екран --- */
 @media (min-width: 860px) {
   .sheet { padding: 26px 24px 60px; }
   .sheet__inner { padding: 46px 44px 38px; }
   .toolbar { margin: 28px 0 6px; }
-  .subbar__inner { padding: 10px 24px; }
+  .navbar__inner { padding: 10px 24px; }
 
   .menu {
     columns: 2;
@@ -525,7 +528,7 @@ body {
 
 /* --------------------------------------------------------------- друк --- */
 @media print {
-  .topbar, .toolbar, .totop { display: none !important; }
+  .site, .navbar, .toolbar { display: none !important; }
   body { background: #fff; }
   .sheet__inner { box-shadow: none; border-color: #bbb; }
   .menu { columns: 2; column-gap: 34px; }
@@ -537,17 +540,12 @@ body {
 
 <input class="langsel" type="radio" name="lang" id="lang-ru" aria-label="Русский" checked><input class="langsel" type="radio" name="lang" id="lang-en" aria-label="English"><input class="langsel" type="radio" name="lang" id="lang-uk" aria-label="Українська">
 
-<div class="topbar" id="top">
-  <header class="site">
-    <div class="site__bar">
-      <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
-      <nav class="langs" aria-label="Язык"><label class="lang" for="lang-ru" title="Русский">RU</label><label class="lang" for="lang-en" title="English">EN</label><label class="lang" for="lang-uk" title="Українська">UA</label></nav>
-    </div>
-  </header>
-  <div class="subbar">
-    <div class="subbar__inner"><nav class="chips chips--ru" id="chips-ru" aria-label="Разделы"><a class="chip" href="#ru-cat-spirits" data-cat="spirits">Крепкое</a><a class="chip" href="#ru-cat-cocktails" data-cat="cocktails">Коктейли</a><a class="chip" href="#ru-cat-beer-soft" data-cat="beer-soft">Пиво и безалкогольное</a><a class="chip" href="#ru-cat-wine" data-cat="wine">Вино и игристое</a><a class="chip" href="#ru-cat-hot" data-cat="hot">Горячие напитки</a><a class="chip" href="#ru-cat-hookah" data-cat="hookah">Кальяны</a></nav><nav class="chips chips--en" id="chips-en" aria-label="Sections"><a class="chip" href="#en-cat-spirits" data-cat="spirits">Spirits</a><a class="chip" href="#en-cat-cocktails" data-cat="cocktails">Cocktails</a><a class="chip" href="#en-cat-beer-soft" data-cat="beer-soft">Beer and soft drinks</a><a class="chip" href="#en-cat-wine" data-cat="wine">Wine and sparkling</a><a class="chip" href="#en-cat-hot" data-cat="hot">Hot drinks</a><a class="chip" href="#en-cat-hookah" data-cat="hookah">Hookah</a></nav><nav class="chips chips--uk" id="chips-uk" aria-label="Розділи"><a class="chip" href="#uk-cat-spirits" data-cat="spirits">Міцне</a><a class="chip" href="#uk-cat-cocktails" data-cat="cocktails">Коктейлі</a><a class="chip" href="#uk-cat-beer-soft" data-cat="beer-soft">Пиво й безалкогольне</a><a class="chip" href="#uk-cat-wine" data-cat="wine">Вино й ігристе</a><a class="chip" href="#uk-cat-hot" data-cat="hot">Гарячі напої</a><a class="chip" href="#uk-cat-hookah" data-cat="hookah">Кальяни</a></nav></div>
+<header class="site" id="top">
+  <div class="site__bar">
+    <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
+    <nav class="langs" aria-label="Язык"><label class="lang" for="lang-ru" title="Русский" id="lang-top-ru">RU</label><label class="lang" for="lang-en" title="English" id="lang-top-en">EN</label><label class="lang" for="lang-uk" title="Українська" id="lang-top-uk">UA</label></nav>
   </div>
-</div>
+</header>
 
 <main class="sheet">
   <div class="sheet__inner">
@@ -645,7 +643,14 @@ body {
   </div>
 </main>
 
-<a href="#top" class="totop" title="Наверх" hidden>↑</a>
+<!-- Керування внизу: угорі його перекривають системний рядок і кнопки
+     переглядача, а великому пальцю туди не дотягнутися. -->
+<nav class="navbar" aria-label="Разделы">
+  <div class="navbar__inner">
+    <nav class="chips chips--ru" id="chips-ru" aria-label="Разделы"><a class="chip chip--top" href="#top" title="Наверх" aria-label="Наверх">↑</a><a class="chip" href="#ru-cat-spirits" data-cat="spirits">Крепкое</a><a class="chip" href="#ru-cat-cocktails" data-cat="cocktails">Коктейли</a><a class="chip" href="#ru-cat-beer-soft" data-cat="beer-soft">Пиво и безалкогольное</a><a class="chip" href="#ru-cat-wine" data-cat="wine">Вино и игристое</a><a class="chip" href="#ru-cat-hot" data-cat="hot">Горячие напитки</a><a class="chip" href="#ru-cat-hookah" data-cat="hookah">Кальяны</a></nav><nav class="chips chips--en" id="chips-en" aria-label="Sections"><a class="chip chip--top" href="#top" title="Back to top" aria-label="Back to top">↑</a><a class="chip" href="#en-cat-spirits" data-cat="spirits">Spirits</a><a class="chip" href="#en-cat-cocktails" data-cat="cocktails">Cocktails</a><a class="chip" href="#en-cat-beer-soft" data-cat="beer-soft">Beer and soft drinks</a><a class="chip" href="#en-cat-wine" data-cat="wine">Wine and sparkling</a><a class="chip" href="#en-cat-hot" data-cat="hot">Hot drinks</a><a class="chip" href="#en-cat-hookah" data-cat="hookah">Hookah</a></nav><nav class="chips chips--uk" id="chips-uk" aria-label="Розділи"><a class="chip chip--top" href="#top" title="Нагору" aria-label="Нагору">↑</a><a class="chip" href="#uk-cat-spirits" data-cat="spirits">Міцне</a><a class="chip" href="#uk-cat-cocktails" data-cat="cocktails">Коктейлі</a><a class="chip" href="#uk-cat-beer-soft" data-cat="beer-soft">Пиво й безалкогольне</a><a class="chip" href="#uk-cat-wine" data-cat="wine">Вино й ігристе</a><a class="chip" href="#uk-cat-hot" data-cat="hot">Гарячі напої</a><a class="chip" href="#uk-cat-hookah" data-cat="hookah">Кальяни</a></nav>
+    <div class="langs langs--bottom"><label class="lang" for="lang-ru" title="Русский" id="lang-bottom-ru">RU</label><label class="lang" for="lang-en" title="English" id="lang-bottom-en">EN</label><label class="lang" for="lang-uk" title="Українська" id="lang-bottom-uk">UA</label></div>
+  </div>
+</nav>
 
 <script>
 /* ==========================================================================
@@ -699,10 +704,10 @@ body {
     return (text || '').toLowerCase().replace(/ё/g, 'е').replace(/['’`]/g, 'ʼ').trim();
   }
 
-  /* Стрічка розділів живе у верхній панелі, тож шукаємо її за мовою сторінки */
+  /* Стрічка розділів живе в нижній панелі, тож шукаємо її за мовою сторінки */
   function chipsOf(page) {
     var box = document.getElementById('chips-' + page.getAttribute('lang'));
-    return box ? [].slice.call(box.querySelectorAll('.chip')) : [];
+    return box ? [].slice.call(box.querySelectorAll('.chip[data-cat]')) : [];
   }
 
   function wireSearch(page) {
@@ -764,7 +769,7 @@ body {
         var active = entry.target.id.replace(/^.*cat-/, '');
         chips.forEach(function (chip) {
           var on = chip.getAttribute('data-cat') === active;
-          chip.className = on ? 'chip is-active' : 'chip';
+          chip.classList.toggle('is-active', on);
           if (on) chip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
         });
       });
@@ -777,14 +782,6 @@ body {
     wireSearch(page);
     wireSpy(page);
   });
-
-  /* ----------------------------------------------------------- нагору --- */
-  var totop = document.querySelector('.totop');
-  if (totop) {
-    var onScroll = function () { totop.hidden = window.pageYOffset < 600; };
-    window.addEventListener('scroll', onScroll);
-    onScroll();
-  }
 }());
 
 </script>

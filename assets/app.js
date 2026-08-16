@@ -49,10 +49,10 @@
     return (text || '').toLowerCase().replace(/ё/g, 'е').replace(/['’`]/g, 'ʼ').trim();
   }
 
-  /* Стрічка розділів живе у верхній панелі, тож шукаємо її за мовою сторінки */
+  /* Стрічка розділів живе в нижній панелі, тож шукаємо її за мовою сторінки */
   function chipsOf(page) {
     var box = document.getElementById('chips-' + page.getAttribute('lang'));
-    return box ? [].slice.call(box.querySelectorAll('.chip')) : [];
+    return box ? [].slice.call(box.querySelectorAll('.chip[data-cat]')) : [];
   }
 
   function wireSearch(page) {
@@ -114,7 +114,7 @@
         var active = entry.target.id.replace(/^.*cat-/, '');
         chips.forEach(function (chip) {
           var on = chip.getAttribute('data-cat') === active;
-          chip.className = on ? 'chip is-active' : 'chip';
+          chip.classList.toggle('is-active', on);
           if (on) chip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
         });
       });
@@ -127,12 +127,4 @@
     wireSearch(page);
     wireSpy(page);
   });
-
-  /* ----------------------------------------------------------- нагору --- */
-  var totop = document.querySelector('.totop');
-  if (totop) {
-    var onScroll = function () { totop.hidden = window.pageYOffset < 600; };
-    window.addEventListener('scroll', onScroll);
-    onScroll();
-  }
 }());
