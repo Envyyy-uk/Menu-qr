@@ -98,6 +98,31 @@ def choices_html(choices):
     return ' <span class="sep">·</span> '.join(parts)
 
 
+# ------------------------------------------------------------------- склад --
+# У коктейлі опис — це і є склад: «Джин, вермут россо, Campari, апельсин».
+# Друкувати під ним ще й рядок «Склад: джин, вермут россо…» — двічі те саме.
+# У міцного інакше: опис каже «Горілка», а склад додає зерновий спирт і воду,
+# і це вже нова інформація. Тож рядок складу лишаємо там, де він щось додає:
+# рахуємо, яка частка складників уже названа в описі, і зважуємо по трьох
+# мовах одразу, щоб сторінки не розходилися між собою.
+WORD = re.compile(r"[^\wʼ'’-]+")
+
+
+def words(text):
+    return {w for w in WORD.split((text or "").lower()) if len(w) > 2}
+
+
+def ingredients_repeat_desc(item):
+    keys = item.get("ing") or []
+    if not keys:
+        return True
+    covers = []
+    for code, _, _ in LANGS:
+        named = words(", ".join(pick(MENU["lexicon"].get(k), code) or k for k in keys))
+        covers.append(len(named & words(split_desc(item, code)[0])) / len(named) if named else 1)
+    return sum(covers) / len(covers) >= 0.5
+
+
 # -------------------------------------------------------------------- пошук --
 def fold(text):
     return text.lower().replace("ё", "е").replace("’", "ʼ").replace("'", "ʼ")
@@ -168,7 +193,8 @@ def item_html(item, lang, note):
                    f'<span class="item__optLabel">{e(pick(addon["names"], lang))}:</span> '
                    f'<span class="item__add">+{e(money(addon["price_pence"]))}</span></div>')
 
-    ing = ", ".join(pick(MENU["lexicon"].get(k), lang) or k for k in item.get("ing") or [])
+    ing = ("" if ingredients_repeat_desc(item)
+           else ", ".join(pick(MENU["lexicon"].get(k), lang) or k for k in item.get("ing") or []))
     if ing:
         out.append(f'<p class="item__ing">'
                    f'<span class="item__ingLabel">{e(t("dish.ingredients", lang))}:</span> '
