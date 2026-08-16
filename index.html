@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PODVAL · Меню напитков</title>
 <meta name="theme-color" content="#f7f3ea">
 <meta name="description" content="PODVAL — Drinks menu">
@@ -44,7 +44,7 @@ body {
   font-size: 17px;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
-  padding-top: calc(var(--bar) + env(safe-area-inset-top));
+  padding-top: var(--bar);
 }
 
 /* ------------------------------------------------------- вибір мови --- */
@@ -72,7 +72,12 @@ body {
 /* ------------------------------------------------------------- шапка --- */
 /* Панель прикріплена до верху вікна: марка, мови й розділи стоять на місці,
    а меню проходить під ними. Висота панелі описана змінною — з неї ж
-   береться відступ сторінки, щоб перший рядок меню не ховався під панеллю. */
+   береться відступ сторінки, щоб перший рядок меню не ховався під панеллю.
+
+   Відступу під виріз екрана тут навмисно немає, і сторінка не просить
+   viewport-fit=cover: у вбудованих переглядачах цей відступ роздувається до
+   пів екрана й панель перетворюється на чорну смугу. Без нього браузер сам
+   тримає сторінку нижче системного рядка. */
 :root { --bar: 100px; }   /* висота панелі: марка + стрічка розділів */
 
 .topbar {
@@ -81,7 +86,6 @@ body {
   left: 0;
   right: 0;
   z-index: 30;
-  padding-top: env(safe-area-inset-top);
   background: #1d1a16;
   box-shadow: 0 8px 20px rgba(29, 26, 22, .18);
 }
@@ -169,7 +173,7 @@ body {
 /* Ціль кнопки «нагору». Запас зверху дорівнює висоті панелі, інакше перехід
    лишав би початок аркуша під нею. */
 .sheet {
-  scroll-margin-top: calc(var(--bar) + env(safe-area-inset-top));
+  scroll-margin-top: var(--bar);
   max-width: var(--wrap);
   margin: 0 auto;
   padding: 18px 12px 40px;
@@ -328,7 +332,7 @@ body {
 .section {
   break-inside: avoid;
   margin: 0 0 34px;
-  scroll-margin-top: calc(var(--bar) + env(safe-area-inset-top) + 12px);
+  scroll-margin-top: calc(var(--bar) + 12px);
 }
 
 .section__head { margin-bottom: 12px; }

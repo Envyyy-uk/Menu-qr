@@ -259,7 +259,7 @@ def document():
 <html lang="{DEFAULT_LANG}">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(MENU['venue']['name'])} · {e(t('menu.title', DEFAULT_LANG))}</title>
 <meta name="theme-color" content="#f7f3ea">
 <meta name="description" content="{e(MENU['venue']['name'])} — {e(t('menu.title', 'en'))}">
