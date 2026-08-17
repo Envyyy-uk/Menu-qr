@@ -8,6 +8,38 @@
   },
   "categories": [
     {
+      "key": "platters",
+      "names": {
+        "uk": "Тарілки",
+        "en": "Platters",
+        "ru": "Тарелки"
+      }
+    },
+    {
+      "key": "pizza",
+      "names": {
+        "uk": "Піца",
+        "en": "Pizza",
+        "ru": "Пицца"
+      }
+    },
+    {
+      "key": "traditional",
+      "names": {
+        "uk": "Традиційні страви",
+        "en": "Traditional dishes",
+        "ru": "Традиционные блюда"
+      }
+    },
+    {
+      "key": "desserts",
+      "names": {
+        "uk": "Десерти",
+        "en": "Desserts",
+        "ru": "Десерты"
+      }
+    },
+    {
       "key": "spirits",
       "names": {
         "uk": "Міцне",
@@ -233,9 +265,460 @@
       "uk": "вугілля",
       "en": "charcoal",
       "ru": "уголь"
+    },
+    "fruits": {
+      "uk": "фрукти",
+      "en": "fruits",
+      "ru": "фрукты"
+    },
+    "cured-meat": {
+      "uk": "мʼясні делікатеси",
+      "en": "cured meats",
+      "ru": "мясные деликатесы"
+    },
+    "cheese": {
+      "uk": "сир",
+      "en": "cheese",
+      "ru": "сыр"
+    },
+    "tomato-sauce": {
+      "uk": "томатний соус",
+      "en": "tomato sauce",
+      "ru": "томатный соус"
+    },
+    "mozzarella": {
+      "uk": "моцарела",
+      "en": "mozzarella",
+      "ru": "моцарелла"
+    },
+    "pepperoni": {
+      "uk": "пепероні",
+      "en": "pepperoni",
+      "ru": "пепперони"
+    },
+    "ham": {
+      "uk": "шинка",
+      "en": "ham",
+      "ru": "ветчина"
+    },
+    "cherry-tomato": {
+      "uk": "помідори чері",
+      "en": "cherry tomatoes",
+      "ru": "помидоры черри"
+    },
+    "wheat-flour": {
+      "uk": "пшеничне борошно",
+      "en": "wheat flour",
+      "ru": "пшеничная мука"
+    },
+    "beef": {
+      "uk": "яловичина",
+      "en": "beef",
+      "ru": "говядина"
+    },
+    "pork": {
+      "uk": "свинина",
+      "en": "pork",
+      "ru": "свинина"
+    },
+    "turkey": {
+      "uk": "індичка",
+      "en": "turkey",
+      "ru": "индейка"
+    },
+    "sour-cream": {
+      "uk": "сметана",
+      "en": "sour cream",
+      "ru": "сметана"
+    },
+    "potato": {
+      "uk": "картопля",
+      "en": "potato",
+      "ru": "картофель"
+    },
+    "mushrooms": {
+      "uk": "гриби",
+      "en": "mushrooms",
+      "ru": "грибы"
+    },
+    "onion": {
+      "uk": "цибуля",
+      "en": "onion",
+      "ru": "лук"
+    },
+    "cherry": {
+      "uk": "вишня",
+      "en": "cherry",
+      "ru": "вишня"
+    },
+    "cottage-cheese": {
+      "uk": "солодкий сир",
+      "en": "sweet cottage cheese",
+      "ru": "сладкий творог"
+    },
+    "cream-cheese": {
+      "uk": "вершковий сир",
+      "en": "cream cheese",
+      "ru": "сливочный сыр"
+    },
+    "chocolate": {
+      "uk": "шоколад",
+      "en": "chocolate",
+      "ru": "шоколад"
+    },
+    "strawberry": {
+      "uk": "полуниця",
+      "en": "strawberry",
+      "ru": "клубника"
+    },
+    "eggs": {
+      "uk": "яйця",
+      "en": "eggs",
+      "ru": "яйца"
+    },
+    "butter": {
+      "uk": "масло",
+      "en": "butter",
+      "ru": "масло"
     }
   },
   "items": [
+    {
+      "key": "fruit-plate",
+      "name": "Fruit Plate",
+      "category": "platters",
+      "station": "kitchen",
+      "price_pence": 2000,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Свіжі сезонні фрукти",
+        "en": "Seasonal fresh fruits",
+        "ru": "Свежие сезонные фрукты"
+      },
+      "ing": [
+        "fruits"
+      ],
+      "w": [],
+      "alt": [
+        "фруктова тарілка",
+        "фруктовая тарелка",
+        "фрукти",
+        "фрукты"
+      ]
+    },
+    {
+      "key": "meat-cheese-plate",
+      "name": "Meat & Cheese Plate",
+      "category": "platters",
+      "station": "kitchen",
+      "price_pence": 2500,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Мʼясні делікатеси, сири та сезонні доповнення",
+        "en": "Cured meats, cheeses and seasonal accompaniments",
+        "ru": "Мясные деликатесы, сыры и сезонные дополнения"
+      },
+      "ing": [
+        "cured-meat",
+        "cheese"
+      ],
+      "w": [],
+      "alt": [
+        "мʼясна тарілка",
+        "сирна тарілка",
+        "мясная тарелка",
+        "сырная тарелка"
+      ]
+    },
+    {
+      "key": "pizza-pepperoni",
+      "name": "Pepperoni Pizza",
+      "category": "pizza",
+      "station": "kitchen",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Томатний соус, моцарела та пепероні",
+        "en": "Tomato sauce, mozzarella cheese and pepperoni",
+        "ru": "Томатный соус, моцарелла и пепперони"
+      },
+      "ing": [
+        "wheat-flour",
+        "tomato-sauce",
+        "mozzarella",
+        "pepperoni"
+      ],
+      "w": [],
+      "alt": [
+        "піца",
+        "пицца",
+        "пепероні",
+        "пепперони"
+      ]
+    },
+    {
+      "key": "pizza-ham-cherry",
+      "name": "Ham & Cherry Tomato Pizza",
+      "category": "pizza",
+      "station": "kitchen",
+      "price_pence": 1800,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Томатний соус, моцарела, шинка та помідори чері",
+        "en": "Tomato sauce, mozzarella cheese, ham and cherry tomatoes",
+        "ru": "Томатный соус, моцарелла, ветчина и помидоры черри"
+      },
+      "ing": [
+        "wheat-flour",
+        "tomato-sauce",
+        "mozzarella",
+        "ham",
+        "cherry-tomato"
+      ],
+      "w": [],
+      "alt": [
+        "піца",
+        "пицца",
+        "шинка",
+        "ветчина",
+        "чері",
+        "черри"
+      ]
+    },
+    {
+      "key": "pizza-margherita",
+      "name": "Margherita Pizza",
+      "category": "pizza",
+      "station": "kitchen",
+      "price_pence": 1300,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Томатний соус і моцарела",
+        "en": "Tomato sauce and mozzarella cheese",
+        "ru": "Томатный соус и моцарелла"
+      },
+      "ing": [
+        "wheat-flour",
+        "tomato-sauce",
+        "mozzarella"
+      ],
+      "w": [],
+      "alt": [
+        "піца",
+        "пицца",
+        "маргарита"
+      ]
+    },
+    {
+      "key": "pelmeni",
+      "name": "Pelmeni",
+      "category": "traditional",
+      "station": "kitchen",
+      "price_pence": 1500,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Яловичина і свинина, подаються зі сметаною",
+        "en": "Beef and pork, served with sour cream",
+        "ru": "Говядина и свинина, подаются со сметаной"
+      },
+      "ing": [
+        "wheat-flour",
+        "beef",
+        "pork",
+        "sour-cream"
+      ],
+      "w": [],
+      "alt": [
+        "пельмені",
+        "пельмени"
+      ]
+    },
+    {
+      "key": "vareniki-mushrooms",
+      "name": "Vareniki with Potato & Mushrooms",
+      "category": "traditional",
+      "station": "kitchen",
+      "price_pence": 1400,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Картопля і гриби, подаються зі сметаною",
+        "en": "Potato and mushrooms, served with sour cream",
+        "ru": "Картофель и грибы, подаются со сметаной"
+      },
+      "ing": [
+        "wheat-flour",
+        "potato",
+        "mushrooms",
+        "sour-cream"
+      ],
+      "w": [],
+      "alt": [
+        "вареники",
+        "вареники з грибами",
+        "вареники с грибами"
+      ]
+    },
+    {
+      "key": "vareniki-onion",
+      "name": "Vareniki with Potato & Onion",
+      "category": "traditional",
+      "station": "kitchen",
+      "price_pence": 1400,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Картопля і цибуля, подаються зі сметаною",
+        "en": "Potato and onion, served with sour cream",
+        "ru": "Картофель и лук, подаются со сметаной"
+      },
+      "ing": [
+        "wheat-flour",
+        "potato",
+        "onion",
+        "sour-cream"
+      ],
+      "w": [],
+      "alt": [
+        "вареники",
+        "вареники з цибулею",
+        "вареники с луком"
+      ]
+    },
+    {
+      "key": "nalysnyky-meat",
+      "name": "Nalysnyky (Crepes) with Meat",
+      "category": "traditional",
+      "station": "kitchen",
+      "price_pence": 1500,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Яловичина та індичка, подаються зі сметаною",
+        "en": "Beef and turkey, served with sour cream",
+        "ru": "Говядина и индейка, подаются со сметаной"
+      },
+      "ing": [
+        "wheat-flour",
+        "eggs",
+        "milk",
+        "beef",
+        "turkey",
+        "sour-cream"
+      ],
+      "w": [],
+      "alt": [
+        "налисники",
+        "млинці",
+        "налистники",
+        "блины",
+        "блинчики"
+      ]
+    },
+    {
+      "key": "nalysnyky-cherry",
+      "name": "Nalysnyky (Crepes) with Cherry & Sweet Cottage Cheese",
+      "category": "desserts",
+      "station": "kitchen",
+      "price_pence": 1400,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Вишня і солодкий сир, подаються зі сметаною",
+        "en": "Cherry and sweet cottage cheese, served with sour cream",
+        "ru": "Вишня и сладкий творог, подаются со сметаной"
+      },
+      "ing": [
+        "wheat-flour",
+        "eggs",
+        "milk",
+        "cherry",
+        "cottage-cheese",
+        "sour-cream"
+      ],
+      "w": [],
+      "alt": [
+        "налисники",
+        "млинці",
+        "блины",
+        "блинчики",
+        "сирники"
+      ]
+    },
+    {
+      "key": "cheesecake",
+      "name": "Classic Creamy Cheesecake",
+      "category": "desserts",
+      "station": "kitchen",
+      "price_pence": 900,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Класичний вершковий чізкейк",
+        "en": "Classic creamy cheesecake",
+        "ru": "Классический сливочный чизкейк"
+      },
+      "ing": [
+        "cream-cheese",
+        "sugar",
+        "eggs",
+        "butter"
+      ],
+      "w": [],
+      "alt": [
+        "чізкейк",
+        "чизкейк"
+      ]
+    },
+    {
+      "key": "ice-cream",
+      "name": "Ice Cream",
+      "category": "desserts",
+      "station": "kitchen",
+      "price_pence": 800,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Шоколадне, полуничне або ванільне",
+        "en": "Chocolate, strawberry or vanilla",
+        "ru": "Шоколадное, клубничное или ванильное"
+      },
+      "ing": [
+        "milk",
+        "sugar"
+      ],
+      "w": [],
+      "options": [
+        {
+          "key": "flavour",
+          "label": "opt.flavour",
+          "choices": [
+            {
+              "key": "chocolate",
+              "name": "Chocolate"
+            },
+            {
+              "key": "strawberry",
+              "name": "Strawberry"
+            },
+            {
+              "key": "vanilla",
+              "name": "Vanilla"
+            }
+          ]
+        }
+      ],
+      "alt": [
+        "морозиво",
+        "мороженое"
+      ]
+    },
     {
       "key": "vodka-house",
       "name": "Absolut, Stoli",
@@ -457,6 +940,10 @@
       ],
       "add": [
         "mixer"
+      ],
+      "alt": [
+        "віскі",
+        "виски"
       ]
     },
     {
@@ -815,6 +1302,9 @@
       ],
       "add": [
         "mixer"
+      ],
+      "alt": [
+        "коньяк"
       ]
     },
     {
@@ -1017,6 +1507,10 @@
       ],
       "w": [
         "age-check"
+      ],
+      "alt": [
+        "апероль шприц",
+        "апероль спритц"
       ]
     },
     {
@@ -1040,6 +1534,12 @@
       ],
       "w": [
         "age-check"
+      ],
+      "alt": [
+        "порн стар мартіні",
+        "порн стар мартини",
+        "мартіні",
+        "мартини"
       ]
     },
     {
@@ -1063,6 +1563,10 @@
       ],
       "w": [
         "age-check"
+      ],
+      "alt": [
+        "негроні",
+        "негрони"
       ]
     },
     {
@@ -1114,6 +1618,10 @@
             }
           ]
         }
+      ],
+      "alt": [
+        "мохіто",
+        "мохито"
       ]
     },
     {
@@ -1137,6 +1645,10 @@
       ],
       "w": [
         "age-check"
+      ],
+      "alt": [
+        "космополітен",
+        "космополитен"
       ]
     },
     {
@@ -1201,6 +1713,9 @@
             }
           ]
         }
+      ],
+      "alt": [
+        "маргарита"
       ]
     },
     {
@@ -1224,6 +1739,9 @@
       ],
       "w": [
         "age-check"
+      ],
+      "alt": [
+        "пиво"
       ]
     },
     {
@@ -1524,6 +2042,10 @@
             }
           ]
         }
+      ],
+      "alt": [
+        "чай",
+        "чайник"
       ]
     },
     {
@@ -1546,7 +2068,11 @@
         "dried-fruits",
         "honey"
       ],
-      "w": []
+      "w": [],
+      "alt": [
+        "чай",
+        "чайник"
+      ]
     },
     {
       "key": "hot-chocolate",
@@ -1586,6 +2112,11 @@
             }
           ]
         }
+      ],
+      "alt": [
+        "гарячий шоколад",
+        "горячий шоколад",
+        "какао"
       ]
     },
     {
@@ -1605,7 +2136,13 @@
         "coffee",
         "water"
       ],
-      "w": []
+      "w": [],
+      "alt": [
+        "кава",
+        "кофе",
+        "еспресо",
+        "эспрессо"
+      ]
     },
     {
       "key": "coffee-milk",
@@ -1663,6 +2200,14 @@
             }
           ]
         }
+      ],
+      "alt": [
+        "кава",
+        "кофе",
+        "капучино",
+        "лате",
+        "латте",
+        "мокко"
       ]
     },
     {
@@ -1684,6 +2229,11 @@
       ],
       "w": [
         "tobacco-age-check"
+      ],
+      "alt": [
+        "кальян",
+        "кальяни",
+        "кальяны"
       ]
     }
   ]

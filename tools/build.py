@@ -45,6 +45,21 @@ def pick(field, lang):
     return field.get(lang) or field.get("en") or next(iter(field.values()), "")
 
 
+def count_text(n, lang):
+    """«1 позиція», «2 позиції», «5 позицій» — словʼянські форми числа."""
+    forms = UI["count.items"].get(lang) or UI["count.items"]["en"]
+    if lang == "en":
+        return f"{n} {forms[0] if n == 1 else forms[1]}"
+    tens, unit = n % 100, n % 10
+    if unit == 1 and tens != 11:
+        form = forms[0]
+    elif 2 <= unit <= 4 and not 12 <= tens <= 14:
+        form = forms[1]
+    else:
+        form = forms[2]
+    return f"{n} {form}"
+
+
 def e(text):
     return html.escape(str(text), quote=True)
 
@@ -129,8 +144,11 @@ def fold(text):
 
 
 def search_key(item):
-    """Усе, за чим позицію шукають, — трьома мовами одразу, готове в атрибуті."""
-    parts = [item["name"], *(item.get("desc") or {}).values()]
+    """Усе, за чим позицію шукають, — трьома мовами одразу, готове в атрибуті.
+
+    Разом із полем alt: назви страв надруковані латиницею, як у меню, але
+    шукає їх гість звично своєю — «вареники», «мохито», «чизкейк»."""
+    parts = [item["name"], *(item.get("desc") or {}).values(), *(item.get("alt") or [])]
     for key in item.get("ing") or []:
         word = MENU["lexicon"].get(key)
         parts += list(word.values()) if word else [key]
@@ -219,6 +237,28 @@ def chips_html(lang):
             f'aria-label="{e(t("nav.label", lang))}">{"".join(chips)}</nav>')
 
 
+def cards_html(lang):
+    """Головна: розділи великими картками, як на вітрині.
+
+    Меню з десяти розділів гортати згори вниз довго, тож першим екраном іде
+    вибір розділу. Картки — звичайні посилання на розділи цієї ж сторінки:
+    меню лишається одним файлом, а перехід працює й без скрипта."""
+    cards = []
+    for cat in MENU["categories"]:
+        items = [i for i in MENU["items"] if i["category"] == cat["key"]]
+        if not items:
+            continue
+        cheapest = min(i["price_pence"] for i in items)
+        cards.append(
+            f'<a class="card" href="#{lang}-cat-{cat["key"]}">'
+            f'<span class="card__name">{e(pick(cat["names"], lang))}</span>'
+            f'<span class="card__meta">{e(count_text(len(items), lang))}'
+            f' · {e(t("price.from", lang))} {e(money(cheapest))}</span>'
+            '</a>')
+    return (f'<nav class="cards" aria-label="{e(t("home.pick", lang))}">'
+            f'{"".join(cards)}</nav>')
+
+
 def page_html(lang):
     sections = []
 
@@ -257,7 +297,13 @@ def page_html(lang):
       <button class="field__clear" type="button" title="{e(t('tb.clear', lang))}" hidden>✕</button>
     </div>
     <p class="toolbar__count"
-       data-unit="{e(t('count.items', lang))}">{len(MENU['items'])} {e(t('count.items', lang))}</p>
+       data-forms="{e('|'.join(UI['count.items'][lang]))}"
+       data-lang="{lang}">{e(count_text(len(MENU['items']), lang))}</p>
+  </div>
+
+  <div class="home">
+    <p class="home__pick">{e(t('home.pick', lang))}</p>
+    {cards_html(lang)}
   </div>
 
   <div class="menu">{''.join(sections)}</div>

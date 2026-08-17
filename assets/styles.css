@@ -331,6 +331,76 @@ body {
   color: var(--faint);
 }
 
+/* -------------------------------------------------------- головна --- */
+/* Розділів десять, і гортати їх згори вниз довго. Тому першим екраном —
+   вибір розділу картками. Це звичайні посилання: працюють без скрипта. */
+.home { margin: 26px 0 34px; }
+
+.home__pick {
+  margin: 0 0 14px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-indent: .26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+}
+
+.cards {
+  display: grid;
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 15px 44px 15px 18px;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--line);
+  background: linear-gradient(100deg, rgba(168, 132, 63, .05), rgba(168, 132, 63, .01));
+  transition: border-color .15s, background .15s;
+}
+
+/* ромб замість стрілки — той самий знак, що й у розділювачах картки */
+.card::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--gold-soft);
+  transform: translateY(-50%) rotate(45deg);
+  transition: background .15s;
+}
+
+.card:hover {
+  border-color: var(--gold-soft);
+  background: rgba(168, 132, 63, .09);
+}
+
+.card:hover::after { background: var(--gold); }
+
+.card__name {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.card__meta {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
 /* ---------------------------------------------------------- розділи --- */
 .menu { margin-top: 18px; }
 
@@ -509,6 +579,10 @@ body {
 .foot__fine { color: var(--faint); font-style: italic; }
 
 /* ------------------------------------------------------- широкий екран --- */
+@media (min-width: 560px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+}
+
 @media (min-width: 860px) {
   .sheet { padding: 26px 24px 60px; }
   .sheet__inner { padding: 46px 44px 38px; }
@@ -520,6 +594,8 @@ body {
     columns: 2;
     column-gap: 48px;
   }
+
+  .home { margin: 30px 0 40px; }
 
   .section { margin-bottom: 30px; }
 }

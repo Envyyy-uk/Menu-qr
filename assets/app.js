@@ -79,6 +79,18 @@
   var start = savedLang();
   if (start) applyLang(start);
 
+  /* «1 позиція», «2 позиції», «5 позицій» — форми числа беремо зі сторінки,
+     щоб мови жили в даних, а не в скрипті. */
+  function countText(n, box) {
+    var forms = (box.getAttribute('data-forms') || '').split('|');
+    if (forms.length < 3) return n + ' ' + forms[0];
+    if (box.getAttribute('data-lang') === 'en') return n + ' ' + (n === 1 ? forms[0] : forms[1]);
+    var tens = n % 100, unit = n % 10;
+    if (unit === 1 && tens !== 11) return n + ' ' + forms[0];
+    if (unit >= 2 && unit <= 4 && (tens < 12 || tens > 14)) return n + ' ' + forms[1];
+    return n + ' ' + forms[2];
+  }
+
   /* ------------------------------------------------------------ пошук --- */
   function fold(text) {
     return (text || '').toLowerCase().replace(/ё/g, 'е').replace(/['’`]/g, 'ʼ').trim();
@@ -123,7 +135,7 @@
         chip.hidden = !section || section.hidden;
       });
 
-      if (count) count.textContent = shown + ' ' + count.getAttribute('data-unit');
+      if (count) count.textContent = countText(shown, count);
       if (empty) empty.hidden = shown > 0;
       if (clear) clear.hidden = !input.value;
     }
