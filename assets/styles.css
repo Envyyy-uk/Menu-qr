@@ -24,6 +24,11 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Подвійний дотик більше не збільшує сторінку: у меню за нього чіпляються
+   випадково, і текст стрибає масштабом посеред читання. Щипок двома пальцями
+   лишається — тим, кому дрібно, він потрібен. */
+html, body { touch-action: manipulation; }
+
 body {
   margin: 0;
   background: var(--paper-edge);
@@ -105,6 +110,7 @@ body {
 }
 
 .mark {
+  text-decoration: none;
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 600;

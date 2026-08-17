@@ -34,6 +34,11 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Подвійний дотик більше не збільшує сторінку: у меню за нього чіпляються
+   випадково, і текст стрибає масштабом посеред читання. Щипок двома пальцями
+   лишається — тим, кому дрібно, він потрібен. */
+html, body { touch-action: manipulation; }
+
 body {
   margin: 0;
   background: var(--paper-edge);
@@ -115,6 +120,7 @@ body {
 }
 
 .mark {
+  text-decoration: none;
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 600;
@@ -550,7 +556,8 @@ body {
 <div class="topbar">
   <header class="site">
     <div class="site__bar">
-      <span class="mark" aria-hidden="true">PODVAL<small>LONDON</small></span>
+      <a class="mark" href="#top" title="Наверх"
+         aria-label="Наверх">PODVAL<small>LONDON</small></a>
       <nav class="langs" aria-label="Язык"><label class="lang" for="lang-ru" title="Русский">RU</label><label class="lang" for="lang-en" title="English">EN</label><label class="lang" for="lang-uk" title="Українська">UA</label></nav>
     </div>
   </header>

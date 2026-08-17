@@ -302,7 +302,8 @@ def document():
 <div class="topbar">
   <header class="site">
     <div class="site__bar">
-      <span class="mark" aria-hidden="true">{e(MENU['venue']['name'])}<small>LONDON</small></span>
+      <a class="mark" href="#top" title="{e(t('ui.top', DEFAULT_LANG))}"
+         aria-label="{e(t('ui.top', DEFAULT_LANG))}">{e(MENU['venue']['name'])}<small>LONDON</small></a>
       <nav class="langs" aria-label="{e(t('lang.label', DEFAULT_LANG))}">{switches}</nav>
     </div>
   </header>
