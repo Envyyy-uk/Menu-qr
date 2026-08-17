@@ -40,31 +40,6 @@ body {
   padding-top: calc(var(--bar) + var(--inset));
 }
 
-/* ------------------------------------------------------- вибір мови --- */
-/* Три копії меню лежать в одному файлі, показує потрібну радіокнопка. Так
-   мова перемикається без скрипта — меню читається навіть там, де JS вимкнено.
-   Самі кнопки не ховаємо через display:none: інакше їх втрачає клавіатура.
-
-   Прибиті до вікна (fixed) вони не випадково: коли гість тисне «EN», браузер
-   переводить фокус на радіокнопку й підтягує її в поле зору. Лежала вона на
-   початку сторінки — і сторінка відлітала на початок із середини меню.
-   Прибита кнопка завжди в полі зору, тож тягнути нема куди. */
-.langsel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.page { display: none; }
-
-#lang-uk:checked ~ .sheet .page--uk,
-#lang-en:checked ~ .sheet .page--en,
-#lang-ru:checked ~ .sheet .page--ru { display: block; }
-
 /* Те, чого без скрипта немає сенсу показувати. */
 .js-only { display: none; }
 .js .js-only { display: block; }
@@ -80,8 +55,11 @@ body {
    смуга. Обмеження лишає рівно висоту системного рядка й не більше. */
 :root {
   --bar: 100px;                                  /* марка + стрічка розділів */
+  --bar-plain: 50.5px;                           /* на головній стрічки немає */
   --inset: min(env(safe-area-inset-top, 0px), 52px);   /* під системний рядок */
 }
+
+.no-chips { --bar: var(--bar-plain); }
 
 .topbar {
   position: fixed;
@@ -110,13 +88,13 @@ body {
 }
 
 .mark {
+  display: inline-flex;
   text-decoration: none;
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: .28em;
   color: var(--gold-soft);
-  display: inline-flex;
   align-items: baseline;
   gap: 8px;
 }
@@ -130,6 +108,7 @@ body {
 .langs { display: flex; gap: 4px; }
 
 .lang {
+  text-decoration: none;
   background: transparent;
   border: 1px solid rgba(203, 176, 131, .35);
   color: rgba(247, 243, 234, .75);
@@ -146,15 +125,11 @@ body {
 
 .lang:hover { border-color: var(--gold-soft); color: var(--paper); }
 
-#lang-uk:checked ~ * .lang[for="lang-uk"],
-#lang-en:checked ~ * .lang[for="lang-en"],
-#lang-ru:checked ~ * .lang[for="lang-ru"] {
+.lang.is-active {
   background: var(--gold-soft);
   border-color: var(--gold-soft);
   color: #1d1a16;
 }
-
-.langsel:focus-visible ~ * .langs { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
 
 /* ------------------------------------------------- стрічка розділів --- */
 .subbar {
@@ -168,11 +143,7 @@ body {
   display: flex;
 }
 
-.chips { display: none; }
-
-#lang-uk:checked ~ .topbar .chips--uk,
-#lang-en:checked ~ .topbar .chips--en,
-#lang-ru:checked ~ .topbar .chips--ru { display: flex; }
+.chips { display: flex; }
 
 /* -------------------------------------------------------------- аркуш --- */
 /* Ціль кнопки «нагору». Запас зверху дорівнює висоті панелі, інакше перехід
@@ -311,6 +282,15 @@ body {
 }
 
 .chip:hover { color: var(--paper); border-color: var(--gold-soft); }
+
+/* назад на головну — інша роль, ніж у розділів, тому й вигляд інший */
+.chip--back {
+  color: var(--gold-soft);
+  border-color: transparent;
+  padding-left: 4px;
+}
+
+.chip--back:hover { color: var(--paper); border-color: transparent; }
 
 .chip--top {
   font-size: 14px;

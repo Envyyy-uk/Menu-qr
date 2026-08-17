@@ -6,6 +6,66 @@
     "timezone": "Europe/London",
     "currency": "GBP"
   },
+  "menus": [
+    {
+      "key": "kitchen",
+      "names": {
+        "uk": "Кухня",
+        "en": "Kitchen",
+        "ru": "Кухня"
+      },
+      "title": {
+        "uk": "Меню кухні",
+        "en": "Kitchen menu",
+        "ru": "Меню кухни"
+      },
+      "categories": [
+        "platters",
+        "pizza",
+        "traditional",
+        "desserts"
+      ],
+      "stem": "kitchen"
+    },
+    {
+      "key": "bar",
+      "names": {
+        "uk": "Бар",
+        "en": "Bar",
+        "ru": "Бар"
+      },
+      "title": {
+        "uk": "Меню напоїв",
+        "en": "Drinks menu",
+        "ru": "Меню напитков"
+      },
+      "categories": [
+        "spirits",
+        "cocktails",
+        "beer-soft",
+        "wine",
+        "hot"
+      ],
+      "stem": "bar"
+    },
+    {
+      "key": "hookah",
+      "names": {
+        "uk": "Кальяни",
+        "en": "Hookah",
+        "ru": "Кальяны"
+      },
+      "title": {
+        "uk": "Кальяни",
+        "en": "Hookah",
+        "ru": "Кальяны"
+      },
+      "categories": [
+        "hookah"
+      ],
+      "stem": "hookah"
+    }
+  ],
   "categories": [
     {
       "key": "platters",

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ru" class="no-chips">
+<html lang="uk" class="has-chips">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PODVAL · Меню</title>
+<title>PODVAL · Меню кухні</title>
 <meta name="theme-color" content="#1d1a16">
-<meta name="description" content="PODVAL — Меню">
-<link rel="alternate" hreflang="ru" href="index.html"><link rel="alternate" hreflang="en" href="index-en.html"><link rel="alternate" hreflang="uk" href="index-uk.html">
+<meta name="description" content="PODVAL — Меню кухні">
+<link rel="alternate" hreflang="ru" href="kitchen.html"><link rel="alternate" hreflang="en" href="kitchen-en.html"><link rel="alternate" hreflang="uk" href="kitchen-uk.html">
 <!-- Сторінку згенеровано: python3 tools/build.py. Правки — у data/ і assets/. -->
 <style>
 /* ==========================================================================
@@ -605,42 +605,51 @@ body {
 
 </style>
 </head>
-<body data-stem="index" data-lang="ru">
+<body data-stem="kitchen" data-lang="uk">
 
 <!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
 <div class="topbar">
   <header class="site">
     <div class="site__bar">
-      <a class="mark" href="index.html" title="К меню"
-         aria-label="К меню">PODVAL<small>LONDON</small></a>
-      <nav class="langs" aria-label="Язык"><a class="lang is-active" href="index.html" hreflang="ru" title="Русский" data-lang="ru">RU</a><a class="lang" href="index-en.html" hreflang="en" title="English" data-lang="en">EN</a><a class="lang" href="index-uk.html" hreflang="uk" title="Українська" data-lang="uk">UA</a></nav>
+      <a class="mark" href="index-uk.html" title="До меню"
+         aria-label="До меню">PODVAL<small>LONDON</small></a>
+      <nav class="langs" aria-label="Мова"><a class="lang" href="kitchen.html" hreflang="ru" title="Русский" data-lang="ru">RU</a><a class="lang" href="kitchen-en.html" hreflang="en" title="English" data-lang="en">EN</a><a class="lang is-active" href="kitchen-uk.html" hreflang="uk" title="Українська" data-lang="uk">UA</a></nav>
     </div>
   </header>
-  
+  <nav class="subbar" aria-label="Розділи"><div class="subbar__inner"><nav class="chips" id="chips" aria-label="Розділи"><a class="chip chip--back" href="index-uk.html">← До меню</a><a class="chip" href="#cat-platters" data-cat="platters">Тарілки</a><a class="chip" href="#cat-pizza" data-cat="pizza">Піца</a><a class="chip" href="#cat-traditional" data-cat="traditional">Традиційні страви</a><a class="chip" href="#cat-desserts" data-cat="desserts">Десерти</a></nav></div></nav>
 </div>
 
 <main class="sheet" id="top">
   <div class="sheet__inner">
-  <div class="page" lang="ru">
+  <div class="page" lang="uk">
 
 
   <div class="masthead">
     <p class="masthead__brand">PODVAL</p>
     <div class="rule rule--diamond" aria-hidden="true"></div>
-    <h1 class="masthead__title">Меню</h1>
+    <h1 class="masthead__title">Меню кухні</h1>
     <div class="rule rule--diamond" aria-hidden="true"></div>
-    <p class="masthead__sub">Кухня, бар и кальяны · Лондон</p>
+    <p class="masthead__sub">Кухня, бар і кальяни · Лондон</p>
   </div>
 
-  <div class="home">
-    <p class="home__pick">Выберите меню</p>
-    <nav class="cards" aria-label="Выберите меню"><a class="card" href="kitchen.html"><span class="card__name">Кухня</span><span class="card__meta">12 позиций · от £8</span></a><a class="card" href="bar.html"><span class="card__name">Бар</span><span class="card__meta">29 позиций · от £4</span></a><a class="card" href="hookah.html"><span class="card__name">Кальяны</span><span class="card__meta">1 позиция · от £50</span></a></nav>
+  <div class="toolbar js-only">
+    <div class="field">
+      <input type="search" autocomplete="off" spellcheck="false"
+             placeholder="Пошук за назвою або складником" aria-label="Пошук за назвою або складником">
+      <button class="field__clear" type="button" title="Очистити" hidden>✕</button>
+    </div>
+    <p class="toolbar__count"
+       data-forms="позиція|позиції|позицій"
+       data-lang="uk">12 позицій</p>
   </div>
+
+  <div class="menu"><section class="section" id="cat-platters"><header class="section__head"><h2 class="section__title">Тарілки</h2></header><div class="section__items"><article class="item" data-search="fruit plate свіжі сезонні фрукти seasonal fresh fruits свежие сезонные фрукты фруктова тарілка фруктовая тарелка фрукти фрукты фрукти fruits фрукты тарілки platters тарелки"><div class="item__head"><h3 class="item__name">Fruit Plate</h3><p class="item__price">£20</p></div><p class="item__desc">Свіжі сезонні фрукти</p></article><article class="item" data-search="meat &amp; cheese plate мʼясні делікатеси, сири та сезонні доповнення cured meats, cheeses and seasonal accompaniments мясные деликатесы, сыры и сезонные дополнения мʼясна тарілка сирна тарілка мясная тарелка сырная тарелка мʼясні делікатеси cured meats мясные деликатесы сир cheese сыр тарілки platters тарелки"><div class="item__head"><h3 class="item__name">Meat &amp; Cheese Plate</h3><p class="item__price">£25</p></div><p class="item__desc">Мʼясні делікатеси, сири та сезонні доповнення</p></article></div></section><section class="section" id="cat-pizza"><header class="section__head"><h2 class="section__title">Піца</h2></header><div class="section__items"><article class="item" data-search="pepperoni pizza томатний соус, моцарела та пепероні tomato sauce, mozzarella cheese and pepperoni томатный соус, моцарелла и пепперони піца пицца пепероні пепперони пшеничне борошно wheat flour пшеничная мука томатний соус tomato sauce томатный соус моцарела mozzarella моцарелла пепероні pepperoni пепперони піца pizza пицца"><div class="item__head"><h3 class="item__name">Pepperoni Pizza</h3><p class="item__price">£16</p></div><p class="item__desc">Томатний соус, моцарела та пепероні</p></article><article class="item" data-search="ham &amp; cherry tomato pizza томатний соус, моцарела, шинка та помідори чері tomato sauce, mozzarella cheese, ham and cherry tomatoes томатный соус, моцарелла, ветчина и помидоры черри піца пицца шинка ветчина чері черри пшеничне борошно wheat flour пшеничная мука томатний соус tomato sauce томатный соус моцарела mozzarella моцарелла шинка ham ветчина помідори чері cherry tomatoes помидоры черри піца pizza пицца"><div class="item__head"><h3 class="item__name">Ham &amp; Cherry Tomato Pizza</h3><p class="item__price">£18</p></div><p class="item__desc">Томатний соус, моцарела, шинка та помідори чері</p></article><article class="item" data-search="margherita pizza томатний соус і моцарела tomato sauce and mozzarella cheese томатный соус и моцарелла піца пицца маргарита пшеничне борошно wheat flour пшеничная мука томатний соус tomato sauce томатный соус моцарела mozzarella моцарелла піца pizza пицца"><div class="item__head"><h3 class="item__name">Margherita Pizza</h3><p class="item__price">£13</p></div><p class="item__desc">Томатний соус і моцарела</p></article></div></section><section class="section" id="cat-traditional"><header class="section__head"><h2 class="section__title">Традиційні страви</h2></header><div class="section__items"><article class="item" data-search="pelmeni яловичина і свинина, подаються зі сметаною beef and pork, served with sour cream говядина и свинина, подаются со сметаной пельмені пельмени пшеничне борошно wheat flour пшеничная мука яловичина beef говядина свинина pork свинина сметана sour cream сметана традиційні страви traditional dishes традиционные блюда"><div class="item__head"><h3 class="item__name">Pelmeni</h3><p class="item__price">£15</p></div><p class="item__desc">Яловичина і свинина, подаються зі сметаною</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> пшеничне борошно, яловичина, свинина, сметана</p></article><article class="item" data-search="vareniki with potato &amp; mushrooms картопля і гриби, подаються зі сметаною potato and mushrooms, served with sour cream картофель и грибы, подаются со сметаной вареники вареники з грибами вареники с грибами пшеничне борошно wheat flour пшеничная мука картопля potato картофель гриби mushrooms грибы сметана sour cream сметана традиційні страви traditional dishes традиционные блюда"><div class="item__head"><h3 class="item__name">Vareniki with Potato &amp; Mushrooms</h3><p class="item__price">£14</p></div><p class="item__desc">Картопля і гриби, подаються зі сметаною</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> пшеничне борошно, картопля, гриби, сметана</p></article><article class="item" data-search="vareniki with potato &amp; onion картопля і цибуля, подаються зі сметаною potato and onion, served with sour cream картофель и лук, подаются со сметаной вареники вареники з цибулею вареники с луком пшеничне борошно wheat flour пшеничная мука картопля potato картофель цибуля onion лук сметана sour cream сметана традиційні страви traditional dishes традиционные блюда"><div class="item__head"><h3 class="item__name">Vareniki with Potato &amp; Onion</h3><p class="item__price">£14</p></div><p class="item__desc">Картопля і цибуля, подаються зі сметаною</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> пшеничне борошно, картопля, цибуля, сметана</p></article><article class="item" data-search="nalysnyky (crepes) with meat яловичина та індичка, подаються зі сметаною beef and turkey, served with sour cream говядина и индейка, подаются со сметаной налисники млинці налистники блины блинчики пшеничне борошно wheat flour пшеничная мука яйця eggs яйца молоко milk молоко яловичина beef говядина індичка turkey индейка сметана sour cream сметана традиційні страви traditional dishes традиционные блюда"><div class="item__head"><h3 class="item__name">Nalysnyky (Crepes) with Meat</h3><p class="item__price">£15</p></div><p class="item__desc">Яловичина та індичка, подаються зі сметаною</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> пшеничне борошно, яйця, молоко, яловичина, індичка, сметана</p></article></div></section><section class="section" id="cat-desserts"><header class="section__head"><h2 class="section__title">Десерти</h2></header><div class="section__items"><article class="item" data-search="nalysnyky (crepes) with cherry &amp; sweet cottage cheese вишня і солодкий сир, подаються зі сметаною cherry and sweet cottage cheese, served with sour cream вишня и сладкий творог, подаются со сметаной налисники млинці блины блинчики сирники пшеничне борошно wheat flour пшеничная мука яйця eggs яйца молоко milk молоко вишня cherry вишня солодкий сир sweet cottage cheese сладкий творог сметана sour cream сметана десерти desserts десерты"><div class="item__head"><h3 class="item__name">Nalysnyky (Crepes) with Cherry &amp; Sweet Cottage Cheese</h3><p class="item__price">£14</p></div><p class="item__desc">Вишня і солодкий сир, подаються зі сметаною</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> пшеничне борошно, яйця, молоко, вишня, солодкий сир, сметана</p></article><article class="item" data-search="classic creamy cheesecake класичний вершковий чізкейк classic creamy cheesecake классический сливочный чизкейк чізкейк чизкейк вершковий сир cream cheese сливочный сыр цукор sugar сахар яйця eggs яйца масло butter масло десерти desserts десерты"><div class="item__head"><h3 class="item__name">Classic Creamy Cheesecake</h3><p class="item__price">£9</p></div><p class="item__desc">Класичний вершковий чізкейк</p><p class="item__ing"><span class="item__ingLabel">Склад:</span> вершковий сир, цукор, яйця, масло</p></article><article class="item" data-search="ice cream шоколадне, полуничне або ванільне chocolate, strawberry or vanilla шоколадное, клубничное или ванильное морозиво мороженое молоко milk молоко цукор sugar сахар вкус flavour смак chocolate strawberry vanilla десерти desserts десерты"><div class="item__head"><h3 class="item__name">Ice Cream</h3><p class="item__price">£8</p></div><p class="item__desc">Шоколадне, полуничне або ванільне</p><div class="item__opt"><span class="item__optLabel">Смак:</span> <span class="choice"><span class="choice__name">Chocolate</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Strawberry</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Vanilla</span></span></div><p class="item__ing"><span class="item__ingLabel">Склад:</span> молоко, цукор</p></article></div></section></div>
+  <p class="empty" hidden>Нічого не знайдено. Спробуйте іншу мову або інший складник.</p>
 
   <footer class="foot">
     <div class="rule rule--diamond" aria-hidden="true"></div>
-    <p>Алкоголь и табак — только совершеннолетним. Бармен может попросить документ.</p>
-    <p class="foot__fine">Цены в фунтах стерлингов. Меню справочное — заказ принимает официант.</p>
+    <p>Алкоголь і тютюн — лише повнолітнім. Бармен може попросити документ.</p>
+    <p class="foot__fine">Ціни у фунтах стерлінгів. Меню довідкове — замовлення приймає офіціант.</p>
   </footer>
   </div>
   </div>

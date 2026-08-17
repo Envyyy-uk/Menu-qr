@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Збирає index.html — готову сторінку меню трьома мовами.
+"""Збирає сторінки меню: головну й по одній на кухню, бар і кальяни.
 
 Меню за QR читають у чому завгодно: у вбудованому переглядачі месенджера, у
 режимі економії трафіку, зі стареньким телефоном. Тому позиції не малюються
@@ -7,7 +7,7 @@
 меню в одному файлі, показує ту, чия радіокнопка обрана. Скрипт додає лише
 пошук і підсвітку розділу — без нього меню все одно читається повністю.
 
-Стилі й скрипт вшиваються в сторінку: один файл, один запит, працює офлайн.
+Стилі й скрипт вшиваються в кожну сторінку: один запит, працює офлайн.
 
 Запуск після будь-якої правки меню:  python3 tools/build.py
 """
@@ -22,7 +22,6 @@ MENU = json.loads((ROOT / "data" / "menu.json").read_text(encoding="utf-8"))
 UI = json.loads((ROOT / "data" / "ui.json").read_text(encoding="utf-8"))
 CSS = (ROOT / "assets" / "styles.css").read_text(encoding="utf-8")
 JS = (ROOT / "assets" / "app.js").read_text(encoding="utf-8")
-OUT = ROOT / "index.html"
 
 # Порядок тут — це порядок кнопок у шапці, а перша мова ще й та, яку бачить
 # гість, поки нічого не обрав.
@@ -223,35 +222,56 @@ def item_html(item, lang, note):
 
 
 # ------------------------------------------------------------------ сторінка --
-def chips_html(lang):
-    """Стрічка розділів у верхній панелі. Починається кнопкою «нагору»:
-    окремий плаваючий кружечок над текстом заважав більше, ніж допомагав."""
-    chips = [f'<a class="chip chip--top" href="#top" '
-             f'title="{e(t("ui.top", lang))}" aria-label="{e(t("ui.top", lang))}">↑</a>']
-    for cat in MENU["categories"]:
-        if not any(i["category"] == cat["key"] for i in MENU["items"]):
-            continue
-        chips.append(f'<a class="chip" href="#{lang}-cat-{cat["key"]}" '
+# Меню три: кухня, бар і кальяни. Кожне — окремий файл, а головна лише
+# розводить гостя по них: хто прийшов поїсти, не гортає крізь горілку.
+#
+# Кожна мова — теж окремий файл (bar.html, bar-en.html, bar-uk.html), а
+# перемикач мов — звичайні посилання між ними. Спершу три мови лежали в
+# одному файлі й перемикалися прихованими радіокнопками, але з кількома
+# сторінками це розсипалося: посилання ?lang= без скрипта нічого не робило й
+# кожен перехід повертав гостя на російську. Посилання працюють завжди.
+MENUS = MENU["menus"]
+
+
+def menu_categories(menu):
+    """Розділи меню — у порядку, заданому в menus, а не в загальному списку."""
+    by_key = {c["key"]: c for c in MENU["categories"]}
+    return [by_key[k] for k in menu["categories"] if k in by_key]
+
+
+def menu_items(menu):
+    keys = set(menu["categories"])
+    return [i for i in MENU["items"] if i["category"] in keys]
+
+
+def page_file(stem, lang):
+    """index.html — основною мовою, index-en.html і index-uk.html — рештою."""
+    return f"{stem}.html" if lang == DEFAULT_LANG else f"{stem}-{lang}.html"
+
+
+def chips_html(lang, menu):
+    """Стрічка розділів. Перша фішка веде назад на головну: без неї з меню
+    нема куди подітися, крім кнопки «назад» у браузері."""
+    chips = [f'<a class="chip chip--back" href="{page_file("index", lang)}">'
+             f'← {e(t("nav.back", lang))}</a>']
+    for cat in menu_categories(menu):
+        chips.append(f'<a class="chip" href="#cat-{cat["key"]}" '
                      f'data-cat="{e(cat["key"])}">{e(pick(cat["names"], lang))}</a>')
-    return (f'<nav class="chips chips--{lang}" id="chips-{lang}" '
+    return (f'<nav class="chips" id="chips" '
             f'aria-label="{e(t("nav.label", lang))}">{"".join(chips)}</nav>')
 
 
 def cards_html(lang):
-    """Головна: розділи великими картками, як на вітрині.
-
-    Меню з десяти розділів гортати згори вниз довго, тож першим екраном іде
-    вибір розділу. Картки — звичайні посилання на розділи цієї ж сторінки:
-    меню лишається одним файлом, а перехід працює й без скрипта."""
+    """Головна: кухня, бар і кальяни великими картками."""
     cards = []
-    for cat in MENU["categories"]:
-        items = [i for i in MENU["items"] if i["category"] == cat["key"]]
+    for menu in MENUS:
+        items = menu_items(menu)
         if not items:
             continue
         cheapest = min(i["price_pence"] for i in items)
         cards.append(
-            f'<a class="card" href="#{lang}-cat-{cat["key"]}">'
-            f'<span class="card__name">{e(pick(cat["names"], lang))}</span>'
+            f'<a class="card" href="{page_file(menu["stem"], lang)}">'
+            f'<span class="card__name">{e(pick(menu["names"], lang))}</span>'
             f'<span class="card__meta">{e(count_text(len(items), lang))}'
             f' · {e(t("price.from", lang))} {e(money(cheapest))}</span>'
             '</a>')
@@ -259,17 +279,45 @@ def cards_html(lang):
             f'{"".join(cards)}</nav>')
 
 
-def page_html(lang):
-    sections = []
+def masthead(lang, title):
+    return f"""
+  <div class="masthead">
+    <p class="masthead__brand">{e(MENU['venue']['name'])}</p>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <h1 class="masthead__title">{e(title)}</h1>
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p class="masthead__sub">{e(t('brand.sub', lang))}</p>
+  </div>"""
 
-    for cat in MENU["categories"]:
+
+def foot(lang):
+    return f"""
+  <footer class="foot">
+    <div class="rule rule--diamond" aria-hidden="true"></div>
+    <p>{e(t('foot.age', lang))}</p>
+    <p class="foot__fine">{e(t('foot.prices', lang))}</p>
+  </footer>"""
+
+
+def home_body(lang):
+    return f"""
+{masthead(lang, t('menu.title', lang))}
+
+  <div class="home">
+    <p class="home__pick">{e(t('home.pick', lang))}</p>
+    {cards_html(lang)}
+  </div>
+{foot(lang)}"""
+
+
+def menu_body(lang, menu):
+    sections = []
+    for cat in menu_categories(menu):
         items = [i for i in MENU["items"] if i["category"] == cat["key"]]
         if not items:
             continue
-        cid = f"{lang}-cat-{cat['key']}"
-
         note = shared_note(items, lang)
-        body = [f'<section class="section" id="{cid}">',
+        body = [f'<section class="section" id="cat-{cat["key"]}">',
                 '<header class="section__head">'
                 f'<h2 class="section__title">{e(pick(cat["names"], lang))}</h2></header>']
         if note:
@@ -280,15 +328,7 @@ def page_html(lang):
         sections.append("".join(body))
 
     return f"""
-<div class="page page--{lang}" lang="{lang}">
-
-  <div class="masthead">
-    <p class="masthead__brand">{e(MENU['venue']['name'])}</p>
-    <div class="rule rule--diamond" aria-hidden="true"></div>
-    <h1 class="masthead__title">{e(t('menu.title', lang))}</h1>
-    <div class="rule rule--diamond" aria-hidden="true"></div>
-    <p class="masthead__sub">{e(t('brand.sub', lang))}</p>
-  </div>
+{masthead(lang, pick(menu['title'], lang))}
 
   <div class="toolbar js-only">
     <div class="field">
@@ -298,69 +338,60 @@ def page_html(lang):
     </div>
     <p class="toolbar__count"
        data-forms="{e('|'.join(UI['count.items'][lang]))}"
-       data-lang="{lang}">{e(count_text(len(MENU['items']), lang))}</p>
-  </div>
-
-  <div class="home">
-    <p class="home__pick">{e(t('home.pick', lang))}</p>
-    {cards_html(lang)}
+       data-lang="{lang}">{e(count_text(len(menu_items(menu)), lang))}</p>
   </div>
 
   <div class="menu">{''.join(sections)}</div>
   <p class="empty" hidden>{e(t('search.empty', lang))}</p>
-
-  <footer class="foot">
-    <div class="rule rule--diamond" aria-hidden="true"></div>
-    <p>{e(t('foot.age', lang))}</p>
-    <p class="foot__fine">{e(t('foot.prices', lang))}</p>
-  </footer>
-
-</div>"""
+{foot(lang)}"""
 
 
-def document():
-    radios = "".join(
-        f'<input class="langsel" type="radio" name="lang" id="lang-{code}" '
-        f'aria-label="{e(label)}"{" checked" if code == DEFAULT_LANG else ""}>'
-        for code, _, label in LANGS)
+def document(lang, stem, title, body, chips=""):
+    # Перемикач мов — посилання на ту саму сторінку іншою мовою.
     switches = "".join(
-        f'<label class="lang" for="lang-{code}" title="{e(label)}">{e(short)}</label>'
+        f'<a class="lang{" is-active" if code == lang else ""}" '
+        f'href="{page_file(stem, code)}" hreflang="{code}" '
+        f'title="{e(label)}" data-lang="{code}">{e(short)}</a>'
         for code, short, label in LANGS)
+    subbar = (f'<nav class="subbar" aria-label="{e(t("nav.label", lang))}">'
+              f'<div class="subbar__inner">{chips}</div></nav>') if chips else ""
+    alternates = "".join(
+        f'<link rel="alternate" hreflang="{code}" href="{page_file(stem, code)}">'
+        for code, _, _ in LANGS)
 
     return f"""<!doctype html>
-<html lang="{DEFAULT_LANG}">
+<html lang="{lang}" class="{'has-chips' if chips else 'no-chips'}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{e(MENU['venue']['name'])} · {e(t('menu.title', DEFAULT_LANG))}</title>
-<meta name="theme-color" content="#f7f3ea">
-<meta name="description" content="{e(MENU['venue']['name'])} — {e(t('menu.title', 'en'))}">
+<title>{e(MENU['venue']['name'])} · {e(title)}</title>
+<meta name="theme-color" content="#1d1a16">
+<meta name="description" content="{e(MENU['venue']['name'])} — {e(title)}">
+{alternates}
 <!-- Сторінку згенеровано: python3 tools/build.py. Правки — у data/ і assets/. -->
 <style>
 {CSS}
 </style>
 </head>
-<body>
-
-{radios}
+<body data-stem="{stem}" data-lang="{lang}">
 
 <!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
 <div class="topbar">
   <header class="site">
     <div class="site__bar">
-      <a class="mark" href="#top" title="{e(t('ui.top', DEFAULT_LANG))}"
-         aria-label="{e(t('ui.top', DEFAULT_LANG))}">{e(MENU['venue']['name'])}<small>LONDON</small></a>
-      <nav class="langs" aria-label="{e(t('lang.label', DEFAULT_LANG))}">{switches}</nav>
+      <a class="mark" href="{page_file('index', lang)}" title="{e(t('nav.back', lang))}"
+         aria-label="{e(t('nav.back', lang))}">{e(MENU['venue']['name'])}<small>LONDON</small></a>
+      <nav class="langs" aria-label="{e(t('lang.label', lang))}">{switches}</nav>
     </div>
   </header>
-  <nav class="subbar" aria-label="{e(t('nav.label', DEFAULT_LANG))}">
-    <div class="subbar__inner">{"".join(chips_html(code) for code, _, _ in LANGS)}</div>
-  </nav>
+  {subbar}
 </div>
 
 <main class="sheet" id="top">
   <div class="sheet__inner">
-{"".join(page_html(code) for code, _, _ in LANGS)}
+  <div class="page" lang="{lang}">
+{body}
+  </div>
   </div>
 </main>
 
@@ -373,11 +404,23 @@ def document():
 
 
 def main():
-    OUT.write_text(document(), encoding="utf-8")
-    size = OUT.stat().st_size / 1024
-    print(f"{OUT.relative_to(ROOT)}: {len(MENU['items'])} позицій, "
-          f"{len(MENU['categories'])} розділів, "
-          f"{len(LANGS)} мови, {size:.0f} KB")
+    written = []
+
+    for code, _, _ in LANGS:
+        written.append((page_file("index", code),
+                        document(code, "index", t("menu.title", code), home_body(code))))
+        for menu in MENUS:
+            written.append((page_file(menu["stem"], code),
+                            document(code, menu["stem"], pick(menu["title"], code),
+                                     menu_body(code, menu), chips_html(code, menu))))
+
+    for name, text in written:
+        path = ROOT / name
+        path.write_text(text, encoding="utf-8")
+        print(f"{name:<17} {path.stat().st_size / 1024:5.0f} KB")
+
+    print(f"разом: {len(written)} сторінок — {len(MENUS) + 1} × {len(LANGS)} мови; "
+          f"{len(MENU['items'])} позицій у {len(MENU['categories'])} розділах")
 
 
 if __name__ == "__main__":
