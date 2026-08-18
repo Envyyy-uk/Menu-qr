@@ -440,6 +440,71 @@
       "uk": "масло",
       "en": "butter",
       "ru": "масло"
+    },
+    "soda": {
+      "uk": "газована вода",
+      "en": "soda water",
+      "ru": "газированная вода"
+    },
+    "bourbon": {
+      "uk": "бурбон",
+      "en": "bourbon",
+      "ru": "бурбон"
+    },
+    "rye-whiskey": {
+      "uk": "житнє віскі",
+      "en": "rye whiskey",
+      "ru": "ржаной виски"
+    },
+    "angostura": {
+      "uk": "ангостура",
+      "en": "Angostura bitters",
+      "ru": "ангостура"
+    },
+    "cocktail-cherry": {
+      "uk": "коктейльна вишня",
+      "en": "cocktail cherry",
+      "ru": "коктейльная вишня"
+    },
+    "raspberry": {
+      "uk": "малина",
+      "en": "raspberry",
+      "ru": "малина"
+    },
+    "lemon": {
+      "uk": "лимон",
+      "en": "lemon",
+      "ru": "лимон"
+    },
+    "apple": {
+      "uk": "яблуко",
+      "en": "apple",
+      "ru": "яблоко"
+    },
+    "orgeat": {
+      "uk": "мигдалевий сироп оржа",
+      "en": "orgeat almond syrup",
+      "ru": "миндальный сироп оржа"
+    },
+    "curacao": {
+      "uk": "апельсиновий лікер Curaçao",
+      "en": "Curaçao orange liqueur",
+      "ru": "апельсиновый ликёр Curaçao"
+    },
+    "agave-syrup": {
+      "uk": "сироп агави",
+      "en": "agave syrup",
+      "ru": "сироп агавы"
+    },
+    "sugar-syrup": {
+      "uk": "цукровий сироп",
+      "en": "sugar syrup",
+      "ru": "сахарный сироп"
+    },
+    "salt": {
+      "uk": "сіль",
+      "en": "salt",
+      "ru": "соль"
     }
   },
   "items": [
@@ -1856,13 +1921,14 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Апероль, просекко, свіжий апельсин",
-        "en": "Aperol, prosecco, fresh orange",
-        "ru": "Апероль, просекко, свежий апельсин"
+        "uk": "Апероль 60 мл, просекко 100 мл, содова 20 мл, долька апельсина",
+        "en": "Aperol 60 ml, prosecco 100 ml, soda 20 ml, orange slice",
+        "ru": "Апероль 60 мл, просекко 100 мл, содовая 20 мл, долька апельсина"
       },
       "ing": [
         "aperol",
         "grapes",
+        "soda",
         "orange"
       ],
       "w": [
@@ -1882,14 +1948,16 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Маракуя, ванільна горілка, просекко",
-        "en": "Passion fruit, vanilla vodka, prosecco",
-        "ru": "Маракуйя, ванильная водка, просекко"
+        "uk": "Ванільна горілка 50 мл, лікер маракуї 20 мл, пюре маракуї 30 мл, цукровий сироп 10 мл, сік лайма 10 мл. Подається з шотом просекко",
+        "en": "Vanilla vodka 50 ml, passion fruit liqueur 20 ml, passion fruit purée 30 ml, sugar syrup 10 ml, lime juice 10 ml. Served with a shot of prosecco",
+        "ru": "Ванильная водка 50 мл, ликёр маракуйи 20 мл, пюре маракуйи 30 мл, сахарный сироп 10 мл, сок лайма 10 мл. Подаётся с шотом просекко"
       },
       "ing": [
-        "passion-fruit",
         "vodka",
         "vanilla",
+        "passion-fruit",
+        "sugar-syrup",
+        "lime",
         "grapes"
       ],
       "w": [
@@ -1911,9 +1979,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Джин, червоний вермут, Campari, апельсин",
-        "en": "Gin, vermouth rosso, Campari, orange",
-        "ru": "Джин, вермут россо, Campari, апельсин"
+        "uk": "Джин 30 мл, червоний вермут 30 мл, червоний біттер 30 мл, апельсинова цедра",
+        "en": "Gin 30 ml, red vermouth 30 ml, red bitter 30 ml, orange zest",
+        "ru": "Джин 30 мл, красный вермут 30 мл, красный биттер 30 мл, апельсиновая цедра"
       },
       "ing": [
         "gin",
@@ -2013,22 +2081,27 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Горілка, Cointreau, журавлина, лайм",
-        "en": "Vodka, Cointreau, cranberry juice, lime",
-        "ru": "Водка, Cointreau, клюква, лайм"
+        "uk": "Цитрусова горілка 40 мл, Cointreau 20 мл, журавлиновий сік 30 мл, сік лайма 15 мл, сироп маракуї або полуниці 10 мл",
+        "en": "Citrus vodka 40 ml, Cointreau 20 ml, cranberry juice 30 ml, lime juice 15 ml, passion fruit or strawberry syrup 10 ml",
+        "ru": "Цитрусовая водка 40 мл, Cointreau 20 мл, клюквенный сок 30 мл, сок лайма 15 мл, сироп маракуйи или клубники 10 мл"
       },
       "ing": [
         "vodka",
         "triple-sec",
         "cranberry",
-        "lime"
+        "lime",
+        "passion-fruit",
+        "strawberry"
       ],
       "w": [
         "age-check"
       ],
       "alt": [
+        "sexy cosmopolitan",
+        "космо",
+        "космополитен",
         "космополітен",
-        "космополитен"
+        "секси космополитен"
       ]
     },
     {
@@ -2040,14 +2113,16 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Текіла, трипл сек, лайм",
-        "en": "Tequila, triple sec, lime",
-        "ru": "Текила, трипл сек, лайм"
+        "uk": "Текіла Blanco 50 мл, Cointreau 25 мл, сік лайма 25 мл, сироп агави, сіль на кромці келиха",
+        "en": "Blanco tequila 50 ml, Cointreau 25 ml, lime juice 25 ml, agave syrup, salted rim",
+        "ru": "Текила Blanco 50 мл, Cointreau 25 мл, сок лайма 25 мл, сироп агавы, соль на кромке бокала"
       },
       "ing": [
         "tequila",
         "triple-sec",
-        "lime"
+        "lime",
+        "agave-syrup",
+        "salt"
       ],
       "w": [
         "age-check"
@@ -2124,6 +2199,100 @@
       ],
       "alt": [
         "маргарита"
+      ]
+    },
+    {
+      "key": "old-fashioned",
+      "name": "Old Fashioned",
+      "category": "cocktails",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Бурбон або житнє віскі 50 мл, кубик цукру, ангостура, апельсинова цедра, коктейльна вишня",
+        "en": "Bourbon or rye whiskey 50 ml, sugar cube, Angostura bitters, orange zest, cocktail cherry",
+        "ru": "Бурбон или ржаной виски 50 мл, кубик сахара, ангостура, апельсиновая цедра, коктейльная вишня"
+      },
+      "ing": [
+        "bourbon",
+        "rye-whiskey",
+        "sugar",
+        "angostura",
+        "orange",
+        "cocktail-cherry"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "олд фешн",
+        "олд фешнд",
+        "олд фэшн",
+        "олд фэшнд",
+        "виски",
+        "віскі",
+        "бурбон"
+      ]
+    },
+    {
+      "key": "mai-tai",
+      "name": "Mai Tai",
+      "category": "cocktails",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Витриманий ром 30 мл, світлий ром 30 мл, лікер Curaçao 15 мл, мигдалевий сироп оржа 15 мл, сік лайма 30 мл, цукровий сироп, мʼята",
+        "en": "Aged rum 30 ml, light rum 30 ml, Curaçao liqueur 15 ml, orgeat almond syrup 15 ml, lime juice 30 ml, sugar syrup, mint",
+        "ru": "Выдержанный ром 30 мл, светлый ром 30 мл, ликёр Curaçao 15 мл, миндальный сироп оржа 15 мл, сок лайма 30 мл, сахарный сироп, мята"
+      },
+      "ing": [
+        "rum",
+        "curacao",
+        "orgeat",
+        "lime",
+        "sugar-syrup",
+        "mint"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "май тай",
+        "маи таи",
+        "ром"
+      ]
+    },
+    {
+      "key": "raspberry-journey",
+      "name": "Raspberry Journey",
+      "category": "cocktails",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Горілка 40 мл, малиновий сироп 20 мл, лимонний сік 15 мл, содова 120 мл, яблуко, малина, дроблений лід",
+        "en": "Vodka 40 ml, raspberry syrup 20 ml, lemon juice 15 ml, soda 120 ml, apple, raspberry, crushed ice",
+        "ru": "Водка 40 мл, малиновый сироп 20 мл, лимонный сок 15 мл, содовая 120 мл, яблоко, малина, дроблёный лёд"
+      },
+      "ing": [
+        "vodka",
+        "raspberry",
+        "lemon",
+        "soda",
+        "apple"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "малиновий",
+        "малиновый",
+        "распберри",
+        "малина"
       ]
     },
     {

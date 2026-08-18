@@ -141,14 +141,44 @@ def words(text):
     return {w for w in WORD.split((text or "").lower()) if len(w) > 2}
 
 
+def same_stem(a, b):
+    """«журавлина» і «журавлиновий» — те саме; «вино» і «виноград» — ні.
+
+    Відмінок міняє хвіст слова, а не корінь, тож звіряємо спільний початок і
+    вимагаємо, щоб слова були близької довжини: інакше під правило потрапляє
+    будь-яке слово, що просто починається так само.
+    """
+    common = 0
+    for x, y in zip(a, b):
+        if x != y:
+            break
+        common += 1
+    gap = abs(len(a) - len(b))
+    return (common >= 5 and gap <= 3) or (common >= 4 and gap <= 1)
+
+
+def named_in(desc_words, phrase):
+    """Чи названий складник в описі. Порівнюємо по початку слова, бо в описі
+    воно стоїть в іншій формі: «апельсинова цедра» — це той самий апельсин."""
+    for word in words(phrase):
+        for seen in desc_words:
+            if seen == word or same_stem(seen, word):
+                return True
+    return False
+
+
 def ingredients_repeat_desc(item):
+    """Рахуємо складники, а не слова: «горький ликёр Campari» — це один
+    складник, названий в описі словом «биттер», а не три різні промахи."""
     keys = item.get("ing") or []
     if not keys:
         return True
     covers = []
     for code, _, _ in LANGS:
-        named = words(", ".join(pick(MENU["lexicon"].get(k), code) or k for k in keys))
-        covers.append(len(named & words(split_desc(item, code)[0])) / len(named) if named else 1)
+        desc_words = words(split_desc(item, code)[0])
+        named = sum(1 for k in keys
+                    if named_in(desc_words, pick(MENU["lexicon"].get(k), code) or k))
+        covers.append(named / len(keys))
     return sum(covers) / len(covers) >= 0.5
 
 
