@@ -207,7 +207,12 @@ def item_html(item, lang, note):
 
     for opt in item.get("options") or []:
         visible, hidden = split_choices(opt)
-        line = (f'<span class="item__optLabel">{e(t(opt["label"], lang))}:</span> '
+        # Доплата за групу варіантів — біля її назви, а не окремим рядком:
+        # «Фруктова чаша +£10» читається як одне правило, а не як ще одна
+        # позиція меню.
+        extra = (f' <span class="item__add">+{e(money(opt["add_pence"]))}</span>'
+                 if opt.get("add_pence") else "")
+        line = (f'<span class="item__optLabel">{e(t(opt["label"], lang))}{extra}:</span> '
                 + choices_html(visible, lang))
         if hidden:
             line += ('<details class="more">'
