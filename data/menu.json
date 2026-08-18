@@ -2007,9 +2007,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Ром, цукор, лайм, мʼята — освіжний, мʼятний",
-        "en": "Rum, sugar, lime, mint — fresh and minty",
-        "ru": "Ром, сахар, лайм, мята — освежающий, мятный"
+        "uk": "Ром, цукор, лайм, мʼята — освіжний, мʼятний · Mojito й Margarita — на вибір: класичний, полуниця, малина, маракуя, манго",
+        "en": "Rum, sugar, lime, mint — fresh and minty · Mojito and Margarita come in classic, strawberry, raspberry, passion or mango",
+        "ru": "Ром, сахар, лайм, мята — освежающий, мятный · Mojito и Margarita — на выбор: классический, клубника, малина, маракуйя, манго"
       },
       "ing": [
         "rum",
@@ -2019,54 +2019,6 @@
       ],
       "w": [
         "age-check"
-      ],
-      "options": [
-        {
-          "key": "flavour",
-          "label": "opt.flavour",
-          "choices": [
-            {
-              "key": "classic",
-              "name": {
-                "uk": "Класичний",
-                "en": "Classic",
-                "ru": "Классический"
-              }
-            },
-            {
-              "key": "strawberry",
-              "name": {
-                "uk": "Полуниця",
-                "en": "Strawberry",
-                "ru": "Клубника"
-              }
-            },
-            {
-              "key": "raspberry",
-              "name": {
-                "uk": "Малина",
-                "en": "Raspberry",
-                "ru": "Малина"
-              }
-            },
-            {
-              "key": "passion",
-              "name": {
-                "uk": "Маракуя",
-                "en": "Passion",
-                "ru": "Маракуйя"
-              }
-            },
-            {
-              "key": "mango",
-              "name": {
-                "uk": "Манго",
-                "en": "Mango",
-                "ru": "Манго"
-              }
-            }
-          ]
-        }
       ],
       "alt": [
         "мохіто",
@@ -2115,9 +2067,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Текіла, Cointreau, лайм, сіль на кромці — кислий, з солоним краєм",
-        "en": "Tequila, Cointreau, lime, salted rim — sour, with a salty edge",
-        "ru": "Текила, Cointreau, лайм, соль на кромке — кислый, с солёным краем"
+        "uk": "Текіла, Cointreau, лайм, сіль на кромці — кислий, з солоним краєм · Mojito й Margarita — на вибір: класичний, полуниця, малина, маракуя, манго",
+        "en": "Tequila, Cointreau, lime, salted rim — sour, with a salty edge · Mojito and Margarita come in classic, strawberry, raspberry, passion or mango",
+        "ru": "Текила, Cointreau, лайм, соль на кромке — кислый, с солёным краем · Mojito и Margarita — на выбор: классический, клубника, малина, маракуйя, манго"
       },
       "ing": [
         "tequila",
@@ -2128,76 +2080,6 @@
       ],
       "w": [
         "age-check"
-      ],
-      "options": [
-        {
-          "key": "serve",
-          "label": "opt.serve",
-          "choices": [
-            {
-              "key": "martini",
-              "name": {
-                "uk": "Келих мартіні",
-                "en": "Martini",
-                "ru": "Бокал мартини"
-              }
-            },
-            {
-              "key": "crushed",
-              "name": {
-                "uk": "Дроблений лід",
-                "en": "Crushed Ice",
-                "ru": "Дроблёный лёд"
-              }
-            }
-          ]
-        },
-        {
-          "key": "flavour",
-          "label": "opt.flavour",
-          "choices": [
-            {
-              "key": "classic",
-              "name": {
-                "uk": "Класичний",
-                "en": "Classic",
-                "ru": "Классический"
-              }
-            },
-            {
-              "key": "strawberry",
-              "name": {
-                "uk": "Полуниця",
-                "en": "Strawberry",
-                "ru": "Клубника"
-              }
-            },
-            {
-              "key": "raspberry",
-              "name": {
-                "uk": "Малина",
-                "en": "Raspberry",
-                "ru": "Малина"
-              }
-            },
-            {
-              "key": "passion",
-              "name": {
-                "uk": "Маракуя",
-                "en": "Passion",
-                "ru": "Маракуйя"
-              }
-            },
-            {
-              "key": "mango",
-              "name": {
-                "uk": "Манго",
-                "en": "Mango",
-                "ru": "Манго"
-              }
-            }
-          ]
-        }
       ],
       "alt": [
         "маргарита"
