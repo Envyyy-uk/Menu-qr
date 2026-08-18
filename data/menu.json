@@ -1941,7 +1941,7 @@
     },
     {
       "key": "porn-star-martini",
-      "name": "Porn Star Martini",
+      "name": "Porn Star",
       "category": "cocktails",
       "station": "bar",
       "price_pence": 1600,
@@ -1964,10 +1964,11 @@
         "age-check"
       ],
       "alt": [
-        "порн стар мартіні",
-        "порн стар мартини",
+        "porn star martini",
+        "мартини",
         "мартіні",
-        "мартини"
+        "порн стар мартини",
+        "порн стар мартіні"
       ]
     },
     {
@@ -2074,7 +2075,7 @@
     },
     {
       "key": "cosmopolitan",
-      "name": "Cosmopolitan",
+      "name": "Sexy Cosmopolitan",
       "category": "cocktails",
       "station": "bar",
       "price_pence": 1600,
@@ -2097,6 +2098,7 @@
         "age-check"
       ],
       "alt": [
+        "cosmopolitan",
         "sexy cosmopolitan",
         "космо",
         "космополитен",
