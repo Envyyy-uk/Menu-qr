@@ -2279,9 +2279,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Кальян",
-        "en": "Hookah",
-        "ru": "Кальян"
+        "uk": "Ціна однакова на будь-який кальян. Смаки тютюну запитуйте в кальянного майстра",
+        "en": "One price for any hookah. Ask your shisha master about the available tobacco flavours",
+        "ru": "Цена одинаковая на любой кальян. Вкусы табака спрашивайте у кальянного мастера"
       },
       "ing": [
         "tobacco",
@@ -2293,7 +2293,121 @@
       "alt": [
         "кальян",
         "кальяни",
-        "кальяны"
+        "кальяны",
+        "шиша",
+        "shisha",
+        "дарк ліф",
+        "дарк лиф",
+        "сигарний лист",
+        "сигарный лист",
+        "фруктова чаша",
+        "фруктовая чаша",
+        "рехед",
+        "ре-хед"
+      ],
+      "options": [
+        {
+          "key": "leaf",
+          "label": "opt.leaf",
+          "choices": [
+            {
+              "key": "dark-leaf",
+              "name": "Dark Leaf"
+            },
+            {
+              "key": "cigar-leaf",
+              "name": "Cigar Leaf"
+            }
+          ]
+        },
+        {
+          "key": "dark-leaf",
+          "label": "opt.darkLeaf",
+          "choices": [
+            {
+              "key": "musthave",
+              "name": "MustHave"
+            },
+            {
+              "key": "snobless",
+              "name": "Snobless"
+            },
+            {
+              "key": "darkside",
+              "name": "Darkside"
+            },
+            {
+              "key": "deus-duft",
+              "name": "Deus Duft"
+            },
+            {
+              "key": "blackburn",
+              "name": "Blackburn"
+            },
+            {
+              "key": "tangiers",
+              "name": "Tangiers"
+            },
+            {
+              "key": "overdose",
+              "name": "Overdose"
+            }
+          ]
+        },
+        {
+          "key": "cigar-leaf",
+          "label": "opt.cigarLeaf",
+          "choices": [
+            {
+              "key": "bonche",
+              "name": "Bonche"
+            },
+            {
+              "key": "kraken",
+              "name": "Kraken"
+            },
+            {
+              "key": "satyr",
+              "name": "Satyr"
+            }
+          ]
+        },
+        {
+          "key": "fruit-head",
+          "label": "opt.fruitHead",
+          "choices": [
+            {
+              "key": "apple",
+              "name": "Apple"
+            },
+            {
+              "key": "lemon",
+              "name": "Lemon"
+            },
+            {
+              "key": "orange",
+              "name": "Orange"
+            },
+            {
+              "key": "grapefruit",
+              "name": "Grapefruit"
+            },
+            {
+              "key": "pineapple",
+              "name": "Pineapple"
+            }
+          ]
+        },
+        {
+          "key": "extra",
+          "label": "opt.extra",
+          "choices": [
+            {
+              "key": "re-head",
+              "name": "Re-head"
+            }
+          ]
+        }
       ]
     }
   ]

@@ -125,5 +125,30 @@
     "uk": "Ціни у фунтах стерлінгів. Меню довідкове — замовлення приймає офіціант.",
     "en": "Prices are in pounds sterling. The menu is for reference — your server takes the order.",
     "ru": "Цены в фунтах стерлингов. Меню справочное — заказ принимает официант."
+  },
+  "opt.leaf": {
+    "uk": "Лист",
+    "en": "Leaf",
+    "ru": "Лист"
+  },
+  "opt.darkLeaf": {
+    "uk": "Дарк-ліф",
+    "en": "Dark leaf",
+    "ru": "Дарк-лиф"
+  },
+  "opt.cigarLeaf": {
+    "uk": "Сигарний лист",
+    "en": "Cigar leaf",
+    "ru": "Сигарный лист"
+  },
+  "opt.fruitHead": {
+    "uk": "Фруктова чаша",
+    "en": "Fruit head",
+    "ru": "Фруктовая чаша"
+  },
+  "opt.extra": {
+    "uk": "Додатково",
+    "en": "Extra",
+    "ru": "Дополнительно"
   }
 }

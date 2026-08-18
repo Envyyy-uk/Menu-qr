@@ -268,12 +268,15 @@ def cards_html(lang):
         items = menu_items(menu)
         if not items:
             continue
-        cheapest = min(i["price_pence"] for i in items)
+        prices = [i["price_pence"] for i in items]
+        # «від £50» там, де ціна одна на все меню, — обіцянка вибору, якого нема
+        price = (f'{e(t("price.from", lang))} {e(money(min(prices)))}'
+                 if min(prices) != max(prices) else e(money(prices[0])))
         cards.append(
             f'<a class="card" href="{page_file(menu["stem"], lang)}">'
             f'<span class="card__name">{e(pick(menu["names"], lang))}</span>'
             f'<span class="card__meta">{e(count_text(len(items), lang))}'
-            f' · {e(t("price.from", lang))} {e(money(cheapest))}</span>'
+            f' · {price}</span>'
             '</a>')
     return (f'<nav class="cards" aria-label="{e(t("home.pick", lang))}">'
             f'{"".join(cards)}</nav>')
