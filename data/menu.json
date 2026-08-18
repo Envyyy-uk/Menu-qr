@@ -761,15 +761,27 @@
           "choices": [
             {
               "key": "chocolate",
-              "name": "Chocolate"
+              "name": {
+                "uk": "Шоколадне",
+                "en": "Chocolate",
+                "ru": "Шоколадное"
+              }
             },
             {
               "key": "strawberry",
-              "name": "Strawberry"
+              "name": {
+                "uk": "Полуниця",
+                "en": "Strawberry",
+                "ru": "Клубника"
+              }
             },
             {
               "key": "vanilla",
-              "name": "Vanilla"
+              "name": {
+                "uk": "Ванільне",
+                "en": "Vanilla",
+                "ru": "Ванильное"
+              }
             }
           ]
         }
@@ -806,37 +818,65 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 2600
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 3900
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 5200
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 6500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 7800
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 23000
             }
           ]
@@ -887,7 +927,11 @@
           "choices": [
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 26000
             }
           ]
@@ -939,42 +983,74 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 2600
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 3900
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 5200
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 6500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 7800
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 23000
             },
             {
               "key": "premium",
-              "name": "Bottle (Premium)",
+              "name": {
+                "uk": "Пляшка (преміум)",
+                "en": "Bottle (Premium)",
+                "ru": "Бутылка (премиум)"
+              },
               "price_pence": 26000
             }
           ]
@@ -1034,42 +1110,74 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 2600
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 3900
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 5200
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 6500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 7800
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 23000
             },
             {
               "key": "premium",
-              "name": "Bottle (Premium)",
+              "name": {
+                "uk": "Пляшка (преміум)",
+                "en": "Bottle (Premium)",
+                "ru": "Бутылка (премиум)"
+              },
               "price_pence": 26000
             }
           ]
@@ -1106,42 +1214,74 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 2600
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 3900
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 5200
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 6500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 7800
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 23000
             },
             {
               "key": "premium",
-              "name": "Bottle (Premium)",
+              "name": {
+                "uk": "Пляшка (преміум)",
+                "en": "Bottle (Premium)",
+                "ru": "Бутылка (премиум)"
+              },
               "price_pence": 26000
             }
           ]
@@ -1191,37 +1331,65 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 2600
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 3900
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 5200
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 6500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 7800
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 20000
             }
           ]
@@ -1257,37 +1425,65 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1600
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 3200
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 4800
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 6400
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 8000
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 9600
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 27000
             }
           ]
@@ -1324,37 +1520,65 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 2600
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 3900
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 5200
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 6500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 7800
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 23000
             }
           ]
@@ -1394,37 +1618,65 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 2600
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 3900
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 5200
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 6500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 7800
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 23000
             }
           ]
@@ -1484,37 +1736,65 @@
           "choices": [
             {
               "key": "ml50",
-              "name": "50 ml",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
               "price_pence": 900
             },
             {
               "key": "ml100",
-              "name": "100 ml",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
               "price_pence": 1800
             },
             {
               "key": "ml150",
-              "name": "150 ml",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
               "price_pence": 2700
             },
             {
               "key": "ml200",
-              "name": "200 ml",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
               "price_pence": 3600
             },
             {
               "key": "ml250",
-              "name": "250 ml",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
               "price_pence": 4500
             },
             {
               "key": "ml300",
-              "name": "300 ml",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
               "price_pence": 5400
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 8000
             }
           ]
@@ -1525,23 +1805,43 @@
           "choices": [
             {
               "key": "citrus",
-              "name": "Citrus"
+              "name": {
+                "uk": "Цитрус",
+                "en": "Citrus",
+                "ru": "Цитрус"
+              }
             },
             {
               "key": "cherry",
-              "name": "Cherry"
+              "name": {
+                "uk": "Вишня",
+                "en": "Cherry",
+                "ru": "Вишня"
+              }
             },
             {
               "key": "strawberry",
-              "name": "Strawberry"
+              "name": {
+                "uk": "Полуниця",
+                "en": "Strawberry",
+                "ru": "Клубника"
+              }
             },
             {
               "key": "raspberry",
-              "name": "Raspberry"
+              "name": {
+                "uk": "Малина",
+                "en": "Raspberry",
+                "ru": "Малина"
+              }
             },
             {
               "key": "black-currant",
-              "name": "Black Currant"
+              "name": {
+                "uk": "Чорна смородина",
+                "en": "Black Currant",
+                "ru": "Чёрная смородина"
+              }
             }
           ]
         }
@@ -1658,23 +1958,43 @@
           "choices": [
             {
               "key": "classic",
-              "name": "Classic"
+              "name": {
+                "uk": "Класичний",
+                "en": "Classic",
+                "ru": "Классический"
+              }
             },
             {
               "key": "strawberry",
-              "name": "Strawberry"
+              "name": {
+                "uk": "Полуниця",
+                "en": "Strawberry",
+                "ru": "Клубника"
+              }
             },
             {
               "key": "raspberry",
-              "name": "Raspberry"
+              "name": {
+                "uk": "Малина",
+                "en": "Raspberry",
+                "ru": "Малина"
+              }
             },
             {
               "key": "passion",
-              "name": "Passion"
+              "name": {
+                "uk": "Маракуя",
+                "en": "Passion",
+                "ru": "Маракуйя"
+              }
             },
             {
               "key": "mango",
-              "name": "Mango"
+              "name": {
+                "uk": "Манго",
+                "en": "Mango",
+                "ru": "Манго"
+              }
             }
           ]
         }
@@ -1739,11 +2059,19 @@
           "choices": [
             {
               "key": "martini",
-              "name": "Martini"
+              "name": {
+                "uk": "Келих мартіні",
+                "en": "Martini",
+                "ru": "Бокал мартини"
+              }
             },
             {
               "key": "crushed",
-              "name": "Crushed Ice"
+              "name": {
+                "uk": "Дроблений лід",
+                "en": "Crushed Ice",
+                "ru": "Дроблёный лёд"
+              }
             }
           ]
         },
@@ -1753,23 +2081,43 @@
           "choices": [
             {
               "key": "classic",
-              "name": "Classic"
+              "name": {
+                "uk": "Класичний",
+                "en": "Classic",
+                "ru": "Классический"
+              }
             },
             {
               "key": "strawberry",
-              "name": "Strawberry"
+              "name": {
+                "uk": "Полуниця",
+                "en": "Strawberry",
+                "ru": "Клубника"
+              }
             },
             {
               "key": "raspberry",
-              "name": "Raspberry"
+              "name": {
+                "uk": "Малина",
+                "en": "Raspberry",
+                "ru": "Малина"
+              }
             },
             {
               "key": "passion",
-              "name": "Passion"
+              "name": {
+                "uk": "Маракуя",
+                "en": "Passion",
+                "ru": "Маракуйя"
+              }
             },
             {
               "key": "mango",
-              "name": "Mango"
+              "name": {
+                "uk": "Манго",
+                "en": "Mango",
+                "ru": "Манго"
+              }
             }
           ]
         }
@@ -1841,15 +2189,27 @@
             },
             {
               "key": "orange",
-              "name": "Orange Juice"
+              "name": {
+                "uk": "Апельсиновий сік",
+                "en": "Orange Juice",
+                "ru": "Апельсиновый сок"
+              }
             },
             {
               "key": "apple",
-              "name": "Apple Juice"
+              "name": {
+                "uk": "Яблучний сік",
+                "en": "Apple Juice",
+                "ru": "Яблочный сок"
+              }
             },
             {
               "key": "cranberry",
-              "name": "Cranberry Juice"
+              "name": {
+                "uk": "Журавлиновий сік",
+                "en": "Cranberry Juice",
+                "ru": "Клюквенный сок"
+              }
             },
             {
               "key": "red-bull",
@@ -1885,12 +2245,20 @@
           "choices": [
             {
               "key": "glass",
-              "name": "Glass 175 ml",
+              "name": {
+                "uk": "Келих 175 мл",
+                "en": "Glass 175 ml",
+                "ru": "Бокал 175 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 8000
             }
           ]
@@ -1923,12 +2291,20 @@
           "choices": [
             {
               "key": "glass",
-              "name": "Glass 175 ml",
+              "name": {
+                "uk": "Келих 175 мл",
+                "en": "Glass 175 ml",
+                "ru": "Бокал 175 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 8000
             }
           ]
@@ -1961,12 +2337,20 @@
           "choices": [
             {
               "key": "glass",
-              "name": "Glass 175 ml",
+              "name": {
+                "uk": "Келих 175 мл",
+                "en": "Glass 175 ml",
+                "ru": "Бокал 175 мл"
+              },
               "price_pence": 1300
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 8000
             }
           ]
@@ -1999,12 +2383,20 @@
           "choices": [
             {
               "key": "glass",
-              "name": "Glass 175 ml",
+              "name": {
+                "uk": "Келих 175 мл",
+                "en": "Glass 175 ml",
+                "ru": "Бокал 175 мл"
+              },
               "price_pence": 2500
             },
             {
               "key": "bottle",
-              "name": "Bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
               "price_pence": 20000
             }
           ]
@@ -2015,11 +2407,19 @@
           "choices": [
             {
               "key": "classic",
-              "name": "Classic"
+              "name": {
+                "uk": "Класичне",
+                "en": "Classic",
+                "ru": "Классическое"
+              }
             },
             {
               "key": "rose",
-              "name": "Rosé"
+              "name": {
+                "uk": "Рожеве",
+                "en": "Rosé",
+                "ru": "Розовое"
+              }
             }
           ]
         }
@@ -2090,15 +2490,27 @@
           "choices": [
             {
               "key": "green",
-              "name": "Green"
+              "name": {
+                "uk": "Зелений",
+                "en": "Green",
+                "ru": "Зелёный"
+              }
             },
             {
               "key": "black",
-              "name": "Black"
+              "name": {
+                "uk": "Чорний",
+                "en": "Black",
+                "ru": "Чёрный"
+              }
             },
             {
               "key": "camomile",
-              "name": "Camomile"
+              "name": {
+                "uk": "Ромашковий",
+                "en": "Camomile",
+                "ru": "Ромашковый"
+              }
             }
           ]
         }
@@ -2160,15 +2572,27 @@
           "choices": [
             {
               "key": "milk",
-              "name": "Milk"
+              "name": {
+                "uk": "Коровʼяче",
+                "en": "Milk",
+                "ru": "Коровье"
+              }
             },
             {
               "key": "almond",
-              "name": "Almond"
+              "name": {
+                "uk": "Мигдалеве",
+                "en": "Almond",
+                "ru": "Миндальное"
+              }
             },
             {
               "key": "soya",
-              "name": "Soya"
+              "name": {
+                "uk": "Соєве",
+                "en": "Soya",
+                "ru": "Соевое"
+              }
             }
           ]
         }
@@ -2230,15 +2654,27 @@
           "choices": [
             {
               "key": "cappuccino",
-              "name": "Cappuccino"
+              "name": {
+                "uk": "Капучино",
+                "en": "Cappuccino",
+                "ru": "Капучино"
+              }
             },
             {
               "key": "latte",
-              "name": "Latte"
+              "name": {
+                "uk": "Лате",
+                "en": "Latte",
+                "ru": "Латте"
+              }
             },
             {
               "key": "mocha",
-              "name": "Mocha"
+              "name": {
+                "uk": "Мокко",
+                "en": "Mocha",
+                "ru": "Мокко"
+              }
             }
           ]
         },
@@ -2248,15 +2684,27 @@
           "choices": [
             {
               "key": "milk",
-              "name": "Milk"
+              "name": {
+                "uk": "Коровʼяче",
+                "en": "Milk",
+                "ru": "Коровье"
+              }
             },
             {
               "key": "almond",
-              "name": "Almond"
+              "name": {
+                "uk": "Мигдалеве",
+                "en": "Almond",
+                "ru": "Миндальное"
+              }
             },
             {
               "key": "soya",
-              "name": "Soya"
+              "name": {
+                "uk": "Соєве",
+                "en": "Soya",
+                "ru": "Соевое"
+              }
             }
           ]
         }
@@ -2312,11 +2760,19 @@
           "choices": [
             {
               "key": "dark-leaf",
-              "name": "Dark Leaf"
+              "name": {
+                "uk": "Дарк-ліф",
+                "en": "Dark Leaf",
+                "ru": "Дарк-лиф"
+              }
             },
             {
               "key": "cigar-leaf",
-              "name": "Cigar Leaf"
+              "name": {
+                "uk": "Сигарний лист",
+                "en": "Cigar Leaf",
+                "ru": "Сигарный лист"
+              }
             }
           ]
         },
@@ -2378,23 +2834,43 @@
           "choices": [
             {
               "key": "apple",
-              "name": "Apple"
+              "name": {
+                "uk": "Яблуко",
+                "en": "Apple",
+                "ru": "Яблоко"
+              }
             },
             {
               "key": "lemon",
-              "name": "Lemon"
+              "name": {
+                "uk": "Лимон",
+                "en": "Lemon",
+                "ru": "Лимон"
+              }
             },
             {
               "key": "orange",
-              "name": "Orange"
+              "name": {
+                "uk": "Апельсин",
+                "en": "Orange",
+                "ru": "Апельсин"
+              }
             },
             {
               "key": "grapefruit",
-              "name": "Grapefruit"
+              "name": {
+                "uk": "Грейпфрут",
+                "en": "Grapefruit",
+                "ru": "Грейпфрут"
+              }
             },
             {
               "key": "pineapple",
-              "name": "Pineapple"
+              "name": {
+                "uk": "Ананас",
+                "en": "Pineapple",
+                "ru": "Ананас"
+              }
             }
           ]
         },
@@ -2404,7 +2880,11 @@
           "choices": [
             {
               "key": "re-head",
-              "name": "Re-head"
+              "name": {
+                "uk": "Заміна чаші",
+                "en": "Re-head",
+                "ru": "Замена чаши"
+              }
             }
           ]
         }

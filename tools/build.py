@@ -95,17 +95,32 @@ def split_choices(opt):
     choices = opt.get("choices") or []
     if opt.get("key") != "size":
         return choices, []
-    steps = [c for c in choices if ML_STEP.match(c["name"])]
+    steps = [c for c in choices if ML_STEP.match(choice_name(c, "en"))]
     if len(steps) < 3:
         return choices, []
-    rest = [c for c in choices if not ML_STEP.match(c["name"])]
+    rest = [c for c in choices if not ML_STEP.match(choice_name(c, "en"))]
     return [steps[0]] + rest, steps[1:]
 
 
-def choices_html(choices):
+# Назва варіанта буває двох родів. Бренд лишається як надруковано — гість
+# замовляє «Tangiers», а не «тангірс». Звичайне слово — смак, обʼєм, молоко —
+# перекладається: у меню трьома мовами «Strawberry» посеред російського рядка
+# читається як недоробка.
+def choice_name(choice, lang):
+    name = choice["name"]
+    return name if isinstance(name, str) else pick(name, lang)
+
+
+def choice_names(choice):
+    """Усі написання варіанта — для пошуку."""
+    name = choice["name"]
+    return [name] if isinstance(name, str) else list(name.values())
+
+
+def choices_html(choices, lang):
     parts = []
     for choice in choices:
-        chip = f'<span class="choice__name">{e(choice["name"])}</span>'
+        chip = f'<span class="choice__name">{e(choice_name(choice, lang))}</span>'
         if choice.get("price_pence"):
             chip += f' <span class="choice__price">{e(money(choice["price_pence"]))}</span>'
         parts.append(f'<span class="choice">{chip}</span>')
@@ -153,7 +168,8 @@ def search_key(item):
         parts += list(word.values()) if word else [key]
     for opt in item.get("options") or []:
         parts += [t(opt["label"], code) for code, _, _ in LANGS]
-        parts += [c["name"] for c in opt.get("choices") or []]
+        for choice in opt.get("choices") or []:
+            parts += choice_names(choice)
     for key in item.get("add") or []:
         addon = MENU["addons"].get(key)
         if addon:
@@ -192,11 +208,11 @@ def item_html(item, lang, note):
     for opt in item.get("options") or []:
         visible, hidden = split_choices(opt)
         line = (f'<span class="item__optLabel">{e(t(opt["label"], lang))}:</span> '
-                + choices_html(visible))
+                + choices_html(visible, lang))
         if hidden:
             line += ('<details class="more">'
                      f'<summary class="more__summary">{e(t("opt.allSizes", lang))}</summary>'
-                     f'<div class="more__list">{choices_html(opt["choices"])}</div>'
+                     f'<div class="more__list">{choices_html(opt["choices"], lang)}</div>'
                      '</details>')
         out.append(f'<div class="item__opt">{line}</div>')
 
