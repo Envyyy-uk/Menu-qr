@@ -1941,7 +1941,7 @@
     },
     {
       "key": "porn-star-martini",
-      "name": "Porn Star",
+      "name": "Porn Star Martini",
       "category": "cocktails",
       "station": "bar",
       "price_pence": 1600,
@@ -1964,9 +1964,11 @@
         "age-check"
       ],
       "alt": [
+        "porn star",
         "porn star martini",
         "мартини",
         "мартіні",
+        "порн стар",
         "порн стар мартини",
         "порн стар мартіні"
       ]
