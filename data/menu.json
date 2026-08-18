@@ -1921,9 +1921,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Апероль 60 мл, просекко 100 мл, содова 20 мл, долька апельсина",
-        "en": "Aperol 60 ml, prosecco 100 ml, soda 20 ml, orange slice",
-        "ru": "Апероль 60 мл, просекко 100 мл, содовая 20 мл, долька апельсина"
+        "uk": "Апероль, просекко, содова, долька апельсина — легкий, гірко-цитрусовий",
+        "en": "Aperol, prosecco, soda, orange slice — light, bittersweet citrus",
+        "ru": "Апероль, просекко, содовая, долька апельсина — лёгкий, горько-цитрусовый"
       },
       "ing": [
         "aperol",
@@ -1948,9 +1948,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Ванільна горілка 50 мл, лікер маракуї 20 мл, пюре маракуї 30 мл, цукровий сироп 10 мл, сік лайма 10 мл. Подається з шотом просекко",
-        "en": "Vanilla vodka 50 ml, passion fruit liqueur 20 ml, passion fruit purée 30 ml, sugar syrup 10 ml, lime juice 10 ml. Served with a shot of prosecco",
-        "ru": "Ванильная водка 50 мл, ликёр маракуйи 20 мл, пюре маракуйи 30 мл, сахарный сироп 10 мл, сок лайма 10 мл. Подаётся с шотом просекко"
+        "uk": "Ванільна горілка, маракуя, лайм; шот просекко окремо — фруктовий, солодко-кислий",
+        "en": "Vanilla vodka, passion fruit, lime; prosecco shot on the side — fruity, sweet and sour",
+        "ru": "Ванильная водка, маракуйя, лайм; шот просекко отдельно — фруктовый, сладко-кислый"
       },
       "ing": [
         "vodka",
@@ -1979,9 +1979,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Джин 30 мл, червоний вермут 30 мл, червоний біттер 30 мл, апельсинова цедра",
-        "en": "Gin 30 ml, red vermouth 30 ml, red bitter 30 ml, orange zest",
-        "ru": "Джин 30 мл, красный вермут 30 мл, красный биттер 30 мл, апельсиновая цедра"
+        "uk": "Джин, червоний вермут, червоний біттер, апельсинова цедра — міцний, гіркий",
+        "en": "Gin, red vermouth, red bitter, orange zest — strong and bitter",
+        "ru": "Джин, красный вермут, красный биттер, апельсиновая цедра — крепкий, горький"
       },
       "ing": [
         "gin",
@@ -2006,9 +2006,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Ром, цукор, лайм, мʼята",
-        "en": "Rum, sugar, lime, mint",
-        "ru": "Ром, сахар, лайм, мята"
+        "uk": "Ром, цукор, лайм, мʼята — освіжний, мʼятний",
+        "en": "Rum, sugar, lime, mint — fresh and minty",
+        "ru": "Ром, сахар, лайм, мята — освежающий, мятный"
       },
       "ing": [
         "rum",
@@ -2081,9 +2081,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Цитрусова горілка 40 мл, Cointreau 20 мл, журавлиновий сік 30 мл, сік лайма 15 мл, сироп маракуї або полуниці 10 мл",
-        "en": "Citrus vodka 40 ml, Cointreau 20 ml, cranberry juice 30 ml, lime juice 15 ml, passion fruit or strawberry syrup 10 ml",
-        "ru": "Цитрусовая водка 40 мл, Cointreau 20 мл, клюквенный сок 30 мл, сок лайма 15 мл, сироп маракуйи или клубники 10 мл"
+        "uk": "Цитрусова горілка, Cointreau, журавлина, лайм — ягідно-цитрусовий, кислуватий",
+        "en": "Citrus vodka, Cointreau, cranberry, lime — berry citrus, on the sour side",
+        "ru": "Цитрусовая водка, Cointreau, клюква, лайм — ягодно-цитрусовый, кисловатый"
       },
       "ing": [
         "vodka",
@@ -2113,9 +2113,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Текіла Blanco 50 мл, Cointreau 25 мл, сік лайма 25 мл, сироп агави, сіль на кромці келиха",
-        "en": "Blanco tequila 50 ml, Cointreau 25 ml, lime juice 25 ml, agave syrup, salted rim",
-        "ru": "Текила Blanco 50 мл, Cointreau 25 мл, сок лайма 25 мл, сироп агавы, соль на кромке бокала"
+        "uk": "Текіла, Cointreau, лайм, сіль на кромці — кислий, з солоним краєм",
+        "en": "Tequila, Cointreau, lime, salted rim — sour, with a salty edge",
+        "ru": "Текила, Cointreau, лайм, соль на кромке — кислый, с солёным краем"
       },
       "ing": [
         "tequila",
@@ -2210,9 +2210,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Бурбон або житнє віскі 50 мл, кубик цукру, ангостура, апельсинова цедра, коктейльна вишня",
-        "en": "Bourbon or rye whiskey 50 ml, sugar cube, Angostura bitters, orange zest, cocktail cherry",
-        "ru": "Бурбон или ржаной виски 50 мл, кубик сахара, ангостура, апельсиновая цедра, коктейльная вишня"
+        "uk": "Бурбон, цукор, ангостура, апельсинова цедра, коктейльна вишня — міцний, карамельний",
+        "en": "Bourbon, sugar, Angostura, orange zest, cocktail cherry — strong and caramel",
+        "ru": "Бурбон, сахар, ангостура, апельсиновая цедра, коктейльная вишня — крепкий, карамельный"
       },
       "ing": [
         "bourbon",
@@ -2244,9 +2244,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Витриманий ром 30 мл, світлий ром 30 мл, лікер Curaçao 15 мл, мигдалевий сироп оржа 15 мл, сік лайма 30 мл, цукровий сироп, мʼята",
-        "en": "Aged rum 30 ml, light rum 30 ml, Curaçao liqueur 15 ml, orgeat almond syrup 15 ml, lime juice 30 ml, sugar syrup, mint",
-        "ru": "Выдержанный ром 30 мл, светлый ром 30 мл, ликёр Curaçao 15 мл, миндальный сироп оржа 15 мл, сок лайма 30 мл, сахарный сироп, мята"
+        "uk": "Два роми, Curaçao, мигдалевий сироп, лайм, мʼята — тропічний, мигдалево-цитрусовий",
+        "en": "Two rums, Curaçao, almond syrup, lime, mint — tropical, almond and citrus",
+        "ru": "Два рома, Curaçao, миндальный сироп, лайм, мята — тропический, миндально-цитрусовый"
       },
       "ing": [
         "rum",
@@ -2274,9 +2274,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Горілка 40 мл, малиновий сироп 20 мл, лимонний сік 15 мл, содова 120 мл, яблуко, малина, дроблений лід",
-        "en": "Vodka 40 ml, raspberry syrup 20 ml, lemon juice 15 ml, soda 120 ml, apple, raspberry, crushed ice",
-        "ru": "Водка 40 мл, малиновый сироп 20 мл, лимонный сок 15 мл, содовая 120 мл, яблоко, малина, дроблёный лёд"
+        "uk": "Горілка, малина, яблуко, лимон, содова, дроблений лід — ягідний, свіжий",
+        "en": "Vodka, raspberry, apple, lemon, soda, crushed ice — berry and fresh",
+        "ru": "Водка, малина, яблоко, лимон, содовая, дроблёный лёд — ягодный, свежий"
       },
       "ing": [
         "vodka",

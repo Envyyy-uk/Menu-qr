@@ -473,6 +473,11 @@ body {
   color: var(--muted);
 }
 
+.item__taste {
+  color: var(--faint);
+  font-size: .94em;
+}
+
 .item__opt {
   margin: 6px 0 0;
   font-size: 14px;

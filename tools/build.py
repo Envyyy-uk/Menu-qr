@@ -233,7 +233,11 @@ def item_html(item, lang, note):
     head, tail = split_desc(item, lang)
     desc = head if note and tail == note else " · ".join(x for x in (head, tail) if x)
     if desc:
-        out.append(f'<p class="item__desc">{e(desc)}</p>')
+        # Смак після тире — це вже не склад, а підказка «який він». Світліший
+        # тон відділяє їх на око, і рядок не читається суцільною стіною.
+        body, dash, taste = desc.partition(" — ")
+        line = e(body) + (f' <span class="item__taste">— {e(taste)}</span>' if dash else "")
+        out.append(f'<p class="item__desc">{line}</p>')
 
     for opt in item.get("options") or []:
         visible, hidden = split_choices(opt)
