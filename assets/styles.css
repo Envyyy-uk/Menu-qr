@@ -335,8 +335,8 @@ body {
 
 .card {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 16px;
   padding: 15px 44px 15px 18px;
   position: relative;
   text-decoration: none;
@@ -365,6 +365,25 @@ body {
 }
 
 .card:hover::after { background: var(--gold); }
+
+.card__icon {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  color: var(--gold-soft);
+  transition: color .15s;
+}
+
+.card__icon svg { width: 100%; height: 100%; display: block; }
+
+.card:hover .card__icon { color: var(--gold); }
+
+.card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
 
 .card__name {
   font-size: 21px;

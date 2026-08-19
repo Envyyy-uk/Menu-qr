@@ -346,8 +346,8 @@ body {
 
 .card {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 16px;
   padding: 15px 44px 15px 18px;
   position: relative;
   text-decoration: none;
@@ -376,6 +376,25 @@ body {
 }
 
 .card:hover::after { background: var(--gold); }
+
+.card__icon {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  color: var(--gold-soft);
+  transition: color .15s;
+}
+
+.card__icon svg { width: 100%; height: 100%; display: block; }
+
+.card:hover .card__icon { color: var(--gold); }
+
+.card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
 
 .card__name {
   font-size: 21px;
@@ -646,7 +665,28 @@ body {
 
   <div class="home">
     <p class="home__pick">Выберите меню</p>
-    <nav class="cards" aria-label="Выберите меню"><a class="card" href="kitchen.html"><span class="card__name">Кухня</span><span class="card__meta">12 позиций · от £8</span></a><a class="card" href="bar.html"><span class="card__name">Бар</span><span class="card__meta">32 позиции · от £4</span></a><a class="card" href="hookah.html"><span class="card__name">Кальяны</span><span class="card__meta">1 позиция · £50</span></a></nav>
+    <nav class="cards" aria-label="Выберите меню"><a class="card" href="kitchen.html"><span class="card__icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12,78 L88,78"/>
+    <path d="M20,78 A30,30 0 0 1 80,78"/>
+    <path d="M50,48 L50,42"/>
+    <circle cx="50" cy="38" r="3.5"/>
+  </g>
+</svg></span><span class="card__text"><span class="card__name">Кухня</span><span class="card__meta">12 позиций · от £8</span></span></a><a class="card" href="bar.html"><span class="card__icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24,28 L76,28 L50,60 Z"/>
+    <path d="M50,60 L50,80"/>
+    <path d="M34,80 L66,80"/>
+  </g>
+</svg></span><span class="card__text"><span class="card__name">Бар</span><span class="card__meta">32 позиции · от £4</span></span></a><a class="card" href="hookah.html"><span class="card__icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M43,16 L57,16 L59,27 L41,27 Z"/>
+    <path d="M50,27 L50,66"/>
+    <path d="M33,48 L67,48"/>
+    <path d="M39,66 C39,76 43,85 50,85 C57,85 61,76 61,66"/>
+    <path d="M50,42 C72,42 78,60 67,73"/>
+  </g>
+</svg></span><span class="card__text"><span class="card__name">Кальяны</span><span class="card__meta">1 позиция · £50</span></span></a></nav>
   </div>
 
   <footer class="foot">

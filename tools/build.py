@@ -299,6 +299,25 @@ def menu_items(menu):
     return [i for i in MENU["items"] if i["category"] in keys]
 
 
+ICONS = ROOT / "assets" / "icons"
+
+
+def icon(stem):
+    """Іконка меню, вшита в сторінку. Саме вшита, а не <img src>: вони
+    намальовані currentColor, тобто беруть колір від тексту поруч, — через
+    окремий файл це не працює, та й сторінка перестала б бути самодостатньою.
+
+    Розміри й підпис знімаємо: розмір задає CSS, а назву меню гість і так
+    читає поруч, тож для екранного читача іконка — прикраса."""
+    path = ICONS / f"{stem}.svg"
+    if not path.exists():
+        return ""
+    svg = path.read_text(encoding="utf-8").strip()
+    svg = re.sub(r'\s(width|height|role|aria-label)="[^"]*"', "", svg, count=4)
+    svg = re.sub(r"<title>.*?</title>\s*", "", svg, flags=re.S)
+    return svg.replace("<svg", '<svg aria-hidden="true" focusable="false"', 1)
+
+
 def page_file(stem, lang):
     """index.html — основною мовою, index-en.html і index-uk.html — рештою."""
     return f"{stem}.html" if lang == DEFAULT_LANG else f"{stem}-{lang}.html"
@@ -329,10 +348,12 @@ def cards_html(lang):
                  if min(prices) != max(prices) else e(money(prices[0])))
         cards.append(
             f'<a class="card" href="{page_file(menu["stem"], lang)}">'
+            f'<span class="card__icon">{icon(menu["stem"])}</span>'
+            '<span class="card__text">'
             f'<span class="card__name">{e(pick(menu["names"], lang))}</span>'
             f'<span class="card__meta">{e(count_text(len(items), lang))}'
             f' · {price}</span>'
-            '</a>')
+            '</span></a>')
     return (f'<nav class="cards" aria-label="{e(t("home.pick", lang))}">'
             f'{"".join(cards)}</nav>')
 
