@@ -94,6 +94,12 @@ button:disabled { opacity: .5; cursor: default; }
   display: flex; align-items: center; gap: 12px; justify-content: space-between;
 }
 .bar .state { font-size: 13px; color: var(--gold-soft); }
+.switch { display: flex; align-items: center; gap: 8px; margin: 0 0 12px;
+          font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--muted); }
+.switch input { width: auto; }
+.badge-soon { font-size: 11px; letter-spacing: .1em; color: var(--gold);
+              border: 1px solid var(--line); border-radius: 3px; padding: 2px 6px; margin-left: 8px; }
+.menu--soon .item { opacity: .55; }
 .hidden { display: none !important; }
 .error { color: var(--bad); }
 .ok { color: #2f6d4f; }
@@ -134,6 +140,25 @@ button:disabled { opacity: .5; cursor: default; }
   <!-- ---------------------------------------------------------- редактор -- -->
   <section id="editor" class="hidden">
     <p class="hint" id="loaded"></p>
+
+    <div class="panel add">
+      <h2 style="margin-top:0">Додати позицію</h2>
+      <label for="add-cat">Розділ</label>
+      <select id="add-cat"></select>
+      <div class="row">
+        <div>
+          <label for="add-name">Назва</label>
+          <input id="add-name" autocomplete="off" placeholder="Як її побачить гість">
+        </div>
+        <div>
+          <label for="add-price">Ціна, £</label>
+          <input id="add-price" inputmode="decimal" placeholder="0">
+        </div>
+      </div>
+      <p><button id="add" type="button" disabled>Додати</button></p>
+      <p id="add-state" class="hint"></p>
+    </div>
+
     <div id="menus"></div>
   </section>
 
@@ -246,26 +271,69 @@ button:disabled { opacity: .5; cursor: default; }
 
   function money(pence) { return (pence / 100).toFixed(2).replace(/\.00$/, ''); }
 
+  function fillCategories() {
+    var select = $('add-cat');
+    var chosen = select.value;
+    select.textContent = '';
+    // Порожній перший пункт навмисно: без вибраного розділу кнопка
+    // «Додати» не працює, тож позиція не може повиснути поза меню.
+    select.append(new Option('— оберіть розділ —', ''));
+    data.menus.forEach(function (menu) {
+      var box = document.createElement('optgroup');
+      box.label = (menu.names.uk || menu.names.en) + (menu.soon ? ' (скоро)' : '');
+      menu.categories.forEach(function (catKey) {
+        box.append(new Option(categoryName(catKey), catKey));
+      });
+      select.append(box);
+    });
+    select.value = chosen;
+    checkAdd();
+  }
+
+  function checkAdd() {
+    $('add').disabled = !$('add-cat').value || !$('add-name').value.trim();
+  }
+
   function render() {
+    fillCategories();
     var box = $('menus');
     box.textContent = '';
 
     data.menus.forEach(function (menu) {
-      box.append(el('h2', null, (menu.names.uk || menu.names.en)));
-      menu.categories.forEach(function (catKey) {
-        var head = el('p', 'hint');
-        head.append(el('b', null, categoryName(catKey)));
-        box.append(head);
+      var group = el('div', 'menu' + (menu.soon ? ' menu--soon' : ''));
 
-        data.items.forEach(function (item) {
-          if (item.category === catKey) box.append(itemNode(item));
-        });
+      var head = el('h2', null, (menu.names.uk || menu.names.en));
+      if (menu.soon) head.append(el('span', 'badge-soon', 'СКОРО'));
+      group.append(head);
 
-        var add = el('button', 'ghost', '+ позиція в «' + categoryName(catKey) + '»');
-        add.type = 'button';
-        add.addEventListener('click', function () { addItem(catKey, menu); });
-        box.append(add);
+      /* «Скоро» — стан меню, а не позицій. Увімкнене: картка на головній
+         лишається, але не відкривається, а сторінки меню взагалі не
+         збираються, тож прямим посиланням теж не зайти. */
+      var toggle = el('label', 'switch');
+      var box2 = el('input');
+      box2.type = 'checkbox';
+      box2.checked = !!menu.soon;
+      box2.addEventListener('change', function () {
+        if (box2.checked) menu.soon = true; else delete menu.soon;
+        touch();
+        render();
       });
+      toggle.append(box2, el('span', null, 'Скоро — меню видно на головній, але не відкривається'));
+      group.append(toggle);
+
+      menu.categories.forEach(function (catKey) {
+        var title = el('p', 'hint');
+        title.append(el('b', null, categoryName(catKey)));
+        group.append(title);
+
+        var count = 0;
+        data.items.forEach(function (item) {
+          if (item.category === catKey) { group.append(itemNode(item)); count++; }
+        });
+        if (!count) group.append(el('p', 'hint', 'Поки порожньо'));
+      });
+
+      box.append(group);
     });
   }
 
@@ -350,11 +418,21 @@ button:disabled { opacity: .5; cursor: default; }
     return base + '-' + n;
   }
 
-  function addItem(catKey, menu) {
-    var name = prompt('Назва позиції — так, як її бачитиме гість:');
-    if (!name) return;
-    name = name.trim();
-    if (!name) return;
+  function menuOf(catKey) {
+    return data.menus.filter(function (m) {
+      return m.categories.indexOf(catKey) > -1;
+    })[0];
+  }
+
+  function addItem() {
+    var catKey = $('add-cat').value;
+    var name = $('add-name').value.trim();
+    if (!catKey || !name) { checkAdd(); return; }
+    var menu = menuOf(catKey);
+    if (!menu) { state($('add-state'), 'Такого розділу немає в жодному меню', true); return; }
+
+    var pounds = parseFloat(($('add-price').value || '0').replace(',', '.'));
+    if (isNaN(pounds) || pounds < 0) pounds = 0;
 
     // Застереження 18+ ставимо за меню: у барі алкоголь, у кальянах тютюн,
     // на кухні нічого. Інакше про нього просто забудуть.
@@ -366,7 +444,7 @@ button:disabled { opacity: .5; cursor: default; }
       name: name,
       category: catKey,
       station: menu.stem === 'kitchen' ? 'kitchen' : 'bar',
-      price_pence: 0,
+      price_pence: Math.round(pounds * 100),
       orderable: true,
       state: 'available',
       desc: { uk: '', en: '', ru: '' },
@@ -380,7 +458,12 @@ button:disabled { opacity: .5; cursor: default; }
     data.items.forEach(function (i, n) { if (i.category === catKey) last = n; });
     data.items.splice(last + 1, 0, item);
     touch();
+
+    $('add-name').value = '';
+    $('add-price').value = '';
     render();
+    state($('add-state'), 'Додано «' + name + '» у розділ «' + categoryName(catKey)
+          + '». Не забудьте опис і «Зберегти».');
   }
 
   /* ------------------------------------------------------- збереження --- */
@@ -423,6 +506,9 @@ button:disabled { opacity: .5; cursor: default; }
   }
 
   /* ------------------------------------------------------------ старт --- */
+  $('add').addEventListener('click', addItem);
+  $('add-cat').addEventListener('change', checkAdd);
+  $('add-name').addEventListener('input', checkAdd);
   $('enter').addEventListener('click', function () { enter(false); });
   $('token').addEventListener('keydown', function (e) { if (e.key === 'Enter') enter(false); });
   $('save').addEventListener('click', save);
