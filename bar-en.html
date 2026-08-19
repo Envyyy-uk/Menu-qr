@@ -359,6 +359,19 @@ body {
   background: rgba(168, 132, 63, .09);
 }
 
+/* меню, яке ще не відкрите: видно, але не веде нікуди */
+.card--soon {
+  cursor: default;
+  background: none;
+  border-style: dashed;
+}
+
+.card--soon .card__name { color: var(--muted); }
+.card--soon .card__icon { color: var(--line); }
+.card--soon .card__meta { color: var(--gold); }
+.card--soon::after { display: none; }
+.card--soon:hover { border-color: var(--line); background: none; }
+
 .card:hover::after { background: var(--gold); }
 
 .card__icon {

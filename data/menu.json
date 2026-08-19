@@ -25,7 +25,8 @@
         "traditional",
         "desserts"
       ],
-      "stem": "kitchen"
+      "stem": "kitchen",
+      "soon": true
     },
     {
       "key": "bar",

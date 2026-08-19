@@ -299,6 +299,11 @@ def menu_items(menu):
     return [i for i in MENU["items"] if i["category"] in keys]
 
 
+def menu_items_of(menus):
+    keys = {k for m in menus for k in m["categories"]}
+    return [i for i in MENU["items"] if i["category"] in keys]
+
+
 ICONS = ROOT / "assets" / "icons"
 
 
@@ -341,6 +346,20 @@ def cards_html(lang):
     for menu in MENUS:
         items = menu_items(menu)
         if not items:
+            continue
+
+        # Меню, яке ще не працює, показуємо, але не відкриваємо: гість має
+        # знати, що кухня буде, і не має впертися в порожню сторінку.
+        # Це <span>, а не сіре посилання: непритискне посилання все одно
+        # відкривається довгим натисканням і потрапляє в пошук.
+        if menu.get("soon"):
+            cards.append(
+                f'<span class="card card--soon" aria-disabled="true">'
+                f'<span class="card__icon">{icon(menu["stem"])}</span>'
+                '<span class="card__text">'
+                f'<span class="card__name">{e(pick(menu["names"], lang))}</span>'
+                f'<span class="card__meta">{e(t("card.soon", lang))}</span>'
+                '</span></span>')
             continue
         prices = [i["price_pence"] for i in items]
         # «від £50» там, де ціна одна на все меню, — обіцянка вибору, якого нема
@@ -488,17 +507,33 @@ def main():
         written.append((page_file("index", code),
                         document(code, "index", t("menu.title", code), home_body(code))))
         for menu in MENUS:
+            if menu.get("soon"):
+                continue
             written.append((page_file(menu["stem"], code),
                             document(code, menu["stem"], pick(menu["title"], code),
                                      menu_body(code, menu), chips_html(code, menu))))
+
+    # Сторінки меню, яке щойно закрили, прибираємо: інакше вони лишаться в
+    # репозиторії й відкриються за прямим посиланням.
+    for menu in MENUS:
+        if not menu.get("soon"):
+            continue
+        for code, _, _ in LANGS:
+            stale = ROOT / page_file(menu["stem"], code)
+            if stale.exists():
+                stale.unlink()
+                print(f"{stale.name:<17} прибрано — меню ще не відкрите")
 
     for name, text in written:
         path = ROOT / name
         path.write_text(text, encoding="utf-8")
         print(f"{name:<17} {path.stat().st_size / 1024:5.0f} KB")
 
-    print(f"разом: {len(written)} сторінок — {len(MENUS) + 1} × {len(LANGS)} мови; "
-          f"{len(MENU['items'])} позицій у {len(MENU['categories'])} розділах")
+    open_menus = [m for m in MENUS if not m.get("soon")]
+    soon = [pick(m["names"], DEFAULT_LANG) for m in MENUS if m.get("soon")]
+    print(f"разом: {len(written)} сторінок — {len(open_menus) + 1} × {len(LANGS)} мови; "
+          f"{len(menu_items_of(open_menus))} позицій на сайті"
+          + (f"; ще не відкрито: {', '.join(soon)}" if soon else ""))
 
 
 if __name__ == "__main__":

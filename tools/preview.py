@@ -19,6 +19,8 @@ import build  # noqa: E402  (сусідній модуль, шлях додан�
 def preview(lang):
     parts = []
     for menu in build.MENUS:
+        if menu.get("soon"):        # ще не відкрите — його немає й на сайті
+            continue
         parts.append(f'<section class="preview" id="menu-{menu["stem"]}">')
         parts.append('<div class="rule rule--diamond" aria-hidden="true"></div>')
         parts.append('<h2 class="preview__title">'
