@@ -1,0 +1,14 @@
+{
+  "name": "Меню · Адмінка",
+  "short_name": "Адмінка",
+  "start_url": "admin.html",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#e6dfd1",
+  "theme_color": "#1d1a16",
+  "icons": [
+    { "src": "assets/icons/app-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/app-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

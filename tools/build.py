@@ -463,6 +463,11 @@ def document(lang, stem, title, body, chips=""):
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>{e(title)}</title>
 <meta name="theme-color" content="#1d1a16">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/app-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Menu">
 <meta name="description" content="{e(title)}">
 {alternates}
 <!-- Сторінку згенеровано: python3 tools/build.py. Правки — у data/ і assets/. -->
