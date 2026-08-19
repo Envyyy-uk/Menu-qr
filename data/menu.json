@@ -109,7 +109,8 @@
         "uk": "Міцне",
         "en": "Spirits",
         "ru": "Крепкое"
-      }
+      },
+      "pricing": "spirit"
     },
     {
       "key": "cocktails",
@@ -133,7 +134,8 @@
         "uk": "Вино й ігристе",
         "en": "Wine and sparkling",
         "ru": "Вино и игристое"
-      }
+      },
+      "pricing": "glass-bottle"
     },
     {
       "key": "hot",

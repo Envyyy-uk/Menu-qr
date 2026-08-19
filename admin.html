@@ -89,6 +89,13 @@ button:disabled { opacity: .5; cursor: default; }
 .item__more { padding-top: 6px; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; }
 .row > * { flex: 1 1 200px; }
+.prices { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.prices .hint { flex: 1 1 100%; margin: 0; font-size: 12px; }
+.pricebox { flex: 1 1 120px; }
+.pricebox label { margin-top: 0; }
+.pricebox__row { display: flex; align-items: center; gap: 6px; }
+.pricebox__row span { color: var(--faint); }
+.pricebox__row input { text-align: right; }
 .field-row { display: flex; gap: 8px; }
 .field-row input { flex: 1 1 auto; min-width: 0; }
 .field-row button { flex: 0 0 auto; }
@@ -160,16 +167,9 @@ button:disabled { opacity: .5; cursor: default; }
       <h2 style="margin-top:0">Додати позицію</h2>
       <label for="add-cat">Розділ</label>
       <select id="add-cat"></select>
-      <div class="row">
-        <div>
-          <label for="add-name">Назва</label>
-          <input id="add-name" autocomplete="off" placeholder="Як її побачить гість">
-        </div>
-        <div>
-          <label for="add-price">Ціна, £</label>
-          <input id="add-price" inputmode="decimal" placeholder="0">
-        </div>
-      </div>
+      <label for="add-name">Назва</label>
+      <input id="add-name" autocomplete="off" placeholder="Як її побачить гість">
+      <div id="add-prices"></div>
       <p><button id="add" type="button" disabled>Додати</button></p>
       <p id="add-state" class="hint"></p>
     </div>
@@ -322,7 +322,22 @@ button:disabled { opacity: .5; cursor: default; }
       select.append(box);
     });
     select.value = chosen;
+    drawAddPrices();
     checkAdd();
+  }
+
+  var addValues = {};
+
+  /* Поля цін у формі додавання перемальовуються під обраний розділ: у
+     міцного питаємо 50 мл і пляшку, у вина — келих і пляшку, у решти одну
+     ціну. Поки розділ не обраний, питати нема чого. */
+  function drawAddPrices() {
+    var box = $('add-prices');
+    box.textContent = '';
+    addValues = {};
+    var cat = $('add-cat').value;
+    if (!cat) return;
+    box.append(priceFields(pricingOf(cat), addValues, function () {}));
   }
 
   function checkAdd() {
@@ -383,19 +398,6 @@ button:disabled { opacity: .5; cursor: default; }
     name.addEventListener('input', function () { item.name = name.value; touch(); });
     grow.append(name);
 
-    var priceBox = el('div', 'price');
-    priceBox.append(el('span', null, '£'));
-    var price = el('input');
-    price.type = 'text';
-    price.inputMode = 'decimal';
-    price.value = money(item.price_pence);
-    price.setAttribute('aria-label', 'Ціна у фунтах');
-    price.addEventListener('input', function () {
-      var pounds = parseFloat(price.value.replace(',', '.'));
-      if (!isNaN(pounds)) { item.price_pence = Math.round(pounds * 100); touch(); }
-    });
-    priceBox.append(price);
-
     var kill = el('button', 'danger', 'Видалити');
     kill.type = 'button';
     kill.addEventListener('click', function () {
@@ -405,8 +407,15 @@ button:disabled { opacity: .5; cursor: default; }
       render();
     });
 
-    top.append(grow, priceBox, kill);
+    top.append(grow, kill);
     node.append(top);
+
+    var shape = pricingOf(item.category);
+    var values = readPrices(item, shape);
+    node.append(priceFields(shape, values, function () {
+      applyPrices(item, shape, values);
+      touch();
+    }));
 
     var more = el('details', 'item__more');
     more.append(el('summary', null, 'Опис трьома мовами'));
@@ -444,6 +453,117 @@ button:disabled { opacity: .5; cursor: default; }
     node.append(more);
 
     return node;
+  }
+
+  /* ------------------------------------------------------------ ціни --- */
+  /* У розділі може бути три різні види ціни. Одна ціна — страва, коктейль,
+     кальян. Міцне — за 50 мл і за пляшку, а обʼєми між ними кратні першій:
+     100 мл це дві порції, 300 мл — шість. Вино — келих і пляшка.
+
+     Тому адмінка питає лише опорні числа, а драбинку рахує сама: інакше
+     кожну позицію довелося б вбивати сімома цінами вручну й щоразу
+     перемножувати в голові. */
+  var PRICE_FIELDS = {
+    'single':       [{ key: 'base', label: 'Ціна' }],
+    'spirit':       [{ key: 'base', label: '50 мл' },
+                     { key: 'bottle', label: 'Пляшка' },
+                     { key: 'premium', label: 'Пляшка преміум', optional: true }],
+    'glass-bottle': [{ key: 'base', label: 'Келих 175 мл' },
+                     { key: 'bottle', label: 'Пляшка' }]
+  };
+
+  var STEPS = [50, 100, 150, 200, 250, 300];
+  var NAME_BOTTLE  = { uk: 'Пляшка', en: 'Bottle', ru: 'Бутылка' };
+  var NAME_PREMIUM = { uk: 'Пляшка (преміум)', en: 'Bottle (Premium)', ru: 'Бутылка (премиум)' };
+  var NAME_GLASS   = { uk: 'Келих 175 мл', en: 'Glass 175 ml', ru: 'Бокал 175 мл' };
+  var nameMl = function (n) { return { uk: n + ' мл', en: n + ' ml', ru: n + ' мл' }; };
+
+  function pricingOf(catKey) {
+    var cat = data.categories.filter(function (c) { return c.key === catKey; })[0];
+    return (cat && cat.pricing) || 'single';
+  }
+
+  function textOf(choice) {
+    return typeof choice.name === 'string' ? choice.name : (choice.name.en || '');
+  }
+
+  function sizeOption(item) {
+    return (item.options || []).filter(function (o) { return o.key === 'size'; })[0];
+  }
+
+  function readPrices(item, shape) {
+    var values = { base: item.price_pence || 0 };
+    var size = sizeOption(item);
+    var choices = (size && size.choices) || [];
+    choices.forEach(function (c) {
+      var name = textOf(c);
+      if (name === 'Bottle') values.bottle = c.price_pence;
+      else if (name === 'Bottle (Premium)') values.premium = c.price_pence;
+      else if (name === 'Glass 175 ml') values.base = c.price_pence;
+      else if (/^50 ml$/.test(name)) values.base = c.price_pence;
+    });
+    return values;
+  }
+
+  function applyPrices(item, shape, values) {
+    item.price_pence = values.base || 0;
+    if (shape === 'single') return;
+
+    var choices = [];
+    if (shape === 'spirit') {
+      STEPS.forEach(function (ml) {
+        choices.push({ key: 'ml' + ml, name: nameMl(ml),
+                       price_pence: Math.round((values.base || 0) * ml / 50) });
+      });
+      if (values.bottle) choices.push({ key: 'bottle', name: NAME_BOTTLE, price_pence: values.bottle });
+      if (values.premium) choices.push({ key: 'bottle-premium', name: NAME_PREMIUM, price_pence: values.premium });
+    } else {
+      choices.push({ key: 'glass175', name: NAME_GLASS, price_pence: values.base || 0 });
+      if (values.bottle) choices.push({ key: 'bottle', name: NAME_BOTTLE, price_pence: values.bottle });
+    }
+
+    var size = sizeOption(item);
+    if (size) { size.choices = choices; return; }
+    item.options = item.options || [];
+    item.options.unshift({ key: 'size', label: 'opt.size', choices: choices });
+  }
+
+  function ladderHint(shape, values) {
+    if (shape !== 'spirit' || !values.base) return '';
+    return 'Решта обʼємів рахується сама: ' + STEPS.slice(1).map(function (ml) {
+      return ml + ' мл — £' + money(Math.round(values.base * ml / 50));
+    }).join(' · ');
+  }
+
+  /* Поля цін — стільки, скільки потребує розділ. */
+  function priceFields(shape, values, onChange) {
+    var box = el('div', 'prices');
+    var hint = el('p', 'hint');
+
+    PRICE_FIELDS[shape].forEach(function (field) {
+      var wrap = el('div', 'pricebox');
+      wrap.append(el('label', null, field.label));
+      var row = el('div', 'pricebox__row');
+      row.append(el('span', null, '£'));
+      var input = el('input');
+      input.inputMode = 'decimal';
+      input.value = values[field.key] ? money(values[field.key]) : '';
+      input.placeholder = field.optional ? 'немає' : '0';
+      input.setAttribute('aria-label', field.label + ', фунтів');
+      input.addEventListener('input', function () {
+        var pounds = parseFloat(input.value.replace(',', '.'));
+        values[field.key] = isNaN(pounds) ? 0 : Math.round(pounds * 100);
+        hint.textContent = ladderHint(shape, values);
+        onChange();
+      });
+      row.append(input);
+      wrap.append(row);
+      box.append(wrap);
+    });
+
+    hint.textContent = ladderHint(shape, values);
+    box.append(hint);
+    return box;
   }
 
   /* --------------------------------------------------------- переклад --- */
@@ -540,8 +660,7 @@ button:disabled { opacity: .5; cursor: default; }
     var menu = menuOf(catKey);
     if (!menu) { state($('add-state'), 'Такого розділу немає в жодному меню', true); return; }
 
-    var pounds = parseFloat(($('add-price').value || '0').replace(',', '.'));
-    if (isNaN(pounds) || pounds < 0) pounds = 0;
+    var shape = pricingOf(catKey);
 
     // Застереження 18+ ставимо за меню: у барі алкоголь, у кальянах тютюн,
     // на кухні нічого. Інакше про нього просто забудуть.
@@ -553,13 +672,18 @@ button:disabled { opacity: .5; cursor: default; }
       name: name,
       category: catKey,
       station: menu.stem === 'kitchen' ? 'kitchen' : 'bar',
-      price_pence: Math.round(pounds * 100),
+      price_pence: 0,
       orderable: true,
       state: 'available',
       desc: { uk: '', en: '', ru: '' },
       ing: [],
       w: warn
     };
+
+    applyPrices(item, shape, addValues);
+    // Мікс до міцного — те саме правило для всіх позицій розділу, тож нова
+    // отримує його одразу, а не «як згадаємо».
+    if (shape === 'spirit') item.add = ['mixer'];
 
     // Кладемо поруч із рештою розділу, а не в кінець файлу: порядок позицій
     // у меню — це порядок у цьому масиві.
@@ -569,7 +693,6 @@ button:disabled { opacity: .5; cursor: default; }
     touch();
 
     $('add-name').value = '';
-    $('add-price').value = '';
     render();
     state($('add-state'), 'Додано «' + name + '» у розділ «' + categoryName(catKey)
           + '». Не забудьте опис і «Зберегти».');
@@ -625,7 +748,7 @@ button:disabled { opacity: .5; cursor: default; }
     $('peek').textContent = shown ? 'Показати' : 'Сховати';
   });
   $('add').addEventListener('click', addItem);
-  $('add-cat').addEventListener('change', checkAdd);
+  $('add-cat').addEventListener('change', function () { drawAddPrices(); checkAdd(); });
   $('add-name').addEventListener('input', checkAdd);
   $('enter').addEventListener('click', function () { enter(false); });
   $('token').addEventListener('keydown', function (e) { if (e.key === 'Enter') enter(false); });
