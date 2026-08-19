@@ -1,0 +1,51 @@
+# Перезбирає сторінки меню після кожної правки каталогу.
+#
+# Адмінка вміє тільки одне — записати data/menu.json. Сторінки з нього
+# збирає tools/build.py, і робити це має GitHub: інакше після правки з
+# телефона сайт лишався б зі старим меню, поки хтось не запустить збірку
+# руками.
+name: Збірка меню
+
+on:
+  push:
+    branches: [claude/menu-page-no-server-rbtr5h]
+    # Тільки джерела. Готові сторінки сюди не входять навмисно: інакше коміт
+    # цього ж робочого процесу запускав би його знову, і так по колу.
+    paths:
+      - 'data/**'
+      - 'assets/**'
+      - 'tools/**'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: menu-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Зібрати сторінки
+        run: python3 tools/build.py
+
+      - name: Закомітити, якщо щось змінилося
+        run: |
+          if [ -z "$(git status --porcelain -- '*.html')" ]; then
+            echo "Сторінки вже збігаються з каталогом — комітити нема чого."
+            exit 0
+          fi
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -- '*.html'
+          git commit -m 'Перезібрано сторінки меню'
+          git push

@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PODVAL · Адмінка меню</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1d1a16">
+<style>
+/* ==========================================================================
+   Адмінка меню. Не частина сайту для гостей: сюди заходить одна людина з
+   ключем доступу GitHub, править каталог і зберігає — GitHub далі сам
+   перезбирає сторінки.
+
+   Оформлення навмисно простіше за меню: тут працюють, а не милуються.
+   ========================================================================== */
+:root {
+  --paper: #f7f3ea;
+  --edge:  #e6dfd1;
+  --ink:   #1d1a16;
+  --muted: #6d6455;
+  --faint: #8d8474;
+  --gold:  #a8843f;
+  --gold-soft: #cbb083;
+  --line:  rgba(168, 132, 63, .3);
+  --bad:   #a33a2a;
+  --sans:  "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--edge);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #1d1a16;
+  color: var(--paper);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mark { font-weight: 600; letter-spacing: .2em; color: var(--gold-soft); font-size: 13px; }
+main { max-width: 760px; margin: 0 auto; padding: 18px 14px 120px; }
+h2 { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold);
+     margin: 26px 0 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+p.hint { color: var(--muted); margin: 8px 0; }
+code { background: rgba(29,26,22,.06); padding: 1px 5px; border-radius: 3px; }
+
+.panel { background: var(--paper); border: 1px solid var(--line); padding: 16px; }
+label { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+        color: var(--faint); margin: 10px 0 4px; }
+input, textarea, select {
+  width: 100%; font: inherit; color: inherit; background: #fff;
+  border: 1px solid var(--line); border-radius: 3px; padding: 9px 10px;
+}
+textarea { resize: vertical; min-height: 46px; }
+input:focus, textarea:focus, select:focus { outline: 2px solid var(--gold-soft); outline-offset: 1px; }
+
+button {
+  font: inherit; font-weight: 600; cursor: pointer; border-radius: 3px;
+  border: 1px solid var(--gold); background: var(--gold); color: #fff; padding: 10px 16px;
+}
+button.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+header button.ghost { color: var(--paper); border-color: rgba(203, 176, 131, .4); padding: 7px 12px; }
+button.danger { background: transparent; color: var(--bad); border-color: rgba(163,58,42,.4); padding: 6px 10px; font-size: 13px; }
+button:disabled { opacity: .5; cursor: default; }
+
+.item { background: var(--paper); border: 1px solid var(--line); padding: 12px 14px; margin-bottom: 10px; }
+.item__top { display: flex; gap: 10px; align-items: flex-start; }
+.item__top .grow { flex: 1 1 auto; min-width: 0; }
+.price { display: flex; align-items: center; gap: 6px; width: 116px; flex: 0 0 auto; }
+.price span { color: var(--faint); }
+.price input { width: 100%; text-align: right; }
+.item summary { cursor: pointer; color: var(--gold); font-size: 12px; letter-spacing: .1em;
+                text-transform: uppercase; margin-top: 10px; }
+.item__more { padding-top: 6px; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.row > * { flex: 1 1 200px; }
+
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
+  background: rgba(29,26,22,.97); color: var(--paper);
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: 12px; justify-content: space-between;
+}
+.bar .state { font-size: 13px; color: var(--gold-soft); }
+.hidden { display: none !important; }
+.error { color: var(--bad); }
+.ok { color: #2f6d4f; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="mark">PODVAL · АДМІНКА</span>
+  <button id="logout" class="ghost hidden" type="button">Вийти</button>
+</header>
+
+<main>
+
+  <!-- ------------------------------------------------------------- вхід -- -->
+  <section id="login" class="panel">
+    <h2 style="margin-top:0">Вхід</h2>
+    <p class="hint">
+      Замість пароля — особистий ключ доступу GitHub. Пароль у такій сторінці
+      захистити нічого не може: сторінка відкрита, і його побачить будь-хто.
+      Ключ зберігається лише на цьому пристрої, його можна відкликати будь-коли.
+    </p>
+    <p class="hint">
+      Створити: <b>github.com → Settings → Developer settings → Personal access
+      tokens → Fine-grained tokens</b>. Доступ — тільки до репозиторію
+      <code id="repo-name"></code>, право <b>Contents: Read and write</b>.
+    </p>
+    <label for="token">Ключ доступу</label>
+    <input id="token" type="password" autocomplete="off" spellcheck="false"
+           placeholder="github_pat_…">
+    <p class="hint"><label style="text-transform:none;letter-spacing:0;color:var(--muted)">
+      <input id="remember" type="checkbox" checked style="width:auto"> запамʼятати на цьому пристрої
+    </label></p>
+    <button id="enter" type="button">Увійти</button>
+    <p id="login-state" class="hint"></p>
+  </section>
+
+  <!-- ---------------------------------------------------------- редактор -- -->
+  <section id="editor" class="hidden">
+    <p class="hint" id="loaded"></p>
+    <div id="menus"></div>
+  </section>
+
+</main>
+
+<div id="bar" class="bar hidden">
+  <span class="state" id="state">Змін немає</span>
+  <span>
+    <button id="reload" class="ghost" type="button" style="color:var(--paper)">Оновити</button>
+    <button id="save" type="button" disabled>Зберегти</button>
+  </span>
+</div>
+
+<script>
+/* ==========================================================================
+   Адмінка правит один файл — data/menu.json — через GitHub API. Сторінки
+   меню перезбирає GitHub Actions після кожного збереження, тому тут немає
+   ні збірки, ні сервера: лише читання, правки й коміт.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var REPO   = { owner: 'Envyyy-uk', name: 'Menu-qr', branch: 'claude/menu-page-no-server-rbtr5h' };
+  var PATH   = 'data/menu.json';
+  var KEY    = 'podval-admin-token';
+  var API    = 'https://api.github.com';
+
+  var token = null, data = null, sha = null, dirty = false;
+
+  var $ = function (id) { return document.getElementById(id); };
+  document.getElementById('repo-name').textContent = REPO.owner + '/' + REPO.name;
+
+  /* --------------------------------------------------- база64 з юнікодом -- */
+  function encode(text) {
+    var bytes = new TextEncoder().encode(text), bin = '';
+    bytes.forEach(function (b) { bin += String.fromCharCode(b); });
+    return btoa(bin);
+  }
+  function decode(b64) {
+    var bin = atob(b64.replace(/\s/g, ''));
+    var bytes = Uint8Array.from(bin, function (c) { return c.charCodeAt(0); });
+    return new TextDecoder().decode(bytes);
+  }
+
+  function api(path, options) {
+    options = options || {};
+    options.headers = Object.assign({
+      'Accept': 'application/vnd.github+json',
+      'Authorization': 'Bearer ' + token
+    }, options.headers || {});
+    return fetch(API + path, options).then(function (r) {
+      return r.json().then(function (body) {
+        if (!r.ok) throw new Error(body.message || ('GitHub відповів ' + r.status));
+        return body;
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------- вхід --- */
+  function enter(quiet) {
+    var value = $('token').value.trim();
+    if (!value) { state($('login-state'), 'Введіть ключ доступу', true); return; }
+    token = value;
+    state($('login-state'), 'Перевіряємо…');
+    load().then(function () {
+      if ($('remember').checked) { try { localStorage.setItem(KEY, token); } catch (e) {} }
+      $('login').classList.add('hidden');
+      $('editor').classList.remove('hidden');
+      $('bar').classList.remove('hidden');
+      $('logout').classList.remove('hidden');
+    }).catch(function (err) {
+      token = null;
+      state($('login-state'), 'Не вийшло: ' + err.message, true);
+      if (quiet) { try { localStorage.removeItem(KEY); } catch (e) {} }
+    });
+  }
+
+  function state(node, text, bad) {
+    node.textContent = text;
+    node.className = 'hint' + (bad ? ' error' : '');
+  }
+
+  /* ------------------------------------------------------- завантаження -- */
+  function load() {
+    return api('/repos/' + REPO.owner + '/' + REPO.name + '/contents/' + PATH
+               + '?ref=' + encodeURIComponent(REPO.branch))
+      .then(function (file) {
+        sha = file.sha;
+        data = JSON.parse(decode(file.content));
+        dirty = false;
+        render();
+        $('loaded').textContent = 'Каталог завантажено: ' + data.items.length
+          + ' позицій. Правки зберігаються в GitHub, сайт оновиться за хвилину-дві.';
+        mark();
+      });
+  }
+
+  /* ---------------------------------------------------------- малюємо --- */
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function categoryName(key) {
+    var cat = data.categories.filter(function (c) { return c.key === key; })[0];
+    return cat ? (cat.names.uk || cat.names.en) : key;
+  }
+
+  function money(pence) { return (pence / 100).toFixed(2).replace(/\.00$/, ''); }
+
+  function render() {
+    var box = $('menus');
+    box.textContent = '';
+
+    data.menus.forEach(function (menu) {
+      box.append(el('h2', null, (menu.names.uk || menu.names.en)));
+      menu.categories.forEach(function (catKey) {
+        var head = el('p', 'hint');
+        head.append(el('b', null, categoryName(catKey)));
+        box.append(head);
+
+        data.items.forEach(function (item) {
+          if (item.category === catKey) box.append(itemNode(item));
+        });
+
+        var add = el('button', 'ghost', '+ позиція в «' + categoryName(catKey) + '»');
+        add.type = 'button';
+        add.addEventListener('click', function () { addItem(catKey, menu); });
+        box.append(add);
+      });
+    });
+  }
+
+  function itemNode(item) {
+    var node = el('div', 'item');
+
+    var top = el('div', 'item__top');
+    var grow = el('div', 'grow');
+    var name = el('input');
+    name.value = item.name;
+    name.setAttribute('aria-label', 'Назва');
+    name.addEventListener('input', function () { item.name = name.value; touch(); });
+    grow.append(name);
+
+    var priceBox = el('div', 'price');
+    priceBox.append(el('span', null, '£'));
+    var price = el('input');
+    price.type = 'text';
+    price.inputMode = 'decimal';
+    price.value = money(item.price_pence);
+    price.setAttribute('aria-label', 'Ціна у фунтах');
+    price.addEventListener('input', function () {
+      var pounds = parseFloat(price.value.replace(',', '.'));
+      if (!isNaN(pounds)) { item.price_pence = Math.round(pounds * 100); touch(); }
+    });
+    priceBox.append(price);
+
+    var kill = el('button', 'danger', 'Видалити');
+    kill.type = 'button';
+    kill.addEventListener('click', function () {
+      if (!confirm('Видалити «' + item.name + '» з меню?')) return;
+      data.items.splice(data.items.indexOf(item), 1);
+      touch();
+      render();
+    });
+
+    top.append(grow, priceBox, kill);
+    node.append(top);
+
+    var more = el('details', 'item__more');
+    more.append(el('summary', null, 'Опис трьома мовами'));
+    var rows = el('div', 'row');
+    [['uk', 'Українська'], ['en', 'English'], ['ru', 'Русский']].forEach(function (pair) {
+      var wrap = el('div');
+      wrap.append(el('label', null, pair[1]));
+      var area = el('textarea');
+      area.value = (item.desc && item.desc[pair[0]]) || '';
+      area.addEventListener('input', function () {
+        item.desc = item.desc || {};
+        item.desc[pair[0]] = area.value;
+        touch();
+      });
+      wrap.append(area);
+      rows.append(wrap);
+    });
+    more.append(rows);
+    node.append(more);
+
+    return node;
+  }
+
+  /* ------------------------------------------------------ нова позиція --- */
+  var TRANSLIT = { 'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ie','ж':'zh',
+    'з':'z','и':'y','і':'i','ї':'i','й':'i','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p',
+    'р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch',
+    'ы':'y','ь':'','э':'e','ю':'iu','я':'ia','ъ':'','ё':'e' };
+
+  function slug(text) {
+    var out = '';
+    text.toLowerCase().split('').forEach(function (ch) {
+      out += TRANSLIT[ch] !== undefined ? TRANSLIT[ch] : ch;
+    });
+    out = out.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return out || 'item';
+  }
+
+  function uniqueKey(base) {
+    var keys = data.items.map(function (i) { return i.key; });
+    if (keys.indexOf(base) === -1) return base;
+    var n = 2;
+    while (keys.indexOf(base + '-' + n) > -1) n++;
+    return base + '-' + n;
+  }
+
+  function addItem(catKey, menu) {
+    var name = prompt('Назва позиції — так, як її бачитиме гість:');
+    if (!name) return;
+    name = name.trim();
+    if (!name) return;
+
+    // Застереження 18+ ставимо за меню: у барі алкоголь, у кальянах тютюн,
+    // на кухні нічого. Інакше про нього просто забудуть.
+    var warn = menu.stem === 'bar' ? ['age-check']
+             : menu.stem === 'hookah' ? ['tobacco-age-check'] : [];
+
+    var item = {
+      key: uniqueKey(slug(name)),
+      name: name,
+      category: catKey,
+      station: menu.stem === 'kitchen' ? 'kitchen' : 'bar',
+      price_pence: 0,
+      orderable: true,
+      state: 'available',
+      desc: { uk: '', en: '', ru: '' },
+      ing: [],
+      w: warn
+    };
+
+    // Кладемо поруч із рештою розділу, а не в кінець файлу: порядок позицій
+    // у меню — це порядок у цьому масиві.
+    var last = -1;
+    data.items.forEach(function (i, n) { if (i.category === catKey) last = n; });
+    data.items.splice(last + 1, 0, item);
+    touch();
+    render();
+  }
+
+  /* ------------------------------------------------------- збереження --- */
+  function touch() { dirty = true; mark(); }
+
+  function mark() {
+    $('save').disabled = !dirty;
+    $('state').textContent = dirty ? 'Є незбережені зміни' : 'Змін немає';
+    $('state').className = 'state';
+  }
+
+  function save() {
+    if (!dirty) return;
+    $('save').disabled = true;
+    $('state').textContent = 'Зберігаємо…';
+
+    var body = JSON.stringify({
+      message: 'Меню: правки з адмінки',
+      content: encode(JSON.stringify(data, null, 2) + '\n'),
+      sha: sha,
+      branch: REPO.branch
+    });
+
+    api('/repos/' + REPO.owner + '/' + REPO.name + '/contents/' + PATH,
+        { method: 'PUT', body: body })
+      .then(function (res) {
+        sha = res.content.sha;
+        dirty = false;
+        mark();
+        $('state').textContent = 'Збережено. Сайт оновиться за хвилину-дві.';
+        $('state').className = 'state ok';
+      })
+      .catch(function (err) {
+        $('save').disabled = false;
+        $('state').textContent = err.message.indexOf('does not match') > -1
+          ? 'Хтось уже змінив меню. Натисніть «Оновити» й повторіть правку.'
+          : 'Не зберіглося: ' + err.message;
+        $('state').className = 'state error';
+      });
+  }
+
+  /* ------------------------------------------------------------ старт --- */
+  $('enter').addEventListener('click', function () { enter(false); });
+  $('token').addEventListener('keydown', function (e) { if (e.key === 'Enter') enter(false); });
+  $('save').addEventListener('click', save);
+  $('reload').addEventListener('click', function () {
+    if (dirty && !confirm('Незбережені зміни зникнуть. Оновити?')) return;
+    load().catch(function (err) { $('state').textContent = err.message; });
+  });
+  $('logout').addEventListener('click', function () {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  });
+  window.addEventListener('beforeunload', function (e) {
+    if (dirty) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  try {
+    var saved = localStorage.getItem(KEY);
+    if (saved) { $('token').value = saved; enter(true); }
+  } catch (e) { /* приватний режим */ }
+}());
+</script>
+</body>
+</html>
