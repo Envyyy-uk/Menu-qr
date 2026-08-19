@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="uk">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -148,7 +148,7 @@ button:disabled { opacity: .5; cursor: default; }
   <span class="head-right">
     <span id="who" class="hidden"></span>
     <nav class="langs" id="langs"></nav>
-    <button id="logout" class="ghost hidden" type="button" data-i18n="head.logout">Вийти</button>
+    <button id="logout" class="ghost hidden" type="button" data-i18n="head.logout">Выйти</button>
   </span>
 </header>
 
@@ -156,23 +156,23 @@ button:disabled { opacity: .5; cursor: default; }
 
   <!-- ------------------------------------------------------------- вхід -- -->
   <section id="login" class="panel">
-    <h2 style="margin-top:0" data-i18n="login.title">Вхід</h2>
+    <h2 style="margin-top:0" data-i18n="login.title">Вход</h2>
     <p class="hint" data-i18n="login.lead"></p>
-    <label for="name" data-i18n="login.name">Ваше імʼя</label>
+    <label for="name" data-i18n="login.name">Ваше имя</label>
     <input id="name" autocomplete="off" autocorrect="off" list="editors"
            data-i18n-placeholder="login.namePlaceholder">
     <datalist id="editors"></datalist>
 
-    <label for="token" data-i18n="login.token">Ключ доступу</label>
+    <label for="token" data-i18n="login.token">Ключ доступа</label>
     <div class="field-row">
       <input id="token" type="password" autocomplete="off" spellcheck="false"
              autocapitalize="none" autocorrect="off" placeholder="github_pat_…">
-      <button id="peek" class="ghost" type="button" data-i18n="login.peek">Показати</button>
+      <button id="peek" class="ghost" type="button" data-i18n="login.peek">Показать</button>
     </div>
     <p class="hint"><label style="text-transform:none;letter-spacing:0;color:var(--muted)">
       <input id="remember" type="checkbox" checked style="width:auto"> <span data-i18n="login.remember"></span>
     </label></p>
-    <button id="enter" type="button" data-i18n="login.enter">Увійти</button>
+    <button id="enter" type="button" data-i18n="login.enter">Войти</button>
     <p id="login-state" class="hint"></p>
   </section>
 
@@ -181,13 +181,13 @@ button:disabled { opacity: .5; cursor: default; }
     <p class="hint" id="loaded"></p>
 
     <div class="panel add">
-      <h2 style="margin-top:0" data-i18n="add.title">Додати позицію</h2>
-      <label for="add-cat" data-i18n="add.category">Розділ</label>
+      <h2 style="margin-top:0" data-i18n="add.title">Добавить позицию</h2>
+      <label for="add-cat" data-i18n="add.category">Раздел</label>
       <select id="add-cat"></select>
-      <label for="add-name" data-i18n="add.name">Назва</label>
+      <label for="add-name" data-i18n="add.name">Название</label>
       <input id="add-name" autocomplete="off" data-i18n-placeholder="add.namePlaceholder">
       <div id="add-prices"></div>
-      <p><button id="add" type="button" disabled data-i18n="add.button">Додати</button></p>
+      <p><button id="add" type="button" disabled data-i18n="add.button">Добавить</button></p>
       <p id="add-state" class="hint"></p>
     </div>
 
@@ -200,8 +200,8 @@ button:disabled { opacity: .5; cursor: default; }
   <span class="state" id="state"></span>
   <span>
     <button id="reload" class="ghost" type="button" style="color:var(--paper)"
-            data-i18n="bar.reload">Оновити</button>
-    <button id="save" type="button" disabled data-i18n="bar.save">Зберегти</button>
+            data-i18n="bar.reload">Обновить</button>
+    <button id="save" type="button" disabled data-i18n="bar.save">Сохранить</button>
   </span>
 </div>
 
@@ -227,10 +227,12 @@ button:disabled { opacity: .5; cursor: default; }
   /* ------------------------------------------------------------ мови --- */
   /* Адмінка теж трьома мовами: нею користуються ті самі люди, що й барною
      стійкою, і половина з них читає меню російською чи англійською. Тут
-     переклад можна робити скриптом — без нього адмінка й так не працює. */
-  var LANGS = [['uk', 'UA'], ['en', 'EN'], ['ru', 'RU']];
+     переклад можна робити скриптом — без нього адмінка й так не працює.
+     Основна мова та сама, що й у меню, — російська, і кнопки стоять тим самим
+     порядком: RU / EN / UA. */
+  var LANGS = [['ru', 'RU'], ['en', 'EN'], ['uk', 'UA']];
   var LANG_KEY = 'podval-admin-lang';
-  var lang = 'uk';
+  var lang = 'ru';
 
   var I18N = {
     'head.logout':  { uk: 'Вийти', en: 'Sign out', ru: 'Выйти' },
@@ -307,7 +309,7 @@ button:disabled { opacity: .5; cursor: default; }
 
   function t(key, vars) {
     var entry = I18N[key];
-    var text = entry ? (entry[lang] || entry.uk) : key;
+    var text = entry ? (entry[lang] || entry.ru) : key;
     if (vars) {
       Object.keys(vars).forEach(function (name) {
         text = text.replace('{' + name + '}', vars[name]);
@@ -459,11 +461,11 @@ button:disabled { opacity: .5; cursor: default; }
 
   function categoryName(key) {
     var cat = data.categories.filter(function (c) { return c.key === key; })[0];
-    return cat ? (cat.names[lang] || cat.names.uk || cat.names.en) : key;
+    return cat ? (cat.names[lang] || cat.names.ru || cat.names.en) : key;
   }
 
   function menuName(menu) {
-    return menu.names[lang] || menu.names.uk || menu.names.en;
+    return menu.names[lang] || menu.names.ru || menu.names.en;
   }
 
   function money(pence) { return (pence / 100).toFixed(2).replace(/\.00$/, ''); }
@@ -585,7 +587,7 @@ button:disabled { opacity: .5; cursor: default; }
     var areas = {};
     var source = null;      // мова, якою щойно писали — з неї й перекладаємо
 
-    [['uk', 'Українська'], ['en', 'English'], ['ru', 'Русский']].forEach(function (pair) {
+    [['ru', 'Русский'], ['en', 'English'], ['uk', 'Українська']].forEach(function (pair) {
       var wrap = el('div');
       wrap.append(el('label', null, pair[1]));
       var area = el('textarea');
@@ -758,13 +760,13 @@ button:disabled { opacity: .5; cursor: default; }
     // Якщо ще нічого не набирали в цій картці — беремо ту мову, де є текст
     var from = source && (item.desc[source] || '').trim() ? source : null;
     if (!from) {
-      ['uk', 'ru', 'en'].forEach(function (code) {
+      ['ru', 'en', 'uk'].forEach(function (code) {
         if (!from && (item.desc[code] || '').trim()) from = code;
       });
     }
     if (!from) { said.textContent = t('item.needText'); return; }
 
-    var targets = ['uk', 'en', 'ru'].filter(function (code) { return code !== from; });
+    var targets = ['ru', 'en', 'uk'].filter(function (code) { return code !== from; });
     var filled = targets.filter(function (code) { return (item.desc[code] || '').trim(); });
     if (filled.length && !confirm(t('item.confirmOverwrite'))) return;
 
