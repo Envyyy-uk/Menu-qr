@@ -564,6 +564,22 @@
       ]
     },
     {
+      "key": "itsukei",
+      "name": "Йцукей",
+      "category": "platters",
+      "station": "kitchen",
+      "price_pence": 12500,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "",
+        "en": "",
+        "ru": ""
+      },
+      "ing": [],
+      "w": []
+    },
+    {
       "key": "pizza-pepperoni",
       "name": "Pepperoni Pizza",
       "category": "pizza",
@@ -2955,6 +2971,6 @@
   ],
   "updated": {
     "by": "Ярік",
-    "at": "2026-08-19T23:26"
+    "at": "2026-08-19T23:27"
   }
 }
