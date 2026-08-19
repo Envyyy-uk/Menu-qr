@@ -560,6 +560,22 @@
       ]
     },
     {
+      "key": "khuiev",
+      "name": "Хуйев",
+      "category": "platters",
+      "station": "kitchen",
+      "price_pence": 50000,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "",
+        "en": "",
+        "ru": ""
+      },
+      "ing": [],
+      "w": []
+    },
+    {
       "key": "pizza-pepperoni",
       "name": "Pepperoni Pizza",
       "category": "pizza",
