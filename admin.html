@@ -416,6 +416,22 @@ button:disabled { opacity: .5; cursor: default; }
     node.className = 'hint' + (bad ? ' error' : '');
   }
 
+  /* Позначка часу лежить у каталозі за Гринвічем — так її однаково читають
+     і в Лондоні, і в Києві. Показуємо ж її годинником самого телефона:
+     влітку Лондон іде на годину вперед від Гринвіча, і без переводу підпис
+     здавався б на годину раніше, ніж людина щойно зберегла. Старі записи
+     без позначки поясу теж гринвіцькі — дописуємо «Z», інакше браузер
+     прийняв би їх за місцевий час і переклав удруге. */
+  function localStamp(at) {
+    var iso = String(at).replace(' ', 'T');
+    if (!/(Z|[+-]\d\d:?\d\d)$/.test(iso)) iso += 'Z';
+    var d = new Date(iso);
+    if (isNaN(d)) return String(at).replace('T', ' ');
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate())
+         + ' ' + two(d.getHours()) + ':' + two(d.getMinutes());
+  }
+
   /* ------------------------------------------------------- завантаження -- */
   function load() {
     return api('/repos/' + REPO.owner + '/' + REPO.name + '/contents/' + PATH
@@ -426,7 +442,7 @@ button:disabled { opacity: .5; cursor: default; }
         dirty = false;
         render();
         var last = data.updated
-          ? t('load.last', { by: data.updated.by, at: data.updated.at.replace('T', ' ') })
+          ? t('load.last', { by: data.updated.by, at: localStamp(data.updated.at) })
           : '';
         $('loaded').textContent = t('load.loaded', { n: data.items.length })
           + last + t('load.tail');
@@ -865,7 +881,7 @@ button:disabled { opacity: .5; cursor: default; }
     $('save').disabled = true;
     $('state').textContent = t('bar.saving');
 
-    data.updated = { by: author, at: new Date().toISOString().slice(0, 16) };
+    data.updated = { by: author, at: new Date().toISOString().slice(0, 16) + 'Z' };
     if (data.editors && data.editors.indexOf(author) === -1) data.editors.push(author);
 
     var body = JSON.stringify({
