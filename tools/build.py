@@ -361,7 +361,6 @@ def cards_html(lang):
 def masthead(lang, title):
     return f"""
   <div class="masthead">
-    <p class="masthead__brand">{e(MENU['venue']['name'])}</p>
     <div class="rule rule--diamond" aria-hidden="true"></div>
     <h1 class="masthead__title">{e(title)}</h1>
     <div class="rule rule--diamond" aria-hidden="true"></div>
@@ -443,9 +442,9 @@ def document(lang, stem, title, body, chips=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{e(MENU['venue']['name'])} · {e(title)}</title>
+<title>{e(title)}</title>
 <meta name="theme-color" content="#1d1a16">
-<meta name="description" content="{e(MENU['venue']['name'])} — {e(title)}">
+<meta name="description" content="{e(title)}">
 {alternates}
 <!-- Сторінку згенеровано: python3 tools/build.py. Правки — у data/ і assets/. -->
 <style>
@@ -459,7 +458,7 @@ def document(lang, stem, title, body, chips=""):
   <header class="site">
     <div class="site__bar">
       <a class="mark" href="{page_file('index', lang)}" title="{e(t('nav.back', lang))}"
-         aria-label="{e(t('nav.back', lang))}">{e(MENU['venue']['name'])}<small>LONDON</small></a>
+         aria-label="{e(t('nav.back', lang))}">MENU</a>
       <nav class="langs" aria-label="{e(t('lang.label', lang))}">{switches}</nav>
     </div>
   </header>
