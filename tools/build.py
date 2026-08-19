@@ -460,7 +460,7 @@ def document(lang, stem, title, body, chips=""):
 <html lang="{lang}" class="{'has-chips' if chips else 'no-chips'}">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>{e(title)}</title>
 <meta name="theme-color" content="#1d1a16">
 <meta name="description" content="{e(title)}">
