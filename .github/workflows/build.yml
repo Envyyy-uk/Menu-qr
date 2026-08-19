@@ -40,12 +40,12 @@ jobs:
 
       - name: Закомітити, якщо щось змінилося
         run: |
-          if [ -z "$(git status --porcelain -- '*.html')" ]; then
+          if [ -z "$(git status --porcelain -- '*.html' version.json)" ]; then
             echo "Сторінки вже збігаються з каталогом — комітити нема чого."
             exit 0
           fi
           git config user.name  'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add -- '*.html'
+          git add -- '*.html' version.json
           git commit -m 'Перезібрано сторінки меню'
           git push

@@ -162,4 +162,36 @@
 
   wireSearch();
   wireSpy();
+
+  /* ------------------------------------------------- свіжість меню --- */
+  /* Сторінка, додана на екран «Домів», живе в кеші телефона: оновити її
+     нічим — адресного рядка немає. Тому вона сама звіряє свій відбиток із
+     version.json і, якщо меню змінилося, перезавантажується з новою адресою:
+     інакше з кешу приїхала б та сама стара сторінка. */
+  function checkFresh() {
+    var meta = document.querySelector('meta[name="build"]');
+    if (!meta || document.hidden) return;
+
+    fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (fresh) {
+        if (!fresh.build || fresh.build === meta.content) return;
+
+        /* Якщо ми вже прийшли по цю саме версію, а сторінка все одно стара —
+           значить, публікація ще в дорозі. Перезавантажувати вдруге не можна:
+           вийде безкінечне коло. */
+        var url = new URL(location.href);
+        if (url.searchParams.get('v') === fresh.build) return;
+
+        url.searchParams.set('v', fresh.build);
+        location.replace(url.toString());
+      })
+      .catch(function () { /* немає звʼязку — показуємо що є */ });
+  }
+
+  checkFresh();
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) checkFresh();
+  });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) checkFresh(); });
 }());

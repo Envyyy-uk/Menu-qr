@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Hookah</title>
 <meta name="theme-color" content="#1d1a16">
+<meta name="build" content="cd6e2afad282">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/app-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -852,6 +853,38 @@ body {
 
   wireSearch();
   wireSpy();
+
+  /* ------------------------------------------------- свіжість меню --- */
+  /* Сторінка, додана на екран «Домів», живе в кеші телефона: оновити її
+     нічим — адресного рядка немає. Тому вона сама звіряє свій відбиток із
+     version.json і, якщо меню змінилося, перезавантажується з новою адресою:
+     інакше з кешу приїхала б та сама стара сторінка. */
+  function checkFresh() {
+    var meta = document.querySelector('meta[name="build"]');
+    if (!meta || document.hidden) return;
+
+    fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (fresh) {
+        if (!fresh.build || fresh.build === meta.content) return;
+
+        /* Якщо ми вже прийшли по цю саме версію, а сторінка все одно стара —
+           значить, публікація ще в дорозі. Перезавантажувати вдруге не можна:
+           вийде безкінечне коло. */
+        var url = new URL(location.href);
+        if (url.searchParams.get('v') === fresh.build) return;
+
+        url.searchParams.set('v', fresh.build);
+        location.replace(url.toString());
+      })
+      .catch(function () { /* немає звʼязку — показуємо що є */ });
+  }
+
+  checkFresh();
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) checkFresh();
+  });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) checkFresh(); });
 }());
 
 </script>

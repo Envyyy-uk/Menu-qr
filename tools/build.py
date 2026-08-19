@@ -12,6 +12,7 @@
 Запуск після будь-якої правки меню:  python3 tools/build.py
 """
 
+import hashlib
 import html
 import json
 import pathlib
@@ -29,6 +30,29 @@ LANGS = [("ru", "RU", "Русский"), ("en", "EN", "English"), ("uk", "UA", "
 DEFAULT_LANG = LANGS[0][0]
 
 ML_STEP = re.compile(r"^\d+\s*ml$", re.I)
+
+
+def stamp():
+    """Відбиток вмісту сайту.
+
+    Сторінку, додану на екран «Домів», телефон тримає в кеші й сам її не
+    перепитує: адресного рядка там немає, тож гість дивиться вчорашнє меню й
+    не здогадується про це. Тому кожна сторінка знає свій відбиток, а поруч
+    лежить version.json із поточним — сторінка звіряє їх і оновлюється сама.
+
+    Рахуємо саме від вмісту, а не від часу збірки: інакше відбиток мінявся б
+    щоразу й сторінки перезавантажувалися б на порожньому місці.
+    """
+    digest = hashlib.sha256()
+    for path in [ROOT / "data" / "menu.json", ROOT / "data" / "ui.json",
+                 ROOT / "assets" / "styles.css", ROOT / "assets" / "app.js"]:
+        digest.update(path.read_bytes())
+    for icon in sorted((ROOT / "assets" / "icons").glob("*.svg")):
+        digest.update(icon.read_bytes())
+    return digest.hexdigest()[:12]
+
+
+BUILD = stamp()
 
 
 def t(key, lang):
@@ -463,6 +487,7 @@ def document(lang, stem, title, body, chips=""):
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>{e(title)}</title>
 <meta name="theme-color" content="#1d1a16">
+<meta name="build" content="{BUILD}">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/app-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -528,6 +553,9 @@ def main():
             if stale.exists():
                 stale.unlink()
                 print(f"{stale.name:<17} прибрано — меню ще не відкрите")
+
+    (ROOT / "version.json").write_text(
+        json.dumps({"build": BUILD}) + "\n", encoding="utf-8")
 
     for name, text in written:
         path = ROOT / name
