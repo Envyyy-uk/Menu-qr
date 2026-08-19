@@ -158,8 +158,6 @@ button:disabled { opacity: .5; cursor: default; }
   <section id="login" class="panel">
     <h2 style="margin-top:0" data-i18n="login.title">Вхід</h2>
     <p class="hint" data-i18n="login.lead"></p>
-    <p class="hint" data-i18n="login.how"></p>
-    <p class="hint"><code id="repo-name"></code></p>
     <label for="name" data-i18n="login.name">Ваше імʼя</label>
     <input id="name" autocomplete="off" autocorrect="off" list="editors"
            data-i18n-placeholder="login.namePlaceholder">
@@ -239,13 +237,9 @@ button:disabled { opacity: .5; cursor: default; }
 
     'login.title':  { uk: 'Вхід', en: 'Sign in', ru: 'Вход' },
     'login.lead': {
-      uk: 'Замість пароля — особистий ключ доступу GitHub. Пароль у такій сторінці захистити нічого не може: сторінка відкрита, і його побачить будь-хто. Ключ зберігається лише на цьому пристрої, його можна відкликати будь-коли.',
-      en: 'Instead of a password — a personal GitHub access key. A password could protect nothing here: the page is public, and anyone can read it. The key is stored on this device only and can be revoked at any time.',
-      ru: 'Вместо пароля — личный ключ доступа GitHub. Пароль на такой странице не защищает ничего: страница открыта, и его увидит любой. Ключ хранится только на этом устройстве, его можно отозвать в любой момент.' },
-    'login.how': {
-      uk: 'Створити: github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens. Доступ — тільки до репозиторію, право Contents: Read and write.',
-      en: 'To create: github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens. Access to this repository only, permission Contents: Read and write.',
-      ru: 'Создать: github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens. Доступ — только к репозиторию, право Contents: Read and write.' },
+      uk: 'Ключ доступу замість пароля — він зберігається лише на цьому пристрої.',
+      en: 'An access key instead of a password — it is stored on this device only.',
+      ru: 'Ключ доступа вместо пароля — он хранится только на этом устройстве.' },
     'login.name':   { uk: 'Ваше імʼя', en: 'Your name', ru: 'Ваше имя' },
     'login.namePlaceholder': { uk: 'Як підписувати правки', en: 'How to sign your edits', ru: 'Как подписывать правки' },
     'login.token':  { uk: 'Ключ доступу', en: 'Access key', ru: 'Ключ доступа' },
@@ -354,8 +348,6 @@ button:disabled { opacity: .5; cursor: default; }
       box.append(button);
     });
   }
-
-  document.getElementById('repo-name').textContent = REPO.owner + '/' + REPO.name;
 
   /* --------------------------------------------------- база64 з юнікодом -- */
   function encode(text) {
