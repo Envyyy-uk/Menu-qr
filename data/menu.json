@@ -6,7 +6,9 @@
     "timezone": "Europe/London",
     "currency": "GBP"
   },
-  "editors": [],
+  "editors": [
+    "Ярік"
+  ],
   "menus": [
     {
       "key": "kitchen",
@@ -558,22 +560,6 @@
         "мясная тарелка",
         "сырная тарелка"
       ]
-    },
-    {
-      "key": "khuiev",
-      "name": "Хуйев",
-      "category": "platters",
-      "station": "kitchen",
-      "price_pence": 50000,
-      "orderable": true,
-      "state": "available",
-      "desc": {
-        "uk": "",
-        "en": "",
-        "ru": ""
-      },
-      "ing": [],
-      "w": []
     },
     {
       "key": "pizza-pepperoni",
@@ -2964,5 +2950,9 @@
         }
       ]
     }
-  ]
+  ],
+  "updated": {
+    "by": "Ярік",
+    "at": "2026-08-19T22:15"
+  }
 }
