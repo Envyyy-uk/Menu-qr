@@ -109,6 +109,7 @@ button:disabled { opacity: .5; cursor: default; }
 
 <header>
   <span class="mark">MENU · АДМІНКА</span>
+  <span id="who" class="hidden" style="margin-left:auto;margin-right:12px;font-size:13px;color:#cbb083"></span>
   <button id="logout" class="ghost hidden" type="button">Вийти</button>
 </header>
 
@@ -127,6 +128,11 @@ button:disabled { opacity: .5; cursor: default; }
       tokens → Fine-grained tokens</b>. Доступ — тільки до репозиторію
       <code id="repo-name"></code>, право <b>Contents: Read and write</b>.
     </p>
+    <label for="name">Ваше імʼя</label>
+    <input id="name" autocomplete="off" placeholder="Як підписувати правки"
+           list="editors">
+    <datalist id="editors"></datalist>
+
     <label for="token">Ключ доступу</label>
     <input id="token" type="password" autocomplete="off" spellcheck="false"
            placeholder="github_pat_…">
@@ -184,9 +190,10 @@ button:disabled { opacity: .5; cursor: default; }
   var REPO   = { owner: 'Envyyy-uk', name: 'Menu-qr', branch: 'claude/menu-page-no-server-rbtr5h' };
   var PATH   = 'data/menu.json';
   var KEY    = 'podval-admin-token';
+  var NAME   = 'podval-admin-name';
   var API    = 'https://api.github.com';
 
-  var token = null, data = null, sha = null, dirty = false;
+  var token = null, data = null, sha = null, dirty = false, author = '';
 
   var $ = function (id) { return document.getElementById(id); };
   document.getElementById('repo-name').textContent = REPO.owner + '/' + REPO.name;
@@ -220,11 +227,20 @@ button:disabled { opacity: .5; cursor: default; }
   /* ------------------------------------------------------------- вхід --- */
   function enter(quiet) {
     var value = $('token').value.trim();
+    var who = $('name').value.trim();
+    // Імʼя обовʼязкове: ключі спільні для всіх правок, і без підпису в
+    // історії не видно, хто саме що змінив.
+    if (!who) { state($('login-state'), 'Вкажіть імʼя — ним підписуються правки', true); return; }
     if (!value) { state($('login-state'), 'Введіть ключ доступу', true); return; }
+    author = who;
     token = value;
     state($('login-state'), 'Перевіряємо…');
     load().then(function () {
-      if ($('remember').checked) { try { localStorage.setItem(KEY, token); } catch (e) {} }
+      if ($('remember').checked) {
+        try { localStorage.setItem(KEY, token); localStorage.setItem(NAME, author); } catch (e) {}
+      }
+      $('who').textContent = author;
+      $('who').classList.remove('hidden');
       $('login').classList.add('hidden');
       $('editor').classList.remove('hidden');
       $('bar').classList.remove('hidden');
@@ -250,8 +266,18 @@ button:disabled { opacity: .5; cursor: default; }
         data = JSON.parse(decode(file.content));
         dirty = false;
         render();
+        var last = data.updated
+          ? ' Останнє редагування: ' + data.updated.by + ', ' + data.updated.at.replace('T', ' ') + '.'
+          : '';
         $('loaded').textContent = 'Каталог завантажено: ' + data.items.length
-          + ' позицій. Правки зберігаються в GitHub, сайт оновиться за хвилину-дві.';
+          + ' позицій.' + last + ' Правки зберігаються в GitHub, сайт оновиться за хвилину-дві.';
+
+        // Імена тих, хто вже правив, підказуємо наступного разу
+        var list = $('editors');
+        list.textContent = '';
+        (data.editors || []).concat(data.updated ? [data.updated.by] : [])
+          .filter(function (n, i, all) { return n && all.indexOf(n) === i; })
+          .forEach(function (n) { list.append(new Option(n)); });
         mark();
       });
   }
@@ -480,8 +506,11 @@ button:disabled { opacity: .5; cursor: default; }
     $('save').disabled = true;
     $('state').textContent = 'Зберігаємо…';
 
+    data.updated = { by: author, at: new Date().toISOString().slice(0, 16) };
+    if (data.editors && data.editors.indexOf(author) === -1) data.editors.push(author);
+
     var body = JSON.stringify({
-      message: 'Меню: правки з адмінки',
+      message: 'Меню: правки з адмінки (' + author + ')',
       content: encode(JSON.stringify(data, null, 2) + '\n'),
       sha: sha,
       branch: REPO.branch
@@ -517,7 +546,7 @@ button:disabled { opacity: .5; cursor: default; }
     load().catch(function (err) { $('state').textContent = err.message; });
   });
   $('logout').addEventListener('click', function () {
-    try { localStorage.removeItem(KEY); } catch (e) {}
+    try { localStorage.removeItem(KEY); localStorage.removeItem(NAME); } catch (e) {}
     location.reload();
   });
   window.addEventListener('beforeunload', function (e) {
@@ -526,7 +555,9 @@ button:disabled { opacity: .5; cursor: default; }
 
   try {
     var saved = localStorage.getItem(KEY);
-    if (saved) { $('token').value = saved; enter(true); }
+    var savedName = localStorage.getItem(NAME);
+    if (savedName) $('name').value = savedName;
+    if (saved && savedName) { $('token').value = saved; enter(true); }
   } catch (e) { /* приватний режим */ }
 }());
 </script>

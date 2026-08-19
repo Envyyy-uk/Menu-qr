@@ -6,6 +6,7 @@
     "timezone": "Europe/London",
     "currency": "GBP"
   },
+  "editors": [],
   "menus": [
     {
       "key": "kitchen",
