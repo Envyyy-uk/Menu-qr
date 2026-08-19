@@ -86,6 +86,9 @@ button:disabled { opacity: .5; cursor: default; }
 .item__more { padding-top: 6px; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; }
 .row > * { flex: 1 1 200px; }
+.field-row { display: flex; gap: 8px; }
+.field-row input { flex: 1 1 auto; min-width: 0; }
+.field-row button { flex: 0 0 auto; }
 
 .bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
@@ -129,13 +132,16 @@ button:disabled { opacity: .5; cursor: default; }
       <code id="repo-name"></code>, право <b>Contents: Read and write</b>.
     </p>
     <label for="name">Ваше імʼя</label>
-    <input id="name" autocomplete="off" placeholder="Як підписувати правки"
+    <input id="name" autocomplete="off" autocorrect="off" placeholder="Як підписувати правки"
            list="editors">
     <datalist id="editors"></datalist>
 
     <label for="token">Ключ доступу</label>
-    <input id="token" type="password" autocomplete="off" spellcheck="false"
-           placeholder="github_pat_…">
+    <div class="field-row">
+      <input id="token" type="password" autocomplete="off" spellcheck="false"
+             autocapitalize="none" autocorrect="off" placeholder="github_pat_…">
+      <button id="peek" class="ghost" type="button">Показати</button>
+    </div>
     <p class="hint"><label style="text-transform:none;letter-spacing:0;color:var(--muted)">
       <input id="remember" type="checkbox" checked style="width:auto"> запамʼятати на цьому пристрої
     </label></p>
@@ -535,6 +541,12 @@ button:disabled { opacity: .5; cursor: default; }
   }
 
   /* ------------------------------------------------------------ старт --- */
+  $('peek').addEventListener('click', function () {
+    var box = $('token');
+    var shown = box.type === 'text';
+    box.type = shown ? 'password' : 'text';
+    $('peek').textContent = shown ? 'Показати' : 'Сховати';
+  });
   $('add').addEventListener('click', addItem);
   $('add-cat').addEventListener('change', checkAdd);
   $('add-name').addEventListener('input', checkAdd);
