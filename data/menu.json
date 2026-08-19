@@ -28,8 +28,7 @@
         "traditional",
         "desserts"
       ],
-      "stem": "kitchen",
-      "soon": true
+      "stem": "kitchen"
     },
     {
       "key": "bar",
@@ -2971,6 +2970,6 @@
   ],
   "updated": {
     "by": "Ярік",
-    "at": "2026-08-19T23:27"
+    "at": "2026-08-19T23:28"
   }
 }
