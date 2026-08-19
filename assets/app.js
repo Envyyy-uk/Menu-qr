@@ -35,15 +35,34 @@
     try { localStorage.setItem(STORAGE_KEY, code); } catch (err) { /* ігноруємо */ }
   }
 
+  /* Пошуковий запит їде разом із мовою: слово в адресі, а не в памʼяті, бо
+     сторінка іншої мови — окремий файл і починає з чистого аркуша. */
+  function param(name) {
+    var hit = location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
+    if (!hit) return '';
+    try { return decodeURIComponent(hit[1].replace(/\+/g, ' ')); } catch (err) { return ''; }
+  }
+
+  var asked = param('q');
+
+  function langHref(link) {
+    var base = link.getAttribute('href').split('#')[0].split('?')[0];
+    /* Поки в пошуку щось написано, гість читає не розділ, а знахідки: якір
+       розділу відніс би його казна-куди, тож несемо сам запит і лишаємо
+       гостя вгорі результатів. */
+    var input = document.querySelector('.field input');
+    var typed = input ? input.value.trim() : '';
+    if (typed) return base + '?q=' + encodeURIComponent(typed);
+    var here = currentSection();
+    return here ? base + '#cat-' + here : base;
+  }
+
   var links = [].slice.call(document.querySelectorAll('.lang[data-lang]'));
 
   links.forEach(function (link) {
     link.addEventListener('click', function () {
       remember(link.getAttribute('data-lang'));
-      /* Місце читання переносимо разом із мовою: розділи на всіх сторінках
-         звуться однаково, тож досить передати поточний якір. */
-      var here = currentSection();
-      if (here) link.href = link.getAttribute('href').split('#')[0] + '#cat-' + here;
+      link.href = langHref(link);
     });
   });
 
@@ -54,7 +73,9 @@
     var twin = links.filter(function (l) { return l.getAttribute('data-lang') === want; })[0];
     if (twin) {
       remember(want);
-      location.replace(twin.getAttribute('href') + location.hash);
+      var to = twin.getAttribute('href').split('#')[0].split('?')[0];
+      if (asked) to += '?q=' + encodeURIComponent(asked);
+      location.replace(to + location.hash);
       return;
     }
   }
@@ -116,6 +137,8 @@
       if (clear) clear.hidden = !input.value;
     }
 
+    if (asked) input.value = asked;
+
     input.addEventListener('input', filter);
     clear.addEventListener('click', function () {
       input.value = '';
@@ -135,6 +158,9 @@
     var edge = barHeight() + 60;
     var found = '';
     sections.forEach(function (section) {
+      /* Схований пошуком розділ не має розмірів, і його верх — нуль: без цієї
+         перевірки поточним вважався б останній схований, тобто самий низ меню. */
+      if (section.hidden || !section.offsetParent) return;
       if (section.getBoundingClientRect().top <= edge) {
         found = section.id.replace('cat-', '');
       }
