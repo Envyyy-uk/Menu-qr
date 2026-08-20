@@ -318,14 +318,26 @@ def menu_categories(menu):
     return [by_key[k] for k in menu["categories"] if k in by_key]
 
 
+def on_menu(item):
+    """Позиція, яку зараз видно гостю. Вимкнена — та, що закінчилася або ще не
+    доведена до ладу: вона лишається в каталозі й в адмінці, але на сторінку
+    не потрапляє ні карткою, ні пошуком, ні лічильником. Прибирати її з
+    каталогу задля цього довелося б набирати наново."""
+    return item.get("state") != "hidden"
+
+
+def items_in(cat_key):
+    return [i for i in MENU["items"] if i["category"] == cat_key and on_menu(i)]
+
+
 def menu_items(menu):
     keys = set(menu["categories"])
-    return [i for i in MENU["items"] if i["category"] in keys]
+    return [i for i in MENU["items"] if i["category"] in keys and on_menu(i)]
 
 
 def menu_items_of(menus):
     keys = {k for m in menus for k in m["categories"]}
-    return [i for i in MENU["items"] if i["category"] in keys]
+    return [i for i in MENU["items"] if i["category"] in keys and on_menu(i)]
 
 
 ICONS = ROOT / "assets" / "icons"
@@ -358,6 +370,10 @@ def chips_html(lang, menu):
     chips = [f'<a class="chip chip--back" href="{page_file("index", lang)}">'
              f'← {e(t("nav.back", lang))}</a>']
     for cat in menu_categories(menu):
+        # Розділ, у якому всі позиції вимкнені, на сторінці не малюється —
+        # фішка вела б у нікуди.
+        if not items_in(cat["key"]):
+            continue
         chips.append(f'<a class="chip" href="#cat-{cat["key"]}" '
                      f'data-cat="{e(cat["key"])}">{e(pick(cat["names"], lang))}</a>')
     return (f'<nav class="chips" id="chips" '
@@ -434,7 +450,7 @@ def home_body(lang):
 def menu_body(lang, menu):
     sections = []
     for cat in menu_categories(menu):
-        items = [i for i in MENU["items"] if i["category"] == cat["key"]]
+        items = items_in(cat["key"])
         if not items:
             continue
         note = shared_note(items, lang)

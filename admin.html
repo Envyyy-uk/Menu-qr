@@ -127,6 +127,10 @@ button:disabled { opacity: .5; cursor: default; }
 .badge-soon { font-size: 11px; letter-spacing: .1em; color: var(--gold);
               border: 1px solid var(--line); border-radius: 3px; padding: 2px 6px; margin-left: 8px; }
 .menu--soon .item { opacity: .55; }
+/* Вимкнену позицію видно, але вона не тягне на себе увагу: у меню її зараз
+   немає, і в списку вона теж має читатися як відкладена. */
+.item--off > *:not(.switch) { opacity: .5; }
+.item--off { border-left: 3px solid var(--line); padding-left: 9px; }
 .head-right { display: flex; align-items: center; gap: 10px; }
 #who { font-size: 13px; color: var(--gold-soft); }
 .langs { display: flex; gap: 3px; }
@@ -310,6 +314,12 @@ button:disabled { opacity: .5; cursor: default; }
     'menu.soon':    { uk: 'Скоро — меню видно на головній, але не відкривається',
                       en: 'Coming soon — the menu is shown on the home page but does not open',
                       ru: 'Скоро — меню видно на главной, но не открывается' },
+    'item.off': {
+      uk: 'Вимкнена — у меню її не видно',
+      en: 'Off — not shown on the menu',
+      ru: 'Выключена — в меню её не видно' },
+    'item.offBadge': { uk: 'ВИМКНЕНА', en: 'OFF', ru: 'ВЫКЛЮЧЕНА' },
+
     'filter.label': { uk: 'Показати розділ', en: 'Show section', ru: 'Показать раздел' },
     'filter.all':   { uk: 'Усі розділи', en: 'All sections', ru: 'Все разделы' },
     'ui.top':       { uk: 'Нагору', en: 'Back to top', ru: 'Наверх' },
@@ -595,7 +605,8 @@ button:disabled { opacity: .5; cursor: default; }
   }
 
   function itemNode(item) {
-    var node = el('div', 'item');
+    var off = item.state === 'hidden';
+    var node = el('div', 'item' + (off ? ' item--off' : ''));
 
     var top = el('div', 'item__top');
     var grow = el('div', 'grow');
@@ -614,8 +625,25 @@ button:disabled { opacity: .5; cursor: default; }
       render();
     });
 
+    if (off) grow.append(el('span', 'badge-soon', t('item.offBadge')));
+
     top.append(grow, kill);
     node.append(top);
+
+    /* Позиція закінчилася або ще не доведена до ладу — її прибирають з меню,
+       а не видаляють: назва, ціна й описи лишаються на місці й повернуться
+       одним дотиком. */
+    var switcher = el('label', 'switch');
+    var flag = el('input');
+    flag.type = 'checkbox';
+    flag.checked = off;
+    flag.addEventListener('change', function () {
+      item.state = flag.checked ? 'hidden' : 'available';
+      touch();
+      render();
+    });
+    switcher.append(flag, el('span', null, t('item.off')));
+    node.append(switcher);
 
     var shape = pricingOf(item.category);
     var values = readPrices(item, shape);
