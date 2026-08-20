@@ -7,7 +7,8 @@
     "currency": "GBP"
   },
   "editors": [
-    "Ярік"
+    "Ярік",
+    "Женя"
   ],
   "menus": [
     {
@@ -28,8 +29,7 @@
         "traditional",
         "desserts"
       ],
-      "stem": "kitchen",
-      "soon": true
+      "stem": "kitchen"
     },
     {
       "key": "bar",
@@ -2954,7 +2954,7 @@
     }
   ],
   "updated": {
-    "by": "Ярік",
-    "at": "2026-08-19T23:29"
+    "by": "Женя",
+    "at": "2026-08-20T19:15Z"
   }
 }
