@@ -1267,7 +1267,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Ром · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Rum · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -2956,7 +2956,7 @@
     }
   ],
   "updated": {
-    "by": "Ярик",
-    "at": "2026-08-20T19:16Z"
+    "by": "Женя",
+    "at": "2026-08-20T19:18Z"
   }
 }
