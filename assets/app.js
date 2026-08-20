@@ -186,8 +186,35 @@
     sections.forEach(function (section) { observer.observe(section); });
   }
 
+  /* ----------------------------------------------------------- нагору --- */
+  function wireTop() {
+    var button = document.querySelector('.totop');
+    if (!button) return;
+
+    /* Півтора екрана — стільки, щоб кнопка не мигтіла на перших рядках, але
+       вже стояла напоготові, коли гість справді пішов углиб меню. */
+    var deep = false;
+
+    function look() {
+      var now = window.pageYOffset > window.innerHeight * 1.5;
+      if (now === deep) return;
+      deep = now;
+      button.classList.toggle('is-on', deep);
+    }
+
+    /* Фокус на пошук навмисно не ставимо: на телефоні це підняло б
+       клавіатуру, а гість просто хотів повернутися до початку. */
+    button.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', look, { passive: true });
+    look();
+  }
+
   wireSearch();
   wireSpy();
+  wireTop();
 
   /* ------------------------------------------------- свіжість меню --- */
   /* Сторінка, додана на екран «Домів», живе в кеші телефона: оновити її

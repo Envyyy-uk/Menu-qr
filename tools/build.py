@@ -464,6 +464,8 @@ def menu_body(lang, menu):
 
   <div class="menu">{''.join(sections)}</div>
   <p class="empty" hidden>{e(t('search.empty', lang))}</p>
+  <button class="totop js-only" type="button" aria-label="{e(t('ui.top', lang))}"
+          title="{e(t('ui.top', lang))}">↑</button>
 {foot(lang)}"""
 
 

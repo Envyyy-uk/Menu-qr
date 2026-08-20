@@ -586,6 +586,36 @@ body {
 .foot p { margin: 6px 0 0; }
 .foot__fine { color: var(--faint); font-style: italic; }
 
+/* ----------------------------------------------------------- нагору --- */
+/* Барне меню довге: щоб повернутися до розділів угорі, гостю довелося б довго
+   гортати. Кнопка зʼявляється, коли до верху вже далеко, і стоїть у нижньому
+   кутку — під великим пальцем, але збоку від назв і цін. */
+.totop {
+  position: fixed;
+  right: 14px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 5;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: rgba(29, 26, 22, .92);
+  color: var(--gold-soft);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(29, 26, 22, .25);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+.totop.is-on { opacity: 1; visibility: visible; }
+
+@media (prefers-reduced-motion: reduce) {
+  .totop { transition: none; }
+}
+
 /* ------------------------------------------------------- широкий екран --- */
 @media (min-width: 560px) {
   .cards { grid-template-columns: 1fr 1fr; }
@@ -614,7 +644,7 @@ body {
 
 /* --------------------------------------------------------------- друк --- */
 @media print {
-  .topbar, .toolbar { display: none !important; }
+  .topbar, .toolbar, .totop { display: none !important; }
   body { background: #fff; }
   .sheet__inner { box-shadow: none; border-color: #bbb; }
   .menu { columns: 2; column-gap: 34px; }

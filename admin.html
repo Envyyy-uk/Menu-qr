@@ -136,6 +136,19 @@ button:disabled { opacity: .5; cursor: default; }
   letter-spacing: .1em; padding: 5px 7px; border-radius: 2px;
 }
 .langs button.is-active { background: var(--gold-soft); border-color: var(--gold-soft); color: #1d1a16; }
+.filter { margin-bottom: 18px; }
+.filter label { margin-top: 0; }
+/* Список позицій довгий, а панель збереження стоїть унизу — кнопку ставимо
+   над нею, щоб вони не накладалися. */
+.totop {
+  position: fixed; right: 14px; z-index: 7;
+  bottom: calc(74px + env(safe-area-inset-bottom));
+  width: 46px; height: 46px; padding: 0; border-radius: 50%;
+  border: 1px solid var(--gold); background: rgba(29,26,22,.92); color: var(--gold-soft);
+  font-size: 20px; line-height: 1; box-shadow: 0 3px 10px rgba(29,26,22,.25);
+  opacity: 0; visibility: hidden; transition: opacity .18s ease, visibility .18s ease;
+}
+.totop.is-on { opacity: 1; visibility: visible; }
 .hidden { display: none !important; }
 .error { color: var(--bad); }
 .ok { color: #2f6d4f; }
@@ -191,10 +204,17 @@ button:disabled { opacity: .5; cursor: default; }
       <p id="add-state" class="hint"></p>
     </div>
 
+    <div class="panel filter">
+      <label for="only" data-i18n="filter.label">Показать раздел</label>
+      <select id="only"></select>
+    </div>
+
     <div id="menus"></div>
   </section>
 
 </main>
+
+<button id="totop" class="totop" type="button" aria-label="Наверх" title="Наверх">↑</button>
 
 <div id="bar" class="bar hidden">
   <span class="state" id="state"></span>
@@ -290,6 +310,10 @@ button:disabled { opacity: .5; cursor: default; }
     'menu.soon':    { uk: 'Скоро — меню видно на головній, але не відкривається',
                       en: 'Coming soon — the menu is shown on the home page but does not open',
                       ru: 'Скоро — меню видно на главной, но не открывается' },
+    'filter.label': { uk: 'Показати розділ', en: 'Show section', ru: 'Показать раздел' },
+    'filter.all':   { uk: 'Усі розділи', en: 'All sections', ru: 'Все разделы' },
+    'ui.top':       { uk: 'Нагору', en: 'Back to top', ru: 'Наверх' },
+
     'menu.soonBadge': { uk: 'СКОРО', en: 'SOON', ru: 'СКОРО' },
     'menu.empty':   { uk: 'Поки порожньо', en: 'Empty so far', ru: 'Пока пусто' },
 
@@ -328,6 +352,8 @@ button:disabled { opacity: .5; cursor: default; }
     [].slice.call(document.querySelectorAll('[data-i18n-placeholder]')).forEach(function (node) {
       node.placeholder = t(node.getAttribute('data-i18n-placeholder'));
     });
+    $('totop').title = t('ui.top');
+    $('totop').setAttribute('aria-label', t('ui.top'));
     [].slice.call(document.querySelectorAll('#langs button')).forEach(function (button) {
       button.className = button.getAttribute('data-lang') === lang ? 'is-active' : '';
     });
@@ -470,13 +496,13 @@ button:disabled { opacity: .5; cursor: default; }
 
   function money(pence) { return (pence / 100).toFixed(2).replace(/\.00$/, ''); }
 
-  function fillCategories() {
-    var select = $('add-cat');
+  /* Розділи в списку згруповані за меню — так видно, куди саме потрапить
+     позиція і що зараз на екрані. Той самий список служить і формі додавання,
+     і фільтру: різниця лише в першому пункті. */
+  function fillCatSelect(select, first) {
     var chosen = select.value;
     select.textContent = '';
-    // Порожній перший пункт навмисно: без вибраного розділу кнопка
-    // «Додати» не працює, тож позиція не може повиснути поза меню.
-    select.append(new Option(t('add.pick'), ''));
+    select.append(new Option(first, ''));
     data.menus.forEach(function (menu) {
       var box = document.createElement('optgroup');
       box.label = menuName(menu) + (menu.soon ? ' · ' + t('menu.soonBadge') : '');
@@ -486,6 +512,16 @@ button:disabled { opacity: .5; cursor: default; }
       select.append(box);
     });
     select.value = chosen;
+  }
+
+  function fillCategories() {
+    // Порожній перший пункт навмисно: без вибраного розділу кнопка
+    // «Додати» не працює, тож позиція не може повиснути поза меню.
+    fillCatSelect($('add-cat'), t('add.pick'));
+    var only = $('only');
+    only.value = shown;
+    fillCatSelect(only, t('filter.all'));
+    only.value = shown;
     drawAddPrices();
     checkAdd();
   }
@@ -508,12 +544,18 @@ button:disabled { opacity: .5; cursor: default; }
     $('add').disabled = !$('add-cat').value || !$('add-name').value.trim();
   }
 
+  /* Порожньо — видно все меню; інакше на екрані лишається один розділ.
+     Сорок пʼять позицій в один список гортати довго, а правлять зазвичай
+     щось одне. */
+  var shown = '';
+
   function render() {
     fillCategories();
     var box = $('menus');
     box.textContent = '';
 
     data.menus.forEach(function (menu) {
+      if (shown && menu.categories.indexOf(shown) === -1) return;
       var group = el('div', 'menu' + (menu.soon ? ' menu--soon' : ''));
 
       var head = el('h2', null, menuName(menu));
@@ -536,6 +578,7 @@ button:disabled { opacity: .5; cursor: default; }
       group.append(toggle);
 
       menu.categories.forEach(function (catKey) {
+        if (shown && catKey !== shown) return;
         var title = el('p', 'hint');
         title.append(el('b', null, categoryName(catKey)));
         group.append(title);
@@ -857,6 +900,9 @@ button:disabled { opacity: .5; cursor: default; }
     touch();
 
     $('add-name').value = '';
+    // Якщо на екрані стояв інший розділ, нову позицію не було б видно —
+    // переводимо фільтр туди, куди її щойно поклали.
+    if (shown && shown !== catKey) shown = catKey;
     render();
     state($('add-state'), t('add.added', { name: name, cat: categoryName(catKey) }));
   }
@@ -912,6 +958,22 @@ button:disabled { opacity: .5; cursor: default; }
   });
   $('add').addEventListener('click', addItem);
   $('add-cat').addEventListener('change', function () { drawAddPrices(); checkAdd(); });
+  $('only').addEventListener('change', function () {
+    shown = $('only').value;
+    render();
+    // Список щойно змінив довжину — показуємо його з початку, а не з місця,
+    // де людина стояла в попередньому розділі.
+    $('menus').scrollIntoView({ block: 'start' });
+  });
+  $('totop').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* Півтора екрана — щоб кнопка не мигтіла на формі додавання, але вже стояла
+     напоготові, коли людина пішла вглиб списку. */
+  window.addEventListener('scroll', function () {
+    $('totop').classList.toggle('is-on', window.pageYOffset > window.innerHeight * 1.5);
+  }, { passive: true });
   $('add-name').addEventListener('input', checkAdd);
   $('enter').addEventListener('click', function () { enter(false); });
   $('token').addEventListener('keydown', function (e) { if (e.key === 'Enter') enter(false); });
