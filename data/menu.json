@@ -871,7 +871,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "hidden",
+      "state": "available",
       "desc": {
         "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -2957,6 +2957,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-08-21T02:49Z"
+    "at": "2026-08-21T03:04Z"
   }
 }
