@@ -2512,7 +2512,7 @@
       "name": "Nalivka",
       "category": "spirits",
       "station": "bar",
-      "price_pence": 900,
+      "price_pence": 1200,
       "orderable": true,
       "state": "hidden",
       "desc": {
@@ -2540,7 +2540,7 @@
                 "en": "50 ml",
                 "ru": "50 мл"
               },
-              "price_pence": 900
+              "price_pence": 1200
             },
             {
               "key": "ml100",
@@ -2549,7 +2549,7 @@
                 "en": "100 ml",
                 "ru": "100 мл"
               },
-              "price_pence": 1800
+              "price_pence": 2400
             },
             {
               "key": "ml150",
@@ -2558,7 +2558,7 @@
                 "en": "150 ml",
                 "ru": "150 мл"
               },
-              "price_pence": 2700
+              "price_pence": 3600
             },
             {
               "key": "ml200",
@@ -2567,7 +2567,7 @@
                 "en": "200 ml",
                 "ru": "200 мл"
               },
-              "price_pence": 3600
+              "price_pence": 4800
             },
             {
               "key": "ml250",
@@ -2576,7 +2576,7 @@
                 "en": "250 ml",
                 "ru": "250 мл"
               },
-              "price_pence": 4500
+              "price_pence": 6000
             },
             {
               "key": "ml300",
@@ -2585,7 +2585,7 @@
                 "en": "300 ml",
                 "ru": "300 мл"
               },
-              "price_pence": 5400
+              "price_pence": 7200
             },
             {
               "key": "bottle",
@@ -2594,7 +2594,7 @@
                 "en": "Bottle",
                 "ru": "Бутылка"
               },
-              "price_pence": 8000
+              "price_pence": 10000
             }
           ]
         },
@@ -3891,7 +3891,7 @@
     }
   ],
   "updated": {
-    "by": "Ярик",
-    "at": "2026-08-22T04:22Z"
+    "by": "Женя",
+    "at": "2026-08-22T20:07Z"
   }
 }
