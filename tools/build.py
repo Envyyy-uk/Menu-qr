@@ -94,6 +94,51 @@ def money(pence):
     return text[:-3] if text.endswith(".00") else text
 
 
+# ------------------------------------------------------------------ знижка --
+# З неділі до четверга напої дешевші, а кальян коштує рівно £40. Сервера немає,
+# тож у сторінку друкуються обидві ціни: звичайна — текстом, знижкова — в
+# data-promo. Скрипт у потрібний день підміняє одну на іншу, а без скрипта
+# гість бачить звичайну ціну й примітку з правилом — як у друкованому меню.
+# Так сторінка не бреше в жодному з випадків.
+PROMO = MENU.get("promo") or {}
+RULE = None            # правило меню, яке зараз малюється
+
+
+def promo_pence(pence, flat=True):
+    """Ціна цієї ж позиції в дні знижки. flat=False — для варіантів усередині
+    позиції: тверда ціна меню («кальян £40») стосується позиції, а не кожного
+    її обʼєму, і на варіанти не переноситься."""
+    if not RULE or not pence:
+        return None
+    if RULE.get("off_percent"):
+        return round(pence * (100 - RULE["off_percent"]) / 100)
+    if flat and RULE.get("price_pence"):
+        return RULE["price_pence"]
+    return None
+
+
+def rule_of(stem):
+    return (PROMO.get("menus") or {}).get(stem)
+
+
+def promo_note(where, lang):
+    """Рядок про знижку: текстом — правило, у data-today — те, що скрипт
+    покаже в самі дні знижки."""
+    block = (PROMO.get("menus") or {}).get(where) or PROMO.get(where) or {}
+    note, today = block.get("note"), block.get("today")
+    if not note:
+        return ""
+    extra = f' data-today="{e(pick(today, lang))}"' if today else ""
+    return f'<p class="promo"{extra}>{e(pick(note, lang))}</p>'
+
+
+def price_html(pence, flat=True):
+    """Ціна разом зі своєю знижковою парою."""
+    cut = promo_pence(pence, flat)
+    tag = f' data-promo="{e(money(cut))}"' if cut and cut != pence else ""
+    return f"<span{tag}>{e(money(pence))}</span>"
+
+
 # --------------------------------------------------------------------- опис --
 # У каталозі опис міцного має вигляд «Горілка · Мікс до міцного — £3…»: перша
 # частина про саму позицію, друга однакова для всього розділу. Спільний хвіст
@@ -146,7 +191,8 @@ def choices_html(choices, lang):
     for choice in choices:
         chip = f'<span class="choice__name">{e(choice_name(choice, lang))}</span>'
         if choice.get("price_pence"):
-            chip += f' <span class="choice__price">{e(money(choice["price_pence"]))}</span>'
+            chip += (' <span class="choice__price">'
+                     + price_html(choice["price_pence"], flat=False) + '</span>')
         parts.append(f'<span class="choice">{chip}</span>')
     return ' <span class="sep">·</span> '.join(parts)
 
@@ -251,7 +297,7 @@ def item_html(item, lang, note):
 
     out.append('<div class="item__head">'
                f'<h3 class="item__name">{e(item["name"])}{badge}</h3>'
-               f'<p class="item__price">{prefix}{e(money(item["price_pence"]))}</p>'
+               f'<p class="item__price">{prefix}{price_html(item["price_pence"])}</p>'
                '</div>')
 
     head, tail = split_desc(item, lang)
@@ -382,8 +428,10 @@ def chips_html(lang, menu):
 
 def cards_html(lang):
     """Головна: кухня, бар і кальяни великими картками."""
+    global RULE
     cards = []
     for menu in MENUS:
+        RULE = rule_of(menu["stem"])
         items = menu_items(menu)
         if not items:
             continue
@@ -403,8 +451,8 @@ def cards_html(lang):
             continue
         prices = [i["price_pence"] for i in items]
         # «від £50» там, де ціна одна на все меню, — обіцянка вибору, якого нема
-        price = (f'{e(t("price.from", lang))} {e(money(min(prices)))}'
-                 if min(prices) != max(prices) else e(money(prices[0])))
+        price = (f'{e(t("price.from", lang))} {price_html(min(prices))}'
+                 if min(prices) != max(prices) else price_html(prices[0]))
         cards.append(
             f'<a class="card" href="{page_file(menu["stem"], lang)}">'
             f'<span class="card__icon">{icon(menu["stem"])}</span>'
@@ -413,6 +461,7 @@ def cards_html(lang):
             f'<span class="card__meta">{e(count_text(len(items), lang))}'
             f' · {price}</span>'
             '</span></a>')
+    RULE = None
     return (f'<nav class="cards" aria-label="{e(t("home.pick", lang))}">'
             f'{"".join(cards)}</nav>')
 
@@ -443,11 +492,14 @@ def home_body(lang):
   <div class="home">
     <p class="home__pick">{e(t('home.pick', lang))}</p>
     {cards_html(lang)}
+    {promo_note('home', lang)}
   </div>
 {foot(lang)}"""
 
 
 def menu_body(lang, menu):
+    global RULE
+    RULE = rule_of(menu["stem"])
     sections = []
     for cat in menu_categories(menu):
         items = items_in(cat["key"])
@@ -478,11 +530,19 @@ def menu_body(lang, menu):
        data-lang="{lang}">{e(count_text(len(menu_items(menu)), lang))}</p>
   </div>
 
+  {promo_note(menu['stem'], lang)}
   <div class="menu">{''.join(sections)}</div>
   <p class="empty" hidden>{e(t('search.empty', lang))}</p>
   <button class="totop js-only" type="button" aria-label="{e(t('ui.top', lang))}"
           title="{e(t('ui.top', lang))}">↑</button>
 {foot(lang)}"""
+
+
+def promo_days():
+    """Дні знижки — атрибутом сторінки: рахувати день має браузер гостя, бо
+    сторінка збирається раз, а тиждень іде далі."""
+    days = PROMO.get("days")
+    return f' data-promo-days="{",".join(str(d) for d in days)}"' if days else ""
 
 
 def document(lang, stem, title, body, chips=""):
@@ -518,7 +578,7 @@ def document(lang, stem, title, body, chips=""):
 {CSS}
 </style>
 </head>
-<body data-stem="{stem}" data-lang="{lang}">
+<body data-stem="{stem}" data-lang="{lang}"{promo_days()}>
 
 <!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
 <div class="topbar">

@@ -212,9 +212,44 @@
     look();
   }
 
+  /* ----------------------------------------------------------- знижка --- */
+  /* У сторінці надруковані обидві ціни: звичайна текстом, знижкова в
+     data-promo. Лишається дізнатися, який сьогодні день, — і в дні знижки
+     підмінити одну на іншу. */
+  var WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  function londonDay() {
+    /* День рахуємо за Лондоном, а не за годинником телефона: гість може
+       приїхати з іншим поясом, а знижка привʼязана до дня в барі. */
+    try {
+      var name = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London', weekday: 'short'
+      }).format(new Date());
+      var n = WEEK.indexOf(name.slice(0, 3));
+      if (n > -1) return n;
+    } catch (err) { /* старий браузер — нижче звичайний спосіб */ }
+    return new Date().getDay();
+  }
+
+  function wirePromo() {
+    var days = document.body.getAttribute('data-promo-days');
+    var note = document.querySelector('.promo');
+    if (!days || days.split(',').indexOf(String(londonDay())) === -1) return;
+
+    [].slice.call(document.querySelectorAll('[data-promo]')).forEach(function (node) {
+      node.textContent = node.getAttribute('data-promo');
+    });
+    if (note) {
+      var today = note.getAttribute('data-today');
+      if (today) note.textContent = today;
+      note.className = 'promo is-on';
+    }
+  }
+
   wireSearch();
   wireSpy();
   wireTop();
+  wirePromo();
 
   /* ------------------------------------------------- свіжість меню --- */
   /* Сторінка, додана на екран «Домів», живе в кеші телефона: оновити її

@@ -586,6 +586,28 @@ body {
 .foot p { margin: 6px 0 0; }
 .foot__fine { color: var(--faint); font-style: italic; }
 
+/* ----------------------------------------------------------- знижка --- */
+/* Правило знижки стоїть над меню й читається без скрипта. У самі дні знижки
+   скрипт міняє текст на «сьогодні діє» і підсвічує рядок золотом — щоб гість
+   не рахував у голові, а бачив, що ціни вже нижчі. */
+.promo {
+  margin: 0 0 18px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold-soft);
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(168, 132, 63, .045);
+}
+
+.promo.is-on {
+  border-left-color: var(--gold);
+  color: var(--ink);
+  background: rgba(168, 132, 63, .12);
+}
+
+.home .promo { margin: 22px 0 0; text-align: center; border-left-width: 1px; }
+
 /* ----------------------------------------------------------- нагору --- */
 /* Барне меню довге: щоб повернутися до розділів угорі, гостю довелося б довго
    гортати. Кнопка зʼявляється, коли до верху вже далеко, і стоїть у нижньому

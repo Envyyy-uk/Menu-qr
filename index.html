@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Меню</title>
 <meta name="theme-color" content="#1d1a16">
-<meta name="build" content="a38ba8c198de">
+<meta name="build" content="2e6521a23260">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/app-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -603,6 +603,28 @@ body {
 .foot p { margin: 6px 0 0; }
 .foot__fine { color: var(--faint); font-style: italic; }
 
+/* ----------------------------------------------------------- знижка --- */
+/* Правило знижки стоїть над меню й читається без скрипта. У самі дні знижки
+   скрипт міняє текст на «сьогодні діє» і підсвічує рядок золотом — щоб гість
+   не рахував у голові, а бачив, що ціни вже нижчі. */
+.promo {
+  margin: 0 0 18px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold-soft);
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(168, 132, 63, .045);
+}
+
+.promo.is-on {
+  border-left-color: var(--gold);
+  color: var(--ink);
+  background: rgba(168, 132, 63, .12);
+}
+
+.home .promo { margin: 22px 0 0; text-align: center; border-left-width: 1px; }
+
 /* ----------------------------------------------------------- нагору --- */
 /* Барне меню довге: щоб повернутися до розділів угорі, гостю довелося б довго
    гортати. Кнопка зʼявляється, коли до верху вже далеко, і стоїть у нижньому
@@ -669,7 +691,7 @@ body {
 
 </style>
 </head>
-<body data-stem="index" data-lang="ru">
+<body data-stem="index" data-lang="ru" data-promo-days="0,1,2,3,4">
 
 <!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
 <div class="topbar">
@@ -710,7 +732,7 @@ body {
     <path d="M50,60 L50,80"/>
     <path d="M34,80 L66,80"/>
   </g>
-</svg></span><span class="card__text"><span class="card__name">Бар</span><span class="card__meta">56 позиций · от £3</span></span></a><a class="card" href="hookah.html"><span class="card__icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+</svg></span><span class="card__text"><span class="card__name">Бар</span><span class="card__meta">56 позиций · от <span data-promo="£2.40">£3</span></span></span></a><a class="card" href="hookah.html"><span class="card__icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M43,16 L57,16 L59,27 L41,27 Z"/>
     <path d="M50,27 L50,66"/>
@@ -718,7 +740,8 @@ body {
     <path d="M39,66 C39,76 43,85 50,85 C57,85 61,76 61,66"/>
     <path d="M50,42 C72,42 78,60 67,73"/>
   </g>
-</svg></span><span class="card__text"><span class="card__name">Кальяны</span><span class="card__meta">1 позиция · £50</span></span></a></nav>
+</svg></span><span class="card__text"><span class="card__name">Кальяны</span><span class="card__meta">1 позиция · <span data-promo="£40">£50</span></span></span></a></nav>
+    <p class="promo" data-today="Сегодня действует: напитки −20%, кальян £40.">Воскресенье–четверг — напитки −20%, кальян £40.</p>
   </div>
 
   <footer class="foot">
@@ -945,9 +968,44 @@ body {
     look();
   }
 
+  /* ----------------------------------------------------------- знижка --- */
+  /* У сторінці надруковані обидві ціни: звичайна текстом, знижкова в
+     data-promo. Лишається дізнатися, який сьогодні день, — і в дні знижки
+     підмінити одну на іншу. */
+  var WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  function londonDay() {
+    /* День рахуємо за Лондоном, а не за годинником телефона: гість може
+       приїхати з іншим поясом, а знижка привʼязана до дня в барі. */
+    try {
+      var name = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London', weekday: 'short'
+      }).format(new Date());
+      var n = WEEK.indexOf(name.slice(0, 3));
+      if (n > -1) return n;
+    } catch (err) { /* старий браузер — нижче звичайний спосіб */ }
+    return new Date().getDay();
+  }
+
+  function wirePromo() {
+    var days = document.body.getAttribute('data-promo-days');
+    var note = document.querySelector('.promo');
+    if (!days || days.split(',').indexOf(String(londonDay())) === -1) return;
+
+    [].slice.call(document.querySelectorAll('[data-promo]')).forEach(function (node) {
+      node.textContent = node.getAttribute('data-promo');
+    });
+    if (note) {
+      var today = note.getAttribute('data-today');
+      if (today) note.textContent = today;
+      note.className = 'promo is-on';
+    }
+  }
+
   wireSearch();
   wireSpy();
   wireTop();
+  wirePromo();
 
   /* ------------------------------------------------- свіжість меню --- */
   /* Сторінка, додана на екран «Домів», живе в кеші телефона: оновити її
