@@ -3265,7 +3265,7 @@
       "station": "bar",
       "price_pence": 1200,
       "orderable": true,
-      "state": "hidden",
+      "state": "available",
       "desc": {
         "uk": "Настоянка на ягодах і фруктах",
         "en": "Fruit and berry infusion",
@@ -4730,7 +4730,7 @@
     }
   ],
   "updated": {
-    "by": "Женя",
-    "at": "2026-08-22T20:07Z"
+    "by": "Ярик",
+    "at": "2026-08-23T21:19Z"
   }
 }
