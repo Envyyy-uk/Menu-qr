@@ -3075,7 +3075,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Італійський біттер · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Italian bitter · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -3170,7 +3170,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Лікер маракуйї · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Passion fruit liqueur · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -3766,7 +3766,7 @@
       "station": "bar",
       "price_pence": 500,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Газований напій",
         "en": "Fizzy drink",
@@ -4096,7 +4096,7 @@
       "station": "bar",
       "price_pence": 2500,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Шампанське",
         "en": "Champagne",
@@ -4731,6 +4731,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-08-23T21:19Z"
+    "at": "2026-08-25T11:07Z"
   }
 }
