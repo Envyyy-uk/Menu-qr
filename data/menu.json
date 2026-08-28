@@ -986,7 +986,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -1081,7 +1081,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -3275,7 +3275,7 @@
       "station": "bar",
       "price_pence": 1200,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Настоянка на ягодах і фруктах",
         "en": "Fruit and berry infusion",
@@ -4833,6 +4833,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-08-28T19:24Z"
+    "at": "2026-08-28T19:25Z"
   }
 }
