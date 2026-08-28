@@ -3408,6 +3408,98 @@
       ]
     },
     {
+      "key": "house-vodka",
+      "name": "House Vodka",
+      "category": "spirits",
+      "station": "bar",
+      "price_pence": 1300,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "",
+        "en": "",
+        "ru": ""
+      },
+      "ing": [],
+      "w": [
+        "age-check"
+      ],
+      "options": [
+        {
+          "key": "size",
+          "label": "opt.size",
+          "choices": [
+            {
+              "key": "ml50",
+              "name": {
+                "uk": "50 мл",
+                "en": "50 ml",
+                "ru": "50 мл"
+              },
+              "price_pence": 1300
+            },
+            {
+              "key": "ml100",
+              "name": {
+                "uk": "100 мл",
+                "en": "100 ml",
+                "ru": "100 мл"
+              },
+              "price_pence": 2600
+            },
+            {
+              "key": "ml150",
+              "name": {
+                "uk": "150 мл",
+                "en": "150 ml",
+                "ru": "150 мл"
+              },
+              "price_pence": 3900
+            },
+            {
+              "key": "ml200",
+              "name": {
+                "uk": "200 мл",
+                "en": "200 ml",
+                "ru": "200 мл"
+              },
+              "price_pence": 5200
+            },
+            {
+              "key": "ml250",
+              "name": {
+                "uk": "250 мл",
+                "en": "250 ml",
+                "ru": "250 мл"
+              },
+              "price_pence": 6500
+            },
+            {
+              "key": "ml300",
+              "name": {
+                "uk": "300 мл",
+                "en": "300 ml",
+                "ru": "300 мл"
+              },
+              "price_pence": 7800
+            },
+            {
+              "key": "bottle",
+              "name": {
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
+              },
+              "price_pence": 23000
+            }
+          ]
+        }
+      ],
+      "add": [
+        "mixer"
+      ]
+    },
+    {
       "key": "aperol-spritz",
       "name": "Aperol Spritz",
       "category": "cocktails",
@@ -4741,6 +4833,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-08-25T11:07Z"
+    "at": "2026-08-28T19:24Z"
   }
 }
