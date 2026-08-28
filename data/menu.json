@@ -4078,7 +4078,7 @@
           "label": "opt.size",
           "choices": [
             {
-              "key": "glass",
+              "key": "glass175",
               "name": {
                 "uk": "Келих 175 мл",
                 "en": "Glass 175 ml",
@@ -4093,7 +4093,7 @@
                 "en": "Bottle",
                 "ru": "Бутылка"
               },
-              "price_pence": 8000
+              "price_pence": 7000
             }
           ]
         }
@@ -4124,7 +4124,7 @@
           "label": "opt.size",
           "choices": [
             {
-              "key": "glass",
+              "key": "glass175",
               "name": {
                 "uk": "Келих 175 мл",
                 "en": "Glass 175 ml",
@@ -4139,7 +4139,7 @@
                 "en": "Bottle",
                 "ru": "Бутылка"
               },
-              "price_pence": 8000
+              "price_pence": 7000
             }
           ]
         }
@@ -4170,7 +4170,7 @@
           "label": "opt.size",
           "choices": [
             {
-              "key": "glass",
+              "key": "glass175",
               "name": {
                 "uk": "Келих 175 мл",
                 "en": "Glass 175 ml",
@@ -4185,7 +4185,7 @@
                 "en": "Bottle",
                 "ru": "Бутылка"
               },
-              "price_pence": 8000
+              "price_pence": 7000
             }
           ]
         }
@@ -4833,6 +4833,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-08-28T19:25Z"
+    "at": "2026-08-28T19:52Z"
   }
 }
