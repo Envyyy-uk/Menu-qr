@@ -214,34 +214,83 @@
 
   /* ----------------------------------------------------------- знижка --- */
   /* У сторінці надруковані обидві ціни: звичайна текстом, знижкова в
-     data-promo. Лишається дізнатися, який сьогодні день, — і в дні знижки
-     підмінити одну на іншу. */
+     data-promo. Знижка діє завжди, крім вікон повної ціни — щотижневого
+     (пʼятниця 12:00 → неділя 9:00) і разових за датами. Розклад лежить у
+     сторінці блоком JSON, час у ньому лондонський. */
   var WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  function londonDay() {
-    /* День рахуємо за Лондоном, а не за годинником телефона: гість може
-       приїхати з іншим поясом, а знижка привʼязана до дня в барі. */
+  function londonNow() {
+    /* Час рахуємо за Лондоном, а не за годинником телефона: гість може
+       приїхати з іншим поясом, а знижка привʼязана до годинника бару. */
+    var d = new Date();
     try {
-      var name = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Europe/London', weekday: 'short'
-      }).format(new Date());
-      var n = WEEK.indexOf(name.slice(0, 3));
-      if (n > -1) return n;
-    } catch (err) { /* старий браузер — нижче звичайний спосіб */ }
-    return new Date().getDay();
+      var bits = {};
+      new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London', weekday: 'short', hour12: false,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      }).formatToParts(d).forEach(function (part) { bits[part.type] = part.value; });
+
+      var day = WEEK.indexOf(String(bits.weekday).slice(0, 3));
+      var hour = Number(bits.hour) % 24;          /* деякі браузери кажуть «24» */
+      var minute = Number(bits.minute);
+      if (day > -1 && hour >= 0 && minute >= 0) {
+        return {
+          week: day * 1440 + hour * 60 + minute,
+          stamp: bits.year + '-' + bits.month + '-' + bits.day + 'T'
+                 + (hour < 10 ? '0' : '') + hour + ':' + bits.minute
+        };
+      }
+    } catch (err) { /* старий браузер — рахуємо за телефоном */ }
+
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    return {
+      week: d.getDay() * 1440 + d.getHours() * 60 + d.getMinutes(),
+      stamp: d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate())
+             + 'T' + two(d.getHours()) + ':' + two(d.getMinutes())
+    };
+  }
+
+  /* Вікно може переходити через кінець тижня: пʼятниця 12:00 → неділя 9:00
+     починається пізно ввечері тижня й закінчується вже на його початку. */
+  function inWeekWindow(minute, from, to) {
+    return from <= to ? (minute >= from && minute < to)
+                      : (minute >= from || minute < to);
   }
 
   function wirePromo() {
-    var days = document.body.getAttribute('data-promo-days');
+    var box = document.getElementById('promo');
     var note = document.querySelector('.promo');
-    if (!days || days.split(',').indexOf(String(londonDay())) === -1) return;
+    if (!box) return;
+
+    var plan;
+    try { plan = JSON.parse(box.textContent); } catch (err) { return; }
+
+    var now = londonNow();
+    var full = null;
+
+    (plan['except'] || []).forEach(function (w) {
+      if (!full && now.stamp >= w.from && now.stamp < w.to) full = w;
+    });
+    if (!full) {
+      (plan.full || []).forEach(function (w) {
+        if (!full && inWeekWindow(now.week, w.from, w.to)) full = w;
+      });
+    }
+
+    if (full) {
+      /* Повна ціна — надруковані ціни й так правильні. Якщо це разове вікно,
+         пояснюємо чому: інакше гість читав би, що знижка мала б діяти. */
+      if (note && full.note) note.textContent = full.note;
+      return;
+    }
 
     [].slice.call(document.querySelectorAll('[data-promo]')).forEach(function (node) {
       node.textContent = node.getAttribute('data-promo');
     });
     if (note) {
-      var today = note.getAttribute('data-today');
-      if (today) note.textContent = today;
+      var on = note.getAttribute('data-today');
+      if (on) note.textContent = on;
       note.className = 'promo is-on';
     }
   }

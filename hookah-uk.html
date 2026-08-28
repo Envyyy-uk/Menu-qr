@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Кальяни</title>
 <meta name="theme-color" content="#1d1a16">
-<meta name="build" content="0c51a021bbd3">
+<meta name="build" content="94aeb55bfb64">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/app-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -691,7 +691,8 @@ body {
 
 </style>
 </head>
-<body data-stem="hookah" data-lang="uk" data-promo-days="0,1,2,3,4">
+<body data-stem="hookah" data-lang="uk">
+<script type="application/json" id="promo">{"full": [{"from": 7920, "to": 540}], "except": [{"from": "2026-08-30T09:00", "to": "2026-08-31T12:00", "note": "Ці вихідні — повна ціна до понеділка, 12:00."}]}</script>
 
 <!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
 <div class="topbar">
@@ -728,7 +729,7 @@ body {
        data-lang="uk">1 позиція</p>
   </div>
 
-  <p class="promo" data-today="Сьогодні кальян £40 — ціна нижче вже зі знижкою.">Неділя–четвер — кальян £40. Пʼятниця й субота — £50.</p>
+  <p class="promo" data-today="Зараз кальян £40 — ціна нижче вже зі знижкою.">Кальян £40 — з неділі 9:00 до пʼятниці 12:00. З пʼятниці 12:00 до неділі 9:00 — £50.</p>
   <div class="menu"><section class="section" id="cat-hookah"><header class="section__head"><h2 class="section__title">Кальяни</h2></header><div class="section__items"><article class="item" data-search="hookah ціна однакова на будь-який кальян. смаки тютюну запитуйте в кальянного майстра one price for any hookah. ask your shisha master about the available tobacco flavours цена одинаковая на любой кальян. вкусы табака спрашивайте у кальянного мастера кальян кальяни кальяны шиша shisha дарк ліф дарк лиф сигарний лист сигарный лист фруктова чаша фруктовая чаша рехед ре-хед тютюн tobacco табак вугілля charcoal уголь лист leaf лист дарк-ліф dark leaf дарк-лиф сигарний лист cigar leaf сигарный лист дарк-лиф dark leaf дарк-ліф musthave snobless darkside deus duft blackburn tangiers overdose сигарный лист cigar leaf сигарний лист bonche kraken satyr фруктовая чаша fruit head фруктова чаша яблуко apple яблоко лимон lemon лимон апельсин orange апельсин грейпфрут grapefruit грейпфрут ананас pineapple ананас дополнительно extra додатково заміна чаші re-head замена чаши кальяни hookah кальяны"><div class="item__head"><h3 class="item__name">Hookah <span class="badge" title="Тютюн. Подається лише повнолітнім — бармен перевірить документ.">18+</span></h3><p class="item__price"><span data-promo="£40">£50</span></p></div><p class="item__desc">Ціна однакова на будь-який кальян. Смаки тютюну запитуйте в кальянного майстра</p><div class="item__opt"><span class="item__optLabel">Лист:</span> <span class="choice"><span class="choice__name">Дарк-ліф</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Сигарний лист</span></span></div><div class="item__opt"><span class="item__optLabel">Дарк-ліф:</span> <span class="choice"><span class="choice__name">MustHave</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Snobless</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Darkside</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Deus Duft</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Blackburn</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Tangiers</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Overdose</span></span></div><div class="item__opt"><span class="item__optLabel">Сигарний лист:</span> <span class="choice"><span class="choice__name">Bonche</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Kraken</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Satyr</span></span></div><div class="item__opt"><span class="item__optLabel">Фруктова чаша <span class="item__add">+£10</span>:</span> <span class="choice"><span class="choice__name">Яблуко</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Лимон</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Апельсин</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Грейпфрут</span></span> <span class="sep">·</span> <span class="choice"><span class="choice__name">Ананас</span></span></div><div class="item__opt"><span class="item__optLabel">Додатково:</span> <span class="choice"><span class="choice__name">Заміна чаші</span></span></div></article></div></section></div>
   <p class="empty" hidden>Нічого не знайдено. Спробуйте іншу мову або інший складник.</p>
   <button class="totop js-only" type="button" aria-label="Нагору"
@@ -960,34 +961,83 @@ body {
 
   /* ----------------------------------------------------------- знижка --- */
   /* У сторінці надруковані обидві ціни: звичайна текстом, знижкова в
-     data-promo. Лишається дізнатися, який сьогодні день, — і в дні знижки
-     підмінити одну на іншу. */
+     data-promo. Знижка діє завжди, крім вікон повної ціни — щотижневого
+     (пʼятниця 12:00 → неділя 9:00) і разових за датами. Розклад лежить у
+     сторінці блоком JSON, час у ньому лондонський. */
   var WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  function londonDay() {
-    /* День рахуємо за Лондоном, а не за годинником телефона: гість може
-       приїхати з іншим поясом, а знижка привʼязана до дня в барі. */
+  function londonNow() {
+    /* Час рахуємо за Лондоном, а не за годинником телефона: гість може
+       приїхати з іншим поясом, а знижка привʼязана до годинника бару. */
+    var d = new Date();
     try {
-      var name = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Europe/London', weekday: 'short'
-      }).format(new Date());
-      var n = WEEK.indexOf(name.slice(0, 3));
-      if (n > -1) return n;
-    } catch (err) { /* старий браузер — нижче звичайний спосіб */ }
-    return new Date().getDay();
+      var bits = {};
+      new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London', weekday: 'short', hour12: false,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      }).formatToParts(d).forEach(function (part) { bits[part.type] = part.value; });
+
+      var day = WEEK.indexOf(String(bits.weekday).slice(0, 3));
+      var hour = Number(bits.hour) % 24;          /* деякі браузери кажуть «24» */
+      var minute = Number(bits.minute);
+      if (day > -1 && hour >= 0 && minute >= 0) {
+        return {
+          week: day * 1440 + hour * 60 + minute,
+          stamp: bits.year + '-' + bits.month + '-' + bits.day + 'T'
+                 + (hour < 10 ? '0' : '') + hour + ':' + bits.minute
+        };
+      }
+    } catch (err) { /* старий браузер — рахуємо за телефоном */ }
+
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    return {
+      week: d.getDay() * 1440 + d.getHours() * 60 + d.getMinutes(),
+      stamp: d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate())
+             + 'T' + two(d.getHours()) + ':' + two(d.getMinutes())
+    };
+  }
+
+  /* Вікно може переходити через кінець тижня: пʼятниця 12:00 → неділя 9:00
+     починається пізно ввечері тижня й закінчується вже на його початку. */
+  function inWeekWindow(minute, from, to) {
+    return from <= to ? (minute >= from && minute < to)
+                      : (minute >= from || minute < to);
   }
 
   function wirePromo() {
-    var days = document.body.getAttribute('data-promo-days');
+    var box = document.getElementById('promo');
     var note = document.querySelector('.promo');
-    if (!days || days.split(',').indexOf(String(londonDay())) === -1) return;
+    if (!box) return;
+
+    var plan;
+    try { plan = JSON.parse(box.textContent); } catch (err) { return; }
+
+    var now = londonNow();
+    var full = null;
+
+    (plan['except'] || []).forEach(function (w) {
+      if (!full && now.stamp >= w.from && now.stamp < w.to) full = w;
+    });
+    if (!full) {
+      (plan.full || []).forEach(function (w) {
+        if (!full && inWeekWindow(now.week, w.from, w.to)) full = w;
+      });
+    }
+
+    if (full) {
+      /* Повна ціна — надруковані ціни й так правильні. Якщо це разове вікно,
+         пояснюємо чому: інакше гість читав би, що знижка мала б діяти. */
+      if (note && full.note) note.textContent = full.note;
+      return;
+    }
 
     [].slice.call(document.querySelectorAll('[data-promo]')).forEach(function (node) {
       node.textContent = node.getAttribute('data-promo');
     });
     if (note) {
-      var today = note.getAttribute('data-today');
-      if (today) note.textContent = today;
+      var on = note.getAttribute('data-today');
+      if (on) note.textContent = on;
       note.className = 'promo is-on';
     }
   }

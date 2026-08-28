@@ -538,11 +538,33 @@ def menu_body(lang, menu):
 {foot(lang)}"""
 
 
-def promo_days():
-    """Дні знижки — атрибутом сторінки: рахувати день має браузер гостя, бо
-    сторінка збирається раз, а тиждень іде далі."""
-    days = PROMO.get("days")
-    return f' data-promo-days="{",".join(str(d) for d in days)}"' if days else ""
+WEEK = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
+
+
+def minute_of_week(text):
+    """«fri 12:00» → хвилина від неділі 00:00. Так вікно порівнюється одним
+    числом, навіть коли воно переходить через ніч або через кінець тижня."""
+    day, clock = text.split()
+    hour, minute = clock.split(":")
+    return WEEK.index(day.lower()) * 1440 + int(hour) * 60 + int(minute)
+
+
+def promo_json(lang):
+    """Розклад знижки для скрипта. Дати й час — лондонські: гість може бути з
+    іншим поясом, а знижка привʼязана до годинника бару. Без скрипта блок
+    просто лежить у сторінці й нічого не робить — ціни надруковані повні."""
+    if not PROMO.get("full") and not PROMO.get("except"):
+        return ""
+    plan = {
+        "full": [{"from": minute_of_week(w["from"]), "to": minute_of_week(w["to"])}
+                 for w in PROMO.get("full") or []],
+        "except": [{"from": w["from"], "to": w["to"],
+                    "note": pick(w.get("note"), lang)}
+                   for w in PROMO.get("except") or []],
+    }
+    return ('\n<script type="application/json" id="promo">'
+            + json.dumps(plan, ensure_ascii=False).replace("<", "\\u003c")
+            + "</script>")
 
 
 def document(lang, stem, title, body, chips=""):
@@ -578,7 +600,7 @@ def document(lang, stem, title, body, chips=""):
 {CSS}
 </style>
 </head>
-<body data-stem="{stem}" data-lang="{lang}"{promo_days()}>
+<body data-stem="{stem}" data-lang="{lang}">{promo_json(lang)}
 
 <!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
 <div class="topbar">
