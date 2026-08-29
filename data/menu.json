@@ -3715,7 +3715,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Два роми, Curaçao, мигдалевий сироп, лайм, мʼята — тропічний, мигдалево-цитрусовий",
         "en": "Two rums, Curaçao, almond syrup, lime, mint — tropical, almond and citrus",
@@ -4833,6 +4833,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-08-28T19:52Z"
+    "at": "2026-08-29T20:40Z"
   }
 }
