@@ -150,5 +150,10 @@
     "uk": "Скоро",
     "en": "Coming soon",
     "ru": "Скоро"
+  },
+  "opt.tobacco": {
+    "uk": "Тютюн",
+    "en": "Tobacco",
+    "ru": "Табак"
   }
 }

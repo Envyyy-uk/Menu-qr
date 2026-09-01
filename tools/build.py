@@ -132,9 +132,11 @@ def promo_note(where, lang):
     return f'<p class="promo"{extra}>{e(pick(note, lang))}</p>'
 
 
-def price_html(pence, flat=True):
-    """Ціна разом зі своєю знижковою парою."""
-    cut = promo_pence(pence, flat)
+def price_html(pence, flat=True, promo=None):
+    """Ціна разом зі своєю знижковою парою. `promo` — ціна, прописана в самій
+    позиції: сигарний лист коштує £55, а в години знижки £50, і тверда ціна
+    меню («кальян £40») до нього не стосується."""
+    cut = promo if promo is not None else promo_pence(pence, flat)
     tag = f' data-promo="{e(money(cut))}"' if cut and cut != pence else ""
     return f"<span{tag}>{e(money(pence))}</span>"
 
@@ -297,7 +299,9 @@ def item_html(item, lang, note):
 
     out.append('<div class="item__head">'
                f'<h3 class="item__name">{e(item["name"])}{badge}</h3>'
-               f'<p class="item__price">{prefix}{price_html(item["price_pence"])}</p>'
+               '<p class="item__price">' + prefix
+               + price_html(item["price_pence"], promo=item.get("promo_pence"))
+               + '</p>'
                '</div>')
 
     head, tail = split_desc(item, lang)
@@ -450,9 +454,13 @@ def cards_html(lang):
                 '</span></span>')
             continue
         prices = [i["price_pence"] for i in items]
+        cheapest = min(items, key=lambda i: i["price_pence"])
+        cut = cheapest.get("promo_pence")
         # «від £50» там, де ціна одна на все меню, — обіцянка вибору, якого нема
-        price = (f'{e(t("price.from", lang))} {price_html(min(prices))}'
-                 if min(prices) != max(prices) else price_html(prices[0]))
+        price = (f'{e(t("price.from", lang))} '
+                 + price_html(min(prices), promo=cut)
+                 if min(prices) != max(prices)
+                 else price_html(prices[0], promo=cut))
         cards.append(
             f'<a class="card" href="{page_file(menu["stem"], lang)}">'
             f'<span class="card__icon">{icon(menu["stem"])}</span>'

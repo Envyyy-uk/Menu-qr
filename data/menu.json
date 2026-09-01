@@ -108,27 +108,27 @@
       "hookah": {
         "price_pence": 4000,
         "note": {
-          "uk": "Кальян £40 — з неділі 9:00 до пʼятниці 12:00. З пʼятниці 12:00 до неділі 9:00 — £50.",
-          "en": "A hookah is £40 from Sunday 9:00 until Friday 12:00. From Friday 12:00 to Sunday 9:00 — £50.",
-          "ru": "Кальян £40 — с воскресенья 9:00 до пятницы 12:00. С пятницы 12:00 до воскресенья 9:00 — £50."
+          "uk": "З неділі 9:00 до пʼятниці 12:00 — кальян £40, сигарний лист £50. З пʼятниці 12:00 до неділі 9:00 — £50 і £55.",
+          "en": "From Sunday 9:00 until Friday 12:00 a hookah is £40, cigar leaf £50. From Friday 12:00 to Sunday 9:00 — £50 and £55.",
+          "ru": "С воскресенья 9:00 до пятницы 12:00 — кальян £40, сигарный лист £50. С пятницы 12:00 до воскресенья 9:00 — £50 и £55."
         },
         "today": {
-          "uk": "Зараз кальян £40 — ціна нижче вже зі знижкою.",
-          "en": "Right now a hookah is £40 — the price below already includes it.",
-          "ru": "Сейчас кальян £40 — цена ниже уже со скидкой."
+          "uk": "Зараз кальян £40, сигарний лист £50 — ціни нижче вже зі знижкою.",
+          "en": "Right now a hookah is £40 and cigar leaf £50 — the prices below already include it.",
+          "ru": "Сейчас кальян £40, сигарный лист £50 — цены ниже уже со скидкой."
         }
       }
     },
     "home": {
       "note": {
-        "uk": "З неділі 9:00 до пʼятниці 12:00 — напої −20%, кальян £40.",
-        "en": "From Sunday 9:00 until Friday 12:00 — drinks 20% off, hookah £40.",
-        "ru": "С воскресенья 9:00 до пятницы 12:00 — напитки −20%, кальян £40."
+        "uk": "З неділі 9:00 до пʼятниці 12:00 — напої −20%, кальян від £40.",
+        "en": "From Sunday 9:00 until Friday 12:00 — drinks 20% off, hookah from £40.",
+        "ru": "С воскресенья 9:00 до пятницы 12:00 — напитки −20%, кальян от £40."
       },
       "today": {
-        "uk": "Зараз діє: напої −20%, кальян £40.",
-        "en": "On right now: drinks 20% off, hookah £40.",
-        "ru": "Сейчас действует: напитки −20%, кальян £40."
+        "uk": "Зараз діє: напої −20%, кальян від £40.",
+        "en": "On right now: drinks 20% off, hookah from £40.",
+        "ru": "Сейчас действует: напитки −20%, кальян от £40."
       }
     }
   },
@@ -4659,16 +4659,16 @@
     },
     {
       "key": "hookah",
-      "name": "Hookah",
+      "name": "Hookah · Dark Leaf",
       "category": "hookah",
       "station": "bar",
       "price_pence": 5000,
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Ціна однакова на будь-який кальян. Смаки тютюну запитуйте в кальянного майстра",
-        "en": "One price for any hookah. Ask your shisha master about the available tobacco flavours",
-        "ru": "Цена одинаковая на любой кальян. Вкусы табака спрашивайте у кальянного мастера"
+        "uk": "Дарк-ліф · Смаки тютюну запитуйте в кальянного майстра",
+        "en": "Dark leaf · Ask your shisha master about the available tobacco flavours",
+        "ru": "Дарк-лиф · Вкусы табака спрашивайте у кальянного мастера"
       },
       "ing": [
         "tobacco",
@@ -4683,41 +4683,18 @@
         "кальяны",
         "шиша",
         "shisha",
-        "дарк ліф",
-        "дарк лиф",
-        "сигарний лист",
-        "сигарный лист",
         "фруктова чаша",
         "фруктовая чаша",
         "рехед",
-        "ре-хед"
+        "ре-хед",
+        "дарк ліф",
+        "дарк лиф",
+        "dark leaf"
       ],
       "options": [
         {
-          "key": "leaf",
-          "label": "opt.leaf",
-          "choices": [
-            {
-              "key": "dark-leaf",
-              "name": {
-                "uk": "Дарк-ліф",
-                "en": "Dark Leaf",
-                "ru": "Дарк-лиф"
-              }
-            },
-            {
-              "key": "cigar-leaf",
-              "name": {
-                "uk": "Сигарний лист",
-                "en": "Cigar Leaf",
-                "ru": "Сигарный лист"
-              }
-            }
-          ]
-        },
-        {
           "key": "dark-leaf",
-          "label": "opt.darkLeaf",
+          "label": "opt.tobacco",
           "choices": [
             {
               "key": "musthave",
@@ -4750,8 +4727,106 @@
           ]
         },
         {
+          "key": "fruit-head",
+          "label": "opt.fruitHead",
+          "choices": [
+            {
+              "key": "apple",
+              "name": {
+                "uk": "Яблуко",
+                "en": "Apple",
+                "ru": "Яблоко"
+              }
+            },
+            {
+              "key": "lemon",
+              "name": {
+                "uk": "Лимон",
+                "en": "Lemon",
+                "ru": "Лимон"
+              }
+            },
+            {
+              "key": "orange",
+              "name": {
+                "uk": "Апельсин",
+                "en": "Orange",
+                "ru": "Апельсин"
+              }
+            },
+            {
+              "key": "grapefruit",
+              "name": {
+                "uk": "Грейпфрут",
+                "en": "Grapefruit",
+                "ru": "Грейпфрут"
+              }
+            },
+            {
+              "key": "pineapple",
+              "name": {
+                "uk": "Ананас",
+                "en": "Pineapple",
+                "ru": "Ананас"
+              }
+            }
+          ],
+          "add_pence": 1000
+        },
+        {
+          "key": "extra",
+          "label": "opt.extra",
+          "choices": [
+            {
+              "key": "re-head",
+              "name": {
+                "uk": "Заміна чаші",
+                "en": "Re-head",
+                "ru": "Замена чаши"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hookah-cigar",
+      "name": "Hookah · Cigar Leaf",
+      "category": "hookah",
+      "station": "bar",
+      "price_pence": 5500,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Сигарний лист · Смаки тютюну запитуйте в кальянного майстра",
+        "en": "Cigar leaf · Ask your shisha master about the available tobacco flavours",
+        "ru": "Сигарный лист · Вкусы табака спрашивайте у кальянного мастера"
+      },
+      "ing": [
+        "tobacco",
+        "charcoal"
+      ],
+      "w": [
+        "tobacco-age-check"
+      ],
+      "alt": [
+        "кальян",
+        "кальяни",
+        "кальяны",
+        "шиша",
+        "shisha",
+        "фруктова чаша",
+        "фруктовая чаша",
+        "рехед",
+        "ре-хед",
+        "сигарний лист",
+        "сигарный лист",
+        "cigar leaf"
+      ],
+      "options": [
+        {
           "key": "cigar-leaf",
-          "label": "opt.cigarLeaf",
+          "label": "opt.tobacco",
           "choices": [
             {
               "key": "bonche",
@@ -4828,7 +4903,8 @@
             }
           ]
         }
-      ]
+      ],
+      "promo_pence": 5000
     }
   ],
   "updated": {
