@@ -1217,7 +1217,7 @@
       "station": "bar",
       "price_pence": 26000,
       "orderable": true,
-      "state": "hidden",
+      "state": "available",
       "desc": {
         "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -3273,9 +3273,9 @@
       "name": "Nalivka",
       "category": "spirits",
       "station": "bar",
-      "price_pence": 1200,
+      "price_pence": 1000,
       "orderable": true,
-      "state": "hidden",
+      "state": "available",
       "desc": {
         "uk": "Настоянка на ягодах і фруктах",
         "en": "Fruit and berry infusion",
@@ -3301,7 +3301,7 @@
                 "en": "50 ml",
                 "ru": "50 мл"
               },
-              "price_pence": 1200
+              "price_pence": 1000
             },
             {
               "key": "ml100",
@@ -3310,7 +3310,7 @@
                 "en": "100 ml",
                 "ru": "100 мл"
               },
-              "price_pence": 2400
+              "price_pence": 2000
             },
             {
               "key": "ml150",
@@ -3319,7 +3319,7 @@
                 "en": "150 ml",
                 "ru": "150 мл"
               },
-              "price_pence": 3600
+              "price_pence": 3000
             },
             {
               "key": "ml200",
@@ -3328,7 +3328,7 @@
                 "en": "200 ml",
                 "ru": "200 мл"
               },
-              "price_pence": 4800
+              "price_pence": 4000
             },
             {
               "key": "ml250",
@@ -3337,7 +3337,7 @@
                 "en": "250 ml",
                 "ru": "250 мл"
               },
-              "price_pence": 6000
+              "price_pence": 5000
             },
             {
               "key": "ml300",
@@ -3346,7 +3346,7 @@
                 "en": "300 ml",
                 "ru": "300 мл"
               },
-              "price_pence": 7200
+              "price_pence": 6000
             },
             {
               "key": "bottle",
@@ -3355,7 +3355,7 @@
                 "en": "Bottle",
                 "ru": "Бутылка"
               },
-              "price_pence": 10000
+              "price_pence": 9000
             }
           ]
         },
@@ -4908,7 +4908,7 @@
     }
   ],
   "updated": {
-    "by": "Ярик",
-    "at": "2026-08-29T20:40Z"
+    "by": "Женя",
+    "at": "2026-09-12T11:13Z"
   }
 }
