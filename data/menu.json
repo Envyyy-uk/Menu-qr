@@ -4286,16 +4286,16 @@
     },
     {
       "key": "red-wine-georgian",
-      "name": "Georgian Red Wine",
+      "name": "Marani Kindzmarauli",
       "category": "wine",
       "station": "bar",
       "price_pence": 1500,
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Червоне грузинське",
-        "en": "Georgian red",
-        "ru": "Красное грузинское"
+        "uk": "Червоне грузинське напівсолодке",
+        "en": "Georgian red, semi-sweet",
+        "ru": "Красное грузинское полусладкое"
       },
       "ing": [
         "grapes"
@@ -4328,6 +4328,16 @@
             }
           ]
         }
+      ],
+      "alt": [
+        "кіндзмараулі",
+        "киндзмараули",
+        "kindzmarauli",
+        "марані",
+        "марани",
+        "грузинське",
+        "грузинское",
+        "georgian"
       ]
     },
     {
