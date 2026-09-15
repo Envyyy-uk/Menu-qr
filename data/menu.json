@@ -3270,7 +3270,7 @@
     },
     {
       "key": "nalivka",
-      "name": "Nalivka",
+      "name": "Nalivka · 500 ml",
       "category": "spirits",
       "station": "bar",
       "price_pence": 1000,
@@ -3351,9 +3351,9 @@
             {
               "key": "bottle",
               "name": {
-                "uk": "Пляшка",
-                "en": "Bottle",
-                "ru": "Бутылка"
+                "uk": "Пляшка 500 мл",
+                "en": "Bottle 500 ml",
+                "ru": "Бутылка 500 мл"
               },
               "price_pence": 9000
             }
