@@ -148,6 +148,8 @@ button:disabled { opacity: .5; cursor: default; }
 .promo { margin-bottom: 18px; }
 .promo .hint { margin: 0; }
 .promo label { margin-top: 12px; }
+.promo #promo-at { margin-top: 8px; }
+.promo-london { margin-top: 6px; font-size: 12px; }
 .promo-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
 .promo-buttons button { flex: 1 1 8em; padding: 10px 8px; }
 /* Список позицій довгий, а панель збереження стоїть унизу — кнопку ставимо
@@ -210,6 +212,8 @@ button:disabled { opacity: .5; cursor: default; }
       <p class="hint" id="promo-now"></p>
       <label for="promo-until" data-i18n="promo.until">Пока держится</label>
       <select id="promo-until"></select>
+      <input id="promo-at" class="hidden" type="datetime-local">
+      <p class="hint promo-london" id="promo-london"></p>
       <p class="promo-buttons">
         <button id="promo-off" class="ghost" type="button" data-i18n="promo.off">Убрать скидку</button>
         <button id="promo-auto" class="ghost" type="button" data-i18n="promo.auto">По графику</button>
@@ -354,6 +358,16 @@ button:disabled { opacity: .5; cursor: default; }
     'promo.till.evening': { uk: 'До 18:00', en: 'Until 18:00', ru: 'До 18:00' },
     'promo.till.morning': { uk: 'До 6:00 ранку', en: 'Until 6:00', ru: 'До 6:00 утра' },
     'promo.till.week':    { uk: 'До неділі, 9:00', en: 'Until Sunday 9:00', ru: 'До воскресенья, 9:00' },
+    'promo.till.pick':    { uk: 'Своя дата й час', en: 'Pick a date and time', ru: 'Своя дата и время' },
+
+    'promo.london': {
+      uk: 'Час лондонський: зараз у Лондоні {at}.',
+      en: 'Times are London time; it is {at} in London now.',
+      ru: 'Время лондонское: сейчас в Лондоне {at}.' },
+    'promo.badDate': {
+      uk: 'Виберіть дату й час, які ще не минули за Лондоном.',
+      en: 'Pick a date and time that is still ahead in London.',
+      ru: 'Выберите дату и время, которые ещё не прошли по Лондону.' },
 
     'promo.stateOff': {
       uk: 'Знижку забрано вручну — до {at} за Лондоном, далі знову за графіком.',
@@ -559,7 +573,7 @@ button:disabled { opacity: .5; cursor: default; }
      графіком» її прибирає. Час накладки лондонський: меню живе за
      годинником бару, а телефон під рукою може бути київський. */
   var WEEK  = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-  var TILLS = ['open', 'noon', 'evening', 'morning', 'week'];
+  var TILLS = ['open', 'noon', 'evening', 'morning', 'week', 'pick'];
   var TILL_HOUR = { noon: 12, evening: 18, morning: 6 };
   var HAND_NOTE = 'Ручна накладка з адмінки, старша за графік: «off» — знижки'
     + ' немає, «on» — знижка є попри графік. «until» — лондонський час, коли'
@@ -596,6 +610,14 @@ button:disabled { opacity: .5; cursor: default; }
     var today = bits.year + '-' + bits.month + '-' + bits.day;
     var mins = (Number(bits.hour) % 24) * 60 + Number(bits.minute);
 
+    /* Своя дата: поле віддає рівно той самий вигляд, що й накладка, —
+       «2026-12-31T23:00». Беремо лише хвилини, бо секунди тут ні до чого. */
+    if (kind === 'pick') {
+      var typed = String($('promo-at').value || '').slice(0, 16);
+      return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(typed)
+             && typed > nowStamp(bits) ? typed : '';
+    }
+
     if (kind === 'week') {
       var day = WEEK.indexOf(String(bits.weekday).slice(0, 3).toLowerCase());
       var ahead = day < 0 ? 0 : (7 - day) % 7;
@@ -606,9 +628,19 @@ button:disabled { opacity: .5; cursor: default; }
     return (mins >= hour * 60 ? shiftDay(today, 1) : today) + 'T' + pad(hour) + ':00';
   }
 
+  function nowStamp(bits) {
+    return bits.year + '-' + bits.month + '-' + bits.day
+         + 'T' + pad(Number(bits.hour) % 24) + ':' + bits.minute;
+  }
+
+  /* Рік пишемо лише тоді, коли він не цьогорічний: «31.12, 23:00» читається
+     легко, а «31.12.2027» не дає сплутати позаминулий Новий рік із цим. */
   function prettyStamp(at) {
     var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2})$/.exec(at || '');
-    return m ? m[3] + '.' + m[2] + ', ' + m[4] : String(at || '');
+    if (!m) return String(at || '');
+    var bits = londonBits();
+    return m[3] + '.' + m[2] + (bits && bits.year === m[1] ? '' : '.' + m[1])
+         + ', ' + m[4];
   }
 
   function minuteOfWeek(text) {
@@ -652,11 +684,34 @@ button:disabled { opacity: .5; cursor: default; }
     var keep = box.value;
     box.textContent = '';
     TILLS.forEach(function (kind) {
-      var at = tillStamp(kind);
+      var at = kind === 'pick' ? '' : tillStamp(kind);
       box.append(new Option(t('promo.till.' + kind) + (at ? ' · ' + prettyStamp(at) : ''), kind));
     });
     box.value = keep;
     if (!box.value) box.value = 'morning';   /* накладка не переживає ніч */
+    showPick();
+  }
+
+  /* Поле дати стоїть під списком і зʼявляється тільки для «своєї дати»:
+     решта варіантів і так пише поруч, коли саме накладка спаде. */
+  function showPick() {
+    var pick = $('promo-until').value === 'pick';
+    var box = $('promo-at');
+    var bits = londonBits();
+
+    box.className = pick ? '' : 'hidden';
+    $('promo-london').textContent = pick && bits
+      ? t('promo.london', { at: prettyStamp(nowStamp(bits)) }) : '';
+    if (!pick || !bits) return;
+
+    /* Минулу дату телефон навіть не дасть вибрати, а порожнє поле
+       заповнюємо завтрашнім полуднем — звідти правити ближче, ніж від нуля. */
+    box.min = nowStamp(bits);
+    if (!box.value) {
+      var hand = data && handOf();
+      box.value = (hand && hand.until)
+        || (shiftDay(bits.year + '-' + bits.month + '-' + bits.day, 1) + 'T12:00');
+    }
   }
 
   function drawPromo() {
@@ -675,6 +730,7 @@ button:disabled { opacity: .5; cursor: default; }
            : (on ? t('promo.stateAutoOn') : t('promo.stateAutoOff'));
     }
     $('promo-now').textContent = text + (dirty ? t('promo.unsaved') : '');
+    $('promo-now').className = 'hint';
 
     var mode = hand ? hand.mode : null;
     [['promo-off', 'off'], ['promo-auto', null], ['promo-on', 'on']]
@@ -689,8 +745,14 @@ button:disabled { opacity: .5; cursor: default; }
     if (!mode) {
       delete data.promo.hand;
     } else {
+      var kind = $('promo-until').value;
+      var until = tillStamp(kind);
+      if (kind === 'pick' && !until) {      /* дата порожня або вже минула */
+        $('promo-now').textContent = t('promo.badDate');
+        $('promo-now').className = 'hint error';
+        return;
+      }
       var was = data.promo.hand || {};
-      var until = tillStamp($('promo-until').value);
       data.promo.hand = {
         _note: was._note || HAND_NOTE,
         mode: mode,
@@ -1207,6 +1269,13 @@ button:disabled { opacity: .5; cursor: default; }
   /* Накладка вже стоїть, а термін передумали — переставляємо їй кінець, а не
      змушуємо натискати кнопку ще раз. */
   $('promo-until').addEventListener('change', function () {
+    showPick();
+    var hand = data && handOf();
+    /* «Своя дата» сама по собі ще нічого не каже: накладку переставимо, коли
+       в полі буде дата. */
+    if (hand && $('promo-until').value !== 'pick') setHand(hand.mode);
+  });
+  $('promo-at').addEventListener('change', function () {
     var hand = data && handOf();
     if (hand) setHand(hand.mode);
   });
