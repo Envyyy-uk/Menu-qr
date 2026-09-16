@@ -142,6 +142,14 @@ button:disabled { opacity: .5; cursor: default; }
 .langs button.is-active { background: var(--gold-soft); border-color: var(--gold-soft); color: #1d1a16; }
 .filter { margin-bottom: 18px; }
 .filter label { margin-top: 0; }
+/* Знижка стоїть першою панеллю: її забирають поспіхом, стоячи за стійкою,
+   і шукати кнопку між позиціями меню нема коли. Активний стан горить
+   золотим — видно з одного погляду, у якому режимі меню зараз. */
+.promo { margin-bottom: 18px; }
+.promo .hint { margin: 0; }
+.promo label { margin-top: 12px; }
+.promo-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
+.promo-buttons button { flex: 1 1 8em; padding: 10px 8px; }
 /* Список позицій довгий, а панель збереження стоїть унизу — кнопку ставимо
    над нею, щоб вони не накладалися. */
 .totop {
@@ -196,6 +204,18 @@ button:disabled { opacity: .5; cursor: default; }
   <!-- ---------------------------------------------------------- редактор -- -->
   <section id="editor" class="hidden">
     <p class="hint" id="loaded"></p>
+
+    <div class="panel promo">
+      <h2 style="margin-top:0" data-i18n="promo.title">Скидка</h2>
+      <p class="hint" id="promo-now"></p>
+      <label for="promo-until" data-i18n="promo.until">Пока держится</label>
+      <select id="promo-until"></select>
+      <p class="promo-buttons">
+        <button id="promo-off" class="ghost" type="button" data-i18n="promo.off">Убрать скидку</button>
+        <button id="promo-auto" class="ghost" type="button" data-i18n="promo.auto">По графику</button>
+        <button id="promo-on" class="ghost" type="button" data-i18n="promo.on">Оставить скидку</button>
+      </p>
+    </div>
 
     <div class="panel add">
       <h2 style="margin-top:0" data-i18n="add.title">Добавить позицию</h2>
@@ -322,6 +342,51 @@ button:disabled { opacity: .5; cursor: default; }
 
     'filter.label': { uk: 'Показати розділ', en: 'Show section', ru: 'Показать раздел' },
     'filter.all':   { uk: 'Усі розділи', en: 'All sections', ru: 'Все разделы' },
+
+    'promo.title':  { uk: 'Знижка', en: 'Discount', ru: 'Скидка' },
+    'promo.until':  { uk: 'Доки тримається', en: 'How long it holds', ru: 'Пока держится' },
+    'promo.off':    { uk: 'Забрати знижку', en: 'Take discount off', ru: 'Убрать скидку' },
+    'promo.auto':   { uk: 'За графіком', en: 'By schedule', ru: 'По графику' },
+    'promo.on':     { uk: 'Лишити знижку', en: 'Keep discount on', ru: 'Оставить скидку' },
+
+    'promo.till.open':    { uk: 'Поки не поверну', en: 'Until I switch it back', ru: 'Пока не верну' },
+    'promo.till.noon':    { uk: 'До 12:00', en: 'Until 12:00', ru: 'До 12:00' },
+    'promo.till.evening': { uk: 'До 18:00', en: 'Until 18:00', ru: 'До 18:00' },
+    'promo.till.morning': { uk: 'До 6:00 ранку', en: 'Until 6:00', ru: 'До 6:00 утра' },
+    'promo.till.week':    { uk: 'До неділі, 9:00', en: 'Until Sunday 9:00', ru: 'До воскресенья, 9:00' },
+
+    'promo.stateOff': {
+      uk: 'Знижку забрано вручну — до {at} за Лондоном, далі знову за графіком.',
+      en: 'Discount taken off by hand until {at} London time, then back on schedule.',
+      ru: 'Скидка убрана вручную — до {at} по Лондону, дальше снова по графику.' },
+    'promo.stateOffOpen': {
+      uk: 'Знижку забрано вручну — сама не повернеться, поки не натиснете «За графіком».',
+      en: 'Discount taken off by hand — it stays off until you press “By schedule”.',
+      ru: 'Скидка убрана вручную — сама не вернётся, пока не нажмёте «По графику».' },
+    'promo.stateOn': {
+      uk: 'Знижку ввімкнено вручну попри графік — до {at} за Лондоном.',
+      en: 'Discount forced on against the schedule until {at} London time.',
+      ru: 'Скидка включена вручную вопреки графику — до {at} по Лондону.' },
+    'promo.stateOnOpen': {
+      uk: 'Знижку ввімкнено вручну попри графік — поки не натиснете «За графіком».',
+      en: 'Discount forced on against the schedule until you press “By schedule”.',
+      ru: 'Скидка включена вручную вопреки графику — пока не нажмёте «По графику».' },
+    'promo.stateAutoOn': {
+      uk: 'Працює графік: зараз знижка діє.',
+      en: 'Running on schedule: the discount is on right now.',
+      ru: 'Работает график: сейчас скидка действует.' },
+    'promo.stateAutoOff': {
+      uk: 'Працює графік: зараз повна ціна.',
+      en: 'Running on schedule: full price right now.',
+      ru: 'Работает график: сейчас полная цена.' },
+    'promo.stateAuto': {
+      uk: 'Працює графік із каталогу.',
+      en: 'Running on the schedule from the catalogue.',
+      ru: 'Работает график из каталога.' },
+    'promo.unsaved': {
+      uk: ' Натисніть «Зберегти» — меню зміниться за хвилину-дві.',
+      en: ' Press “Save” — the menu changes in a minute or two.',
+      ru: ' Нажмите «Сохранить» — меню изменится за минуту-две.' },
     'ui.top':       { uk: 'Нагору', en: 'Back to top', ru: 'Наверх' },
 
     'menu.soonBadge': { uk: 'СКОРО', en: 'SOON', ru: 'СКОРО' },
@@ -487,6 +552,156 @@ button:disabled { opacity: .5; cursor: default; }
       });
   }
 
+  /* ----------------------------------------------------------- знижка --- */
+  /* Знижка сама йде за графіком із каталогу: вона діє завжди, крім вікон
+     повної ціни. Кнопки кладуть поверх графіка ручну накладку — «забрати»
+     (повна ціна попри графік) чи «лишити» (знижка попри графік), — а «за
+     графіком» її прибирає. Час накладки лондонський: меню живе за
+     годинником бару, а телефон під рукою може бути київський. */
+  var WEEK  = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  var TILLS = ['open', 'noon', 'evening', 'morning', 'week'];
+  var TILL_HOUR = { noon: 12, evening: 18, morning: 6 };
+  var HAND_NOTE = 'Ручна накладка з адмінки, старша за графік: «off» — знижки'
+    + ' немає, «on» — знижка є попри графік. «until» — лондонський час, коли'
+    + ' накладка спадає сама; null — поки її не приберуть кнопкою «За графіком».';
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function londonBits() {
+    try {
+      var bits = {};
+      new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London', weekday: 'short', hour12: false,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      }).formatToParts(new Date()).forEach(function (p) { bits[p.type] = p.value; });
+      return bits;
+    } catch (e) { return null; }       /* старий браузер — накладка без кінця */
+  }
+
+  /* Додаємо дні до лондонської дати, а не до моменту часу: переведення
+     годинника тут ні до чого — календар від нього не зсувається. */
+  function shiftDay(ymd, days) {
+    var p = ymd.split('-');
+    var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + days));
+    return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+  }
+
+  /* Найближчий момент, коли накладка спаде. Година, що на сьогодні вже
+     минула, означає завтрашню: натиснув о 13:00 «до 12:00» — знижка
+     повернеться завтра опівдні, а не відразу. */
+  function tillStamp(kind) {
+    var bits = londonBits();
+    if (!bits || kind === 'open') return '';
+    var today = bits.year + '-' + bits.month + '-' + bits.day;
+    var mins = (Number(bits.hour) % 24) * 60 + Number(bits.minute);
+
+    if (kind === 'week') {
+      var day = WEEK.indexOf(String(bits.weekday).slice(0, 3).toLowerCase());
+      var ahead = day < 0 ? 0 : (7 - day) % 7;
+      if (ahead === 0 && mins >= 9 * 60) ahead = 7;    /* неділя вже по девʼятій */
+      return shiftDay(today, ahead) + 'T09:00';
+    }
+    var hour = TILL_HOUR[kind];
+    return (mins >= hour * 60 ? shiftDay(today, 1) : today) + 'T' + pad(hour) + ':00';
+  }
+
+  function prettyStamp(at) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2})$/.exec(at || '');
+    return m ? m[3] + '.' + m[2] + ', ' + m[4] : String(at || '');
+  }
+
+  function minuteOfWeek(text) {
+    var parts = String(text).split(' ');
+    var clock = (parts[1] || '0:0').split(':');
+    return WEEK.indexOf(parts[0].toLowerCase()) * 1440
+         + Number(clock[0]) * 60 + Number(clock[1]);
+  }
+
+  function handOf() {
+    var hand = (data.promo || {}).hand;
+    return hand && (hand.mode === 'on' || hand.mode === 'off') ? hand : null;
+  }
+
+  /* Що показало б меню без накладки: інакше не видно, чи кнопка взагалі
+     щось змінить — у пʼятницю ввечері знижки немає й так. */
+  function scheduleOn() {
+    var bits = londonBits();
+    if (!bits) return null;
+    var hour = Number(bits.hour) % 24;
+    var stamp = bits.year + '-' + bits.month + '-' + bits.day
+              + 'T' + pad(hour) + ':' + bits.minute;
+    var week = WEEK.indexOf(String(bits.weekday).slice(0, 3).toLowerCase()) * 1440
+             + hour * 60 + Number(bits.minute);
+    var promo = data.promo || {};
+
+    var shut = (promo['except'] || []).some(function (w) {
+      return stamp >= w.from && stamp < w.to;
+    });
+    if (!shut) {
+      shut = (promo.full || []).some(function (w) {
+        var from = minuteOfWeek(w.from), to = minuteOfWeek(w.to);
+        return from <= to ? (week >= from && week < to) : (week >= from || week < to);
+      });
+    }
+    return !shut;
+  }
+
+  function fillTill() {
+    var box = $('promo-until');
+    var keep = box.value;
+    box.textContent = '';
+    TILLS.forEach(function (kind) {
+      var at = tillStamp(kind);
+      box.append(new Option(t('promo.till.' + kind) + (at ? ' · ' + prettyStamp(at) : ''), kind));
+    });
+    box.value = keep;
+    if (!box.value) box.value = 'morning';   /* накладка не переживає ніч */
+  }
+
+  function drawPromo() {
+    fillTill();
+    var hand = handOf();
+    var at = hand && hand.until ? prettyStamp(hand.until) : '';
+    var text;
+
+    if (hand && hand.mode === 'off') {
+      text = at ? t('promo.stateOff', { at: at }) : t('promo.stateOffOpen');
+    } else if (hand) {
+      text = at ? t('promo.stateOn', { at: at }) : t('promo.stateOnOpen');
+    } else {
+      var on = scheduleOn();
+      text = on === null ? t('promo.stateAuto')
+           : (on ? t('promo.stateAutoOn') : t('promo.stateAutoOff'));
+    }
+    $('promo-now').textContent = text + (dirty ? t('promo.unsaved') : '');
+
+    var mode = hand ? hand.mode : null;
+    [['promo-off', 'off'], ['promo-auto', null], ['promo-on', 'on']]
+      .forEach(function (pair) { $(pair[0]).className = mode === pair[1] ? '' : 'ghost'; });
+  }
+
+  function setHand(mode) {
+    if (!data.promo) {
+      if (!mode) return;
+      data.promo = {};
+    }
+    if (!mode) {
+      delete data.promo.hand;
+    } else {
+      var was = data.promo.hand || {};
+      var until = tillStamp($('promo-until').value);
+      data.promo.hand = {
+        _note: was._note || HAND_NOTE,
+        mode: mode,
+        until: until || null,
+        by: author
+      };
+    }
+    touch();
+    drawPromo();
+  }
+
   /* ---------------------------------------------------------- малюємо --- */
   function el(tag, cls, text) {
     var node = document.createElement(tag);
@@ -560,6 +775,7 @@ button:disabled { opacity: .5; cursor: default; }
   var shown = '';
 
   function render() {
+    drawPromo();
     fillCategories();
     var box = $('menus');
     box.textContent = '';
@@ -965,6 +1181,7 @@ button:disabled { opacity: .5; cursor: default; }
         sha = res.content.sha;
         dirty = false;
         mark();
+        drawPromo();
         $('state').textContent = t('bar.saved');
         $('state').className = 'state ok';
       })
@@ -983,6 +1200,15 @@ button:disabled { opacity: .5; cursor: default; }
     var shown = box.type === 'text';
     box.type = shown ? 'password' : 'text';
     $('peek').textContent = shown ? t('login.peek') : t('login.hide');
+  });
+  $('promo-off').addEventListener('click', function () { setHand('off'); });
+  $('promo-auto').addEventListener('click', function () { setHand(null); });
+  $('promo-on').addEventListener('click', function () { setHand('on'); });
+  /* Накладка вже стоїть, а термін передумали — переставляємо їй кінець, а не
+     змушуємо натискати кнопку ще раз. */
+  $('promo-until').addEventListener('change', function () {
+    var hand = data && handOf();
+    if (hand) setHand(hand.mode);
   });
   $('add').addEventListener('click', addItem);
   $('add-cat').addEventListener('change', function () { drawAddPrices(); checkAdd(); });

@@ -270,14 +270,24 @@
     var full = null;      /* вікно повної ціни, якщо ми зараз у ньому */
     var once = false;     /* і воно разове, а не щотижневе */
 
-    (plan['except'] || []).forEach(function (w) {
-      if (!full && now.stamp >= w.from && now.stamp < w.to) { full = w; once = true; }
-    });
-    if (!full) {
-      (plan.full || []).forEach(function (w) {
-        if (!full && inWeekWindow(now.week, w.from, w.to)) full = w;
+    /* Ручна накладка з адмінки старша за графік: вечір іде не за планом —
+       бар забирає знижку або лишає її кнопкою. «until» — лондонський час,
+       коли накладка спадає сама; порожнє — поки її не приберуть. */
+    var hand = plan.hand;
+    if (hand && hand.until && now.stamp >= hand.until) hand = null;
+
+    if (hand && hand.mode === 'off') { full = hand; once = true; }
+    else if (!hand) {
+      (plan['except'] || []).forEach(function (w) {
+        if (!full && now.stamp >= w.from && now.stamp < w.to) { full = w; once = true; }
       });
+      if (!full) {
+        (plan.full || []).forEach(function (w) {
+          if (!full && inWeekWindow(now.week, w.from, w.to)) full = w;
+        });
+      }
     }
+    /* hand.mode === 'on' — знижка попри графік: жодного вікна повної ціни. */
 
     if (full) {
       /* Повна ціна — надруковані ціни й так правильні. А от рядок над меню

@@ -569,16 +569,21 @@ def one_off(w, lang):
 
 
 def promo_json(lang):
-    """Розклад знижки для скрипта. Дати й час — лондонські: гість може бути з
-    іншим поясом, а знижка привʼязана до годинника бару. Без скрипта блок
-    просто лежить у сторінці й нічого не робить — ціни надруковані повні."""
-    if not PROMO.get("full") and not PROMO.get("except"):
+    """Розклад знижки для скрипта разом із ручною накладкою з адмінки. Дати
+    й час — лондонські: гість може бути з іншим поясом, а знижка привʼязана
+    до годинника бару. Без скрипта блок просто лежить у сторінці й нічого не
+    робить — ціни надруковані повні."""
+    hand = PROMO.get("hand") or {}
+    hand = hand if hand.get("mode") in ("on", "off") else None
+    if not PROMO.get("full") and not PROMO.get("except") and not hand:
         return ""
     plan = {
         "full": [{"from": minute_of_week(w["from"]), "to": minute_of_week(w["to"])}
                  for w in PROMO.get("full") or []],
         "except": [one_off(w, lang) for w in PROMO.get("except") or []],
     }
+    if hand:
+        plan["hand"] = {"mode": hand["mode"], "until": hand.get("until") or ""}
     return ('\n<script type="application/json" id="promo">'
             + json.dumps(plan, ensure_ascii=False).replace("<", "\\u003c")
             + "</script>")
