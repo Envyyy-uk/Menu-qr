@@ -354,10 +354,10 @@ button:disabled { opacity: .5; cursor: default; }
     'promo.on':     { uk: 'Лишити знижку', en: 'Keep discount on', ru: 'Оставить скидку' },
 
     'promo.till.open':    { uk: 'Поки не поверну', en: 'Until I switch it back', ru: 'Пока не верну' },
-    'promo.till.noon':    { uk: 'До 12:00', en: 'Until 12:00', ru: 'До 12:00' },
-    'promo.till.evening': { uk: 'До 18:00', en: 'Until 18:00', ru: 'До 18:00' },
-    'promo.till.morning': { uk: 'До 6:00 ранку', en: 'Until 6:00', ru: 'До 6:00 утра' },
-    'promo.till.week':    { uk: 'До неділі, 9:00', en: 'Until Sunday 9:00', ru: 'До воскресенья, 9:00' },
+    'promo.till.h1':      { uk: 'На годину', en: 'For an hour', ru: 'На час' },
+    'promo.till.h2':      { uk: 'На дві години', en: 'For two hours', ru: 'На два часа' },
+    'promo.till.h3':      { uk: 'На три години', en: 'For three hours', ru: 'На три часа' },
+    'promo.till.h6':      { uk: 'На шість годин', en: 'For six hours', ru: 'На шесть часов' },
     'promo.till.pick':    { uk: 'Своя дата й час', en: 'Pick a date and time', ru: 'Своя дата и время' },
 
     'promo.london': {
@@ -573,22 +573,21 @@ button:disabled { opacity: .5; cursor: default; }
      графіком» її прибирає. Час накладки лондонський: меню живе за
      годинником бару, а телефон під рукою може бути київський. */
   var WEEK  = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-  var TILLS = ['open', 'noon', 'evening', 'morning', 'week', 'pick'];
-  var TILL_HOUR = { noon: 12, evening: 18, morning: 6 };
+  var TILLS = ['open', 'h1', 'h2', 'h3', 'h6', 'pick'];
   var HAND_NOTE = 'Ручна накладка з адмінки, старша за графік: «off» — знижки'
     + ' немає, «on» — знижка є попри графік. «until» — лондонський час, коли'
     + ' накладка спадає сама; null — поки її не приберуть кнопкою «За графіком».';
 
   function pad(n) { return (n < 10 ? '0' : '') + n; }
 
-  function londonBits() {
+  function londonBits(when) {
     try {
       var bits = {};
       new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Europe/London', weekday: 'short', hour12: false,
         year: 'numeric', month: '2-digit', day: '2-digit',
         hour: '2-digit', minute: '2-digit'
-      }).formatToParts(new Date()).forEach(function (p) { bits[p.type] = p.value; });
+      }).formatToParts(when || new Date()).forEach(function (p) { bits[p.type] = p.value; });
       return bits;
     } catch (e) { return null; }       /* старий браузер — накладка без кінця */
   }
@@ -601,14 +600,12 @@ button:disabled { opacity: .5; cursor: default; }
     return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
   }
 
-  /* Найближчий момент, коли накладка спаде. Година, що на сьогодні вже
-     минула, означає завтрашню: натиснув о 13:00 «до 12:00» — знижка
-     повернеться завтра опівдні, а не відразу. */
+  /* Момент, коли накладка спаде. Тривалість рахуємо від справжнього моменту,
+     а не від лондонського циферблата: у ніч переведення годинника «на дві
+     години» має лишитися двома годинами, а не однією чи трьома. */
   function tillStamp(kind) {
     var bits = londonBits();
     if (!bits || kind === 'open') return '';
-    var today = bits.year + '-' + bits.month + '-' + bits.day;
-    var mins = (Number(bits.hour) % 24) * 60 + Number(bits.minute);
 
     /* Своя дата: поле віддає рівно той самий вигляд, що й накладка, —
        «2026-12-31T23:00». Беремо лише хвилини, бо секунди тут ні до чого. */
@@ -618,14 +615,21 @@ button:disabled { opacity: .5; cursor: default; }
              && typed > nowStamp(bits) ? typed : '';
     }
 
-    if (kind === 'week') {
-      var day = WEEK.indexOf(String(bits.weekday).slice(0, 3).toLowerCase());
-      var ahead = day < 0 ? 0 : (7 - day) % 7;
-      if (ahead === 0 && mins >= 9 * 60) ahead = 7;    /* неділя вже по девʼятій */
-      return shiftDay(today, ahead) + 'T09:00';
-    }
-    var hour = TILL_HOUR[kind];
-    return (mins >= hour * 60 ? shiftDay(today, 1) : today) + 'T' + pad(hour) + ':00';
+    var hours = /^h(\d+)$/.exec(kind);
+    if (!hours) return '';
+    /* Тривалість зберігаємо моментом за Гринвічем, а не лондонським
+       циферблатом: у ніч, коли годинник переводять назад, 01:30 буває двічі,
+       і «на годину» перетворилося б на нуль. */
+    return new Date(new Date().getTime() + Number(hours[1]) * 3600000)
+           .toISOString().slice(0, 16) + 'Z';
+  }
+
+  /* Кінець накладки лондонським циферблатом — байдуже, як його записали:
+     своя дата лежить так, як її набрали, тривалість — миттю з «Z». */
+  function londonOf(until) {
+    if (!until || !/Z$/.test(until)) return until || '';
+    var bits = londonBits(new Date(until));
+    return bits ? nowStamp(bits) : '';
   }
 
   function nowStamp(bits) {
@@ -684,11 +688,13 @@ button:disabled { opacity: .5; cursor: default; }
     var keep = box.value;
     box.textContent = '';
     TILLS.forEach(function (kind) {
-      var at = kind === 'pick' ? '' : tillStamp(kind);
+      var at = kind === 'pick' ? '' : londonOf(tillStamp(kind));
+      /* Поруч із тривалістю — котра це буде година: «на дві години» нічого не
+         каже людині, яка щойно подивилася на годинник. */
       box.append(new Option(t('promo.till.' + kind) + (at ? ' · ' + prettyStamp(at) : ''), kind));
     });
     box.value = keep;
-    if (!box.value) box.value = 'morning';   /* накладка не переживає ніч */
+    if (!box.value) box.value = 'h2';        /* найчастіше треба пару годин */
     showPick();
   }
 
@@ -709,7 +715,7 @@ button:disabled { opacity: .5; cursor: default; }
     box.min = nowStamp(bits);
     if (!box.value) {
       var hand = data && handOf();
-      box.value = (hand && hand.until)
+      box.value = (hand && londonOf(hand.until))
         || (shiftDay(bits.year + '-' + bits.month + '-' + bits.day, 1) + 'T12:00');
     }
   }
@@ -717,7 +723,7 @@ button:disabled { opacity: .5; cursor: default; }
   function drawPromo() {
     fillTill();
     var hand = handOf();
-    var at = hand && hand.until ? prettyStamp(hand.until) : '';
+    var at = hand && hand.until ? prettyStamp(londonOf(hand.until)) : '';
     var text;
 
     if (hand && hand.mode === 'off') {
