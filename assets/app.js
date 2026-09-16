@@ -258,16 +258,6 @@
                       : (minute >= from || minute < to);
   }
 
-  /* Кінець накладки лежить або лондонським циферблатом («2026-12-31T23:00»),
-     або моментом за Гринвічем із «Z» на кінці. Мить порівнюємо з миттю, а не
-     з написом: у ніч, коли годинник переводять назад, один і той самий напис
-     буває двічі, і накладка спала б на годину раніше. */
-  function handPast(until, now) {
-    if (!until) return false;
-    return /Z$/.test(until) ? new Date().getTime() >= Date.parse(until)
-                            : now.stamp >= until;
-  }
-
   function wirePromo() {
     var box = document.getElementById('promo');
     var note = document.querySelector('.promo');
@@ -284,7 +274,7 @@
        бар забирає знижку або лишає її кнопкою. «until» — лондонський час,
        коли накладка спадає сама; порожнє — поки її не приберуть. */
     var hand = plan.hand;
-    if (hand && handPast(hand.until, now)) hand = null;
+    if (hand && hand.until && now.stamp >= hand.until) hand = null;
 
     if (hand && hand.mode === 'off') { full = hand; once = true; }
     else if (!hand) {
