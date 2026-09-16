@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Меню</title>
 <meta name="theme-color" content="#1d1a16">
-<meta name="build" content="b397c914d7f2">
+<meta name="build" content="73d542190e93">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/app-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -692,7 +692,7 @@ body {
 </style>
 </head>
 <body data-stem="index" data-lang="ru">
-<script type="application/json" id="promo">{"full": [{"from": 7920, "to": 540}], "except": [{"from": "2026-08-30T09:00", "to": "2026-08-31T12:00", "note": "Эти выходные — полная цена до понедельника, 12:00."}]}</script>
+<script type="application/json" id="promo">{"full": [{"from": 7920, "to": 540}], "except": [{"from": "2026-08-30T09:00", "to": "2026-08-31T12:00", "note": "Эти выходные — полная цена до понедельника, 12:00."}, {"from": "2026-09-16T04:11", "to": "2026-09-16T12:00"}]}</script>
 
 <!-- Панель прикріплена до верху: меню проходить під нею, вона не рухається. -->
 <div class="topbar">
@@ -1024,10 +1024,11 @@ body {
     try { plan = JSON.parse(box.textContent); } catch (err) { return; }
 
     var now = londonNow();
-    var full = null;
+    var full = null;      /* вікно повної ціни, якщо ми зараз у ньому */
+    var once = false;     /* і воно разове, а не щотижневе */
 
     (plan['except'] || []).forEach(function (w) {
-      if (!full && now.stamp >= w.from && now.stamp < w.to) full = w;
+      if (!full && now.stamp >= w.from && now.stamp < w.to) { full = w; once = true; }
     });
     if (!full) {
       (plan.full || []).forEach(function (w) {
@@ -1036,9 +1037,13 @@ body {
     }
 
     if (full) {
-      /* Повна ціна — надруковані ціни й так правильні. Якщо це разове вікно,
-         пояснюємо чому: інакше гість читав би, що знижка мала б діяти. */
+      /* Повна ціна — надруковані ціни й так правильні. А от рядок над меню
+         обіцяє знижку, тож у разовому вікні його треба поправити: з
+         приміткою він пояснює, чому знижки зараз немає, а без примітки
+         зникає зовсім — меню виглядає як звичайне. Щотижневе вікно рядка
+         не чіпає: правило в ньому саме й каже, що зараз ціни повні. */
       if (note && full.note) note.textContent = full.note;
+      else if (note && once) note.parentNode.removeChild(note);
       return;
     }
 

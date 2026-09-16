@@ -267,10 +267,11 @@
     try { plan = JSON.parse(box.textContent); } catch (err) { return; }
 
     var now = londonNow();
-    var full = null;
+    var full = null;      /* вікно повної ціни, якщо ми зараз у ньому */
+    var once = false;     /* і воно разове, а не щотижневе */
 
     (plan['except'] || []).forEach(function (w) {
-      if (!full && now.stamp >= w.from && now.stamp < w.to) full = w;
+      if (!full && now.stamp >= w.from && now.stamp < w.to) { full = w; once = true; }
     });
     if (!full) {
       (plan.full || []).forEach(function (w) {
@@ -279,9 +280,13 @@
     }
 
     if (full) {
-      /* Повна ціна — надруковані ціни й так правильні. Якщо це разове вікно,
-         пояснюємо чому: інакше гість читав би, що знижка мала б діяти. */
+      /* Повна ціна — надруковані ціни й так правильні. А от рядок над меню
+         обіцяє знижку, тож у разовому вікні його треба поправити: з
+         приміткою він пояснює, чому знижки зараз немає, а без примітки
+         зникає зовсім — меню виглядає як звичайне. Щотижневе вікно рядка
+         не чіпає: правило в ньому саме й каже, що зараз ціни повні. */
       if (note && full.note) note.textContent = full.note;
+      else if (note && once) note.parentNode.removeChild(note);
       return;
     }
 

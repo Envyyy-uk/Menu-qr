@@ -557,6 +557,17 @@ def minute_of_week(text):
     return WEEK.index(day.lower()) * 1440 + int(hour) * 60 + int(minute)
 
 
+def one_off(w, lang):
+    """Разове вікно повної ціни для скрипта. Примітка необовʼязкова: з нею
+    скрипт пояснює гостю, чому знижки зараз немає, а без неї прибирає рядок
+    про знижку зовсім — меню виглядає як звичайне."""
+    window = {"from": w["from"], "to": w["to"]}
+    note = pick(w.get("note"), lang)
+    if note:
+        window["note"] = note
+    return window
+
+
 def promo_json(lang):
     """Розклад знижки для скрипта. Дати й час — лондонські: гість може бути з
     іншим поясом, а знижка привʼязана до годинника бару. Без скрипта блок
@@ -566,9 +577,7 @@ def promo_json(lang):
     plan = {
         "full": [{"from": minute_of_week(w["from"]), "to": minute_of_week(w["to"])}
                  for w in PROMO.get("full") or []],
-        "except": [{"from": w["from"], "to": w["to"],
-                    "note": pick(w.get("note"), lang)}
-                   for w in PROMO.get("except") or []],
+        "except": [one_off(w, lang) for w in PROMO.get("except") or []],
     }
     return ('\n<script type="application/json" id="promo">'
             + json.dumps(plan, ensure_ascii=False).replace("<", "\\u003c")
