@@ -292,6 +292,14 @@ def item_html(item, lang, note):
         badge = f' <span class="badge" title="{e(title)}">{e(t("badge.age", lang))}</span>'
         break
 
+    # Плашка «нове» гасне сама: дату її кінця забираємо в атрибут, а скрипт
+    # прибирає плашку, коли день настав. Рахувати це на збірці не можна —
+    # сторінки перезбираються не щодня, і новинка висіла б новинкою до
+    # наступної правки меню.
+    if item.get("new_until"):
+        badge += (f' <span class="badge badge--new" data-until="{e(item["new_until"])}">'
+                  f'{e(t("badge.new", lang))}</span>')
+
     sizes = next((o for o in item.get("options") or [] if o["key"] == "size"), None)
     priced = [c for c in (sizes or {}).get("choices", []) if c.get("price_pence")]
     prefix = (f'<span class="item__from">{e(t("price.from", lang))}</span> '

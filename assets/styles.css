@@ -482,6 +482,14 @@ body {
   padding: 1px 4px;
 }
 
+/* Новинку видно з-поміж решти: та сама плашка, але залита золотом. Вона
+   стоїть у стрічці назви поруч із «18+», тож лишається дрібною. */
+.badge--new {
+  color: var(--paper);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
 .item__desc {
   margin: 4px 0 0;
   font-style: italic;

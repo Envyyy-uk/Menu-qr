@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Hookah</title>
 <meta name="theme-color" content="#1d1a16">
-<meta name="build" content="23e296b3e2b9">
+<meta name="build" content="15493fb2736f">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/app-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -497,6 +497,14 @@ body {
   border: 1px solid var(--line);
   border-radius: 2px;
   padding: 1px 4px;
+}
+
+/* Новинку видно з-поміж решти: та сама плашка, але залита золотом. Вона
+   стоїть у стрічці назви поруч із «18+», тож лишається дрібною. */
+.badge--new {
+  color: var(--paper);
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
 .item__desc {
@@ -1057,10 +1065,23 @@ body {
     }
   }
 
+  /* ---------------------------------------------------------- новинки --- */
+  /* Плашка «нове» надрукована в сторінці з датою, коли вона має згаснути.
+     Сторінки перезбираються не щодня, тож гасить її скрипт — і теж за
+     Лондоном, як і знижку: новинка закінчується за годинником бару. */
+  function wireNew() {
+    var now = londonNow().stamp.slice(0, 10);
+    [].slice.call(document.querySelectorAll('.badge--new[data-until]'))
+      .forEach(function (node) {
+        if (now >= node.getAttribute('data-until')) node.parentNode.removeChild(node);
+      });
+  }
+
   wireSearch();
   wireSpy();
   wireTop();
   wirePromo();
+  wireNew();
 
   /* ------------------------------------------------- свіжість меню --- */
   /* Сторінка, додана на екран «Домів», живе в кеші телефона: оновити її

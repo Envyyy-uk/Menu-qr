@@ -628,6 +628,21 @@
       "uk": "ананас",
       "en": "pineapple",
       "ru": "ананас"
+    },
+    "caramel-syrup": {
+      "uk": "карамельний сироп",
+      "en": "caramel syrup",
+      "ru": "карамельный сироп"
+    },
+    "apricot-syrup": {
+      "uk": "абрикосовий сироп",
+      "en": "apricot syrup",
+      "ru": "абрикосовый сироп"
+    },
+    "foam": {
+      "uk": "пінка",
+      "en": "foam",
+      "ru": "пенка"
     }
   },
   "items": [
@@ -3636,6 +3651,40 @@
       ],
       "add": [
         "mixer"
+      ]
+    },
+    {
+      "key": "khvoyda",
+      "name": "Khvoyda",
+      "category": "cocktails",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "available",
+      "new_until": "2026-09-24",
+      "desc": {
+        "uk": "Мідорі, джин, карамельний і абрикосовий сиропи, яблучний і лимонний сік, пінка — солодкий, динно-яблучний",
+        "en": "Midori, gin, caramel and apricot syrups, apple and lemon juice, foam — sweet, melon and apple",
+        "ru": "Мидори, джин, карамельный и абрикосовый сиропы, яблочный и лимонный сок, пенка — сладкий, дынно-яблочный"
+      },
+      "ing": [
+        "melon",
+        "gin",
+        "caramel-syrup",
+        "apricot-syrup",
+        "apple",
+        "lemon",
+        "foam"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "хвойда",
+        "khvoida",
+        "мідорі",
+        "мидори",
+        "midori"
       ]
     },
     {

@@ -111,6 +111,11 @@
     "en": "18+",
     "ru": "18+"
   },
+  "badge.new": {
+    "uk": "Нове",
+    "en": "New",
+    "ru": "Новинка"
+  },
   "foot.age": {
     "uk": "Алкоголь і тютюн — лише повнолітнім. Бармен може попросити документ.",
     "en": "Alcohol and tobacco are served to over-18s only. The bar may ask for ID.",

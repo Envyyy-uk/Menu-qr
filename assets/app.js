@@ -310,10 +310,23 @@
     }
   }
 
+  /* ---------------------------------------------------------- новинки --- */
+  /* Плашка «нове» надрукована в сторінці з датою, коли вона має згаснути.
+     Сторінки перезбираються не щодня, тож гасить її скрипт — і теж за
+     Лондоном, як і знижку: новинка закінчується за годинником бару. */
+  function wireNew() {
+    var now = londonNow().stamp.slice(0, 10);
+    [].slice.call(document.querySelectorAll('.badge--new[data-until]'))
+      .forEach(function (node) {
+        if (now >= node.getAttribute('data-until')) node.parentNode.removeChild(node);
+      });
+  }
+
   wireSearch();
   wireSpy();
   wireTop();
   wirePromo();
+  wireNew();
 
   /* ------------------------------------------------- свіжість меню --- */
   /* Сторінка, додана на екран «Домів», живе в кеші телефона: оновити її
