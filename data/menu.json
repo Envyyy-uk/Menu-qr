@@ -4442,7 +4442,7 @@
       "station": "bar",
       "price_pence": 2500,
       "orderable": true,
-      "state": "hidden",
+      "state": "available",
       "desc": {
         "uk": "Шампанське",
         "en": "Champagne",
@@ -5153,6 +5153,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-09-16T04:04Z"
+    "at": "2026-09-16T23:29Z"
   }
 }
