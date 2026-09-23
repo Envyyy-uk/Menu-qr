@@ -643,6 +643,16 @@
       "uk": "пінка",
       "en": "foam",
       "ru": "пенка"
+    },
+    "tarragon": {
+      "uk": "тархун",
+      "en": "tarragon",
+      "ru": "тархун"
+    },
+    "pear": {
+      "uk": "груша",
+      "en": "pear",
+      "ru": "груша"
     }
   },
   "items": [
@@ -4090,6 +4100,70 @@
         "orange"
       ],
       "w": []
+    },
+    {
+      "key": "zedazeni",
+      "name": "Zedazeni",
+      "category": "beer-soft",
+      "station": "bar",
+      "price_pence": 700,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Грузинський лимонад, 500 мл",
+        "en": "Georgian lemonade, 500 ml",
+        "ru": "Грузинский лимонад, 500 мл"
+      },
+      "options": [
+        {
+          "key": "flavour",
+          "label": "opt.flavour",
+          "choices": [
+            {
+              "key": "tarragon",
+              "name": {
+                "uk": "Тархун",
+                "en": "Tarragon",
+                "ru": "Тархун"
+              }
+            },
+            {
+              "key": "lemon",
+              "name": {
+                "uk": "Лимон",
+                "en": "Lemon",
+                "ru": "Лимон"
+              }
+            },
+            {
+              "key": "duchess",
+              "name": {
+                "uk": "Дюшес",
+                "en": "Duchess pear",
+                "ru": "Дюшес"
+              }
+            }
+          ]
+        }
+      ],
+      "ing": [
+        "soda",
+        "sugar",
+        "tarragon",
+        "lemon",
+        "pear"
+      ],
+      "w": [],
+      "alt": [
+        "зедазені",
+        "зедазени",
+        "лимонад",
+        "lemonade",
+        "тархун",
+        "дюшес",
+        "грузинський лимонад",
+        "грузинский лимонад"
+      ]
     },
     {
       "key": "juice-orange",
