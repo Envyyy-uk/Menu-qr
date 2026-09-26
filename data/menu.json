@@ -3984,11 +3984,19 @@
           "label": "opt.flavour",
           "choices": [
             {
-              "key": "caramel",
+              "key": "raspberry",
               "name": {
-                "uk": "Карамель",
-                "en": "Caramel",
-                "ru": "Карамель"
+                "uk": "Малина",
+                "en": "Raspberry",
+                "ru": "Малина"
+              }
+            },
+            {
+              "key": "passion-fruit",
+              "name": {
+                "uk": "Маракуя",
+                "en": "Passion fruit",
+                "ru": "Маракуйя"
               }
             },
             {
@@ -3997,6 +4005,14 @@
                 "uk": "Абрикос",
                 "en": "Apricot",
                 "ru": "Абрикос"
+              }
+            },
+            {
+              "key": "caramel",
+              "name": {
+                "uk": "Карамель",
+                "en": "Caramel",
+                "ru": "Карамель"
               }
             },
             {
@@ -4015,8 +4031,10 @@
         "lemon",
         "soda",
         "mint",
-        "caramel-syrup",
+        "raspberry",
+        "passion-fruit",
         "apricot-syrup",
+        "caramel-syrup",
         "orgeat"
       ],
       "w": [],
