@@ -3967,6 +3967,73 @@
       ]
     },
     {
+      "key": "mocktail",
+      "name": "Mocktail",
+      "category": "cocktails",
+      "station": "bar",
+      "price_pence": 1000,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Без алкоголю: яблучний сік, лимон, сироп на вибір, содова, мʼята — свіжий, солодко-кислий",
+        "en": "Alcohol-free: apple juice, lemon, syrup of your choice, soda, mint — fresh, sweet and sour",
+        "ru": "Без алкоголя: яблочный сок, лимон, сироп на выбор, содовая, мята — свежий, сладко-кислый"
+      },
+      "options": [
+        {
+          "key": "flavour",
+          "label": "opt.flavour",
+          "choices": [
+            {
+              "key": "caramel",
+              "name": {
+                "uk": "Карамель",
+                "en": "Caramel",
+                "ru": "Карамель"
+              }
+            },
+            {
+              "key": "apricot",
+              "name": {
+                "uk": "Абрикос",
+                "en": "Apricot",
+                "ru": "Абрикос"
+              }
+            },
+            {
+              "key": "almond",
+              "name": {
+                "uk": "Мигдаль",
+                "en": "Almond",
+                "ru": "Миндаль"
+              }
+            }
+          ]
+        }
+      ],
+      "ing": [
+        "apple",
+        "lemon",
+        "soda",
+        "mint",
+        "caramel-syrup",
+        "apricot-syrup",
+        "orgeat"
+      ],
+      "w": [],
+      "alt": [
+        "моктейль",
+        "mocktail",
+        "безалкогольний коктейль",
+        "безалкогольный коктейль",
+        "без алкоголю",
+        "без алкоголя",
+        "non-alcoholic",
+        "alcohol free",
+        "нульовий"
+      ]
+    },
+    {
       "key": "corona",
       "name": "Corona",
       "category": "beer-soft",
