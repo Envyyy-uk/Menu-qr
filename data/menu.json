@@ -3966,9 +3966,35 @@
       ]
     },
     {
+      "key": "corona",
+      "name": "Corona",
+      "category": "beer-soft",
+      "station": "bar",
+      "price_pence": 800,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Світле лагер-пиво",
+        "en": "Lager beer",
+        "ru": "Светлое лагер-пиво"
+      },
+      "ing": [
+        "water",
+        "barley-malt",
+        "maize",
+        "hops"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "пиво"
+      ]
+    },
+    {
       "key": "mocktail",
       "name": "Mocktail",
-      "category": "cocktails",
+      "category": "beer-soft",
       "station": "bar",
       "price_pence": 1000,
       "orderable": true,
@@ -4048,32 +4074,6 @@
         "non-alcoholic",
         "alcohol free",
         "нульовий"
-      ]
-    },
-    {
-      "key": "corona",
-      "name": "Corona",
-      "category": "beer-soft",
-      "station": "bar",
-      "price_pence": 800,
-      "orderable": true,
-      "state": "available",
-      "desc": {
-        "uk": "Світле лагер-пиво",
-        "en": "Lager beer",
-        "ru": "Светлое лагер-пиво"
-      },
-      "ing": [
-        "water",
-        "barley-malt",
-        "maize",
-        "hops"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "пиво"
       ]
     },
     {
