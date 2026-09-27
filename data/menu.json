@@ -4598,13 +4598,13 @@
       "name": "Moët & Chandon",
       "category": "wine",
       "station": "bar",
-      "price_pence": 2500,
+      "price_pence": 20000,
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Шампанське",
-        "en": "Champagne",
-        "ru": "Шампанское"
+        "uk": "Шампанське, лише пляшка",
+        "en": "Champagne, bottle only",
+        "ru": "Шампанское, только бутылка"
       },
       "ing": [
         "grapes"
@@ -4613,30 +4613,6 @@
         "age-check"
       ],
       "options": [
-        {
-          "key": "size",
-          "label": "opt.size",
-          "choices": [
-            {
-              "key": "glass",
-              "name": {
-                "uk": "Келих 175 мл",
-                "en": "Glass 175 ml",
-                "ru": "Бокал 175 мл"
-              },
-              "price_pence": 2500
-            },
-            {
-              "key": "bottle",
-              "name": {
-                "uk": "Пляшка",
-                "en": "Bottle",
-                "ru": "Бутылка"
-              },
-              "price_pence": 20000
-            }
-          ]
-        },
         {
           "key": "style",
           "label": "opt.style",
