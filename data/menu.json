@@ -4594,6 +4594,34 @@
       ]
     },
     {
+      "key": "veuve-monsigny",
+      "name": "Veuve Monsigny Nº III",
+      "category": "wine",
+      "station": "bar",
+      "price_pence": 13000,
+      "orderable": true,
+      "state": "available",
+      "desc": {
+        "uk": "Шампанське брют, лише пляшка",
+        "en": "Brut champagne, bottle only",
+        "ru": "Шампанское брют, только бутылка"
+      },
+      "ing": [
+        "grapes"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "монсіньї",
+        "монсиньи",
+        "вев монсіньї",
+        "вдова монсиньи",
+        "veuve monsigny",
+        "брют"
+      ]
+    },
+    {
       "key": "champagne-moet",
       "name": "Moët & Chandon",
       "category": "wine",
@@ -4635,34 +4663,6 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "key": "veuve-monsigny",
-      "name": "Veuve Monsigny Nº III",
-      "category": "wine",
-      "station": "bar",
-      "price_pence": 13000,
-      "orderable": true,
-      "state": "available",
-      "desc": {
-        "uk": "Шампанське брют, лише пляшка",
-        "en": "Brut champagne, bottle only",
-        "ru": "Шампанское брют, только бутылка"
-      },
-      "ing": [
-        "grapes"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "монсіньї",
-        "монсиньи",
-        "вев монсіньї",
-        "вдова монсиньи",
-        "veuve monsigny",
-        "брют"
       ]
     },
     {
