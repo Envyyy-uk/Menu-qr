@@ -4718,7 +4718,7 @@
       "station": "bar",
       "price_pence": 1000,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Чайник чаю",
         "en": "Pot of tea",
@@ -4743,7 +4743,7 @@
       "station": "bar",
       "price_pence": 1000,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Чайник чаю",
         "en": "Pot of tea",
@@ -4768,7 +4768,7 @@
       "station": "bar",
       "price_pence": 1000,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Чайник чаю",
         "en": "Pot of tea",
@@ -4794,7 +4794,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Чайник із ягодами, фруктами та медом",
         "en": "Pot of tea with berries, fruits and honey",
@@ -4820,7 +4820,7 @@
       "station": "bar",
       "price_pence": 600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Гарячий шоколад",
         "en": "Hot chocolate",
@@ -4877,7 +4877,7 @@
       "station": "bar",
       "price_pence": 400,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Чорна кава",
         "en": "Black coffee",
@@ -4902,7 +4902,7 @@
       "station": "bar",
       "price_pence": 500,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Кава на молоці, мигдалевому або соєвому",
         "en": "Coffee with dairy, almond or soya milk",
@@ -4959,7 +4959,7 @@
       "station": "bar",
       "price_pence": 500,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Кава на молоці, мигдалевому або соєвому",
         "en": "Coffee with dairy, almond or soya milk",
@@ -5017,7 +5017,7 @@
       "station": "bar",
       "price_pence": 500,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Кава з шоколадом на молоці, мигдалевому або соєвому",
         "en": "Coffee with chocolate, dairy, almond or soya milk",
@@ -5321,6 +5321,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-09-29T12:45Z"
+    "at": "2026-10-02T20:57Z"
   }
 }
