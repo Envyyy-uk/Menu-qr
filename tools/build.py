@@ -492,6 +492,27 @@ def masthead(lang, title):
   </div>"""
 
 
+# ----------------------------------------------------------- за розбите --
+# Плата за розбите — не позиція меню: її не замовляють, і знижка її не чіпає.
+# Тому це окремий блок у хвості меню, а не картка серед кальянів, і ціна тут
+# друкується як є, без пари в data-promo.
+def damages_html(lang, stem):
+    block = MENU.get("damages") or {}
+    if stem not in (block.get("menus") or []) or not block.get("items"):
+        return ""
+    rows = "".join(
+        '<li class="damages__row">'
+        f'<span class="damages__name">{e(pick(row["name"], lang))}</span>'
+        f'<span class="damages__price">{e(money(row["price_pence"]))}</span>'
+        "</li>"
+        for row in block["items"])
+    return (f'<section class="damages">'
+            f'<h2 class="damages__title">{e(pick(block.get("title"), lang))}</h2>'
+            f'<p class="damages__note">{e(pick(block.get("note"), lang))}</p>'
+            f'<ul class="damages__list">{rows}</ul>'
+            "</section>")
+
+
 def foot(lang):
     return f"""
   <footer class="foot">
@@ -549,6 +570,7 @@ def menu_body(lang, menu):
   {promo_note(menu['stem'], lang)}
   <div class="menu">{''.join(sections)}</div>
   <p class="empty" hidden>{e(t('search.empty', lang))}</p>
+  {damages_html(lang, menu['stem'])}
   <button class="totop js-only" type="button" aria-label="{e(t('ui.top', lang))}"
           title="{e(t('ui.top', lang))}">↑</button>
 {foot(lang)}"""

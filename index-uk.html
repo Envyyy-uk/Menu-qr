@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Меню</title>
 <meta name="theme-color" content="#1d1a16">
-<meta name="build" content="e5de744db116">
+<meta name="build" content="a0794ea07841">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/app-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -632,6 +632,35 @@ body {
 }
 
 .home .promo { margin: 22px 0 0; text-align: center; border-left-width: 1px; }
+
+/* ------------------------------------------------------- за розбите --- */
+/* Плата за розбите стоїть у хвості меню й навмисно не схожа на позиції:
+   без рамки-картки, дрібнішим кеглем. Гість має її знайти, коли шукатиме,
+   але вона не має перебивати кальяни, по які він прийшов. */
+.damages {
+  margin: 26px 0 0;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.damages__title {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.damages__note { margin: 6px 0 10px; font-size: 14px; font-style: italic; color: var(--muted); }
+.damages__list { margin: 0; padding: 0; list-style: none; }
+.damages__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--line);
+  font-size: 15px;
+}
+.damages__row:last-child { border-bottom: 0; }
+.damages__price { color: var(--gold); white-space: nowrap; }
 
 /* ----------------------------------------------------------- нагору --- */
 /* Барне меню довге: щоб повернутися до розділів угорі, гостю довелося б довго

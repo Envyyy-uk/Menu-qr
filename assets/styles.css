@@ -616,6 +616,35 @@ body {
 
 .home .promo { margin: 22px 0 0; text-align: center; border-left-width: 1px; }
 
+/* ------------------------------------------------------- за розбите --- */
+/* Плата за розбите стоїть у хвості меню й навмисно не схожа на позиції:
+   без рамки-картки, дрібнішим кеглем. Гість має її знайти, коли шукатиме,
+   але вона не має перебивати кальяни, по які він прийшов. */
+.damages {
+  margin: 26px 0 0;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.damages__title {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.damages__note { margin: 6px 0 10px; font-size: 14px; font-style: italic; color: var(--muted); }
+.damages__list { margin: 0; padding: 0; list-style: none; }
+.damages__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--line);
+  font-size: 15px;
+}
+.damages__row:last-child { border-bottom: 0; }
+.damages__price { color: var(--gold); white-space: nowrap; }
+
 /* ----------------------------------------------------------- нагору --- */
 /* Барне меню довге: щоб повернутися до розділів угорі, гостю довелося б довго
    гортати. Кнопка зʼявляється, коли до верху вже далеко, і стоїть у нижньому

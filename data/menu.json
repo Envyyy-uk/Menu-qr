@@ -138,6 +138,48 @@
       "by": "Ярик"
     }
   },
+  "damages": {
+    "_note": "Плата за розбите в закладі. Друкується наприкінці меню зі списку «menus» окремим блоком, а не позицією: це не те, що замовляють, і знижка цього не чіпає.",
+    "menus": [
+      "hookah"
+    ],
+    "title": {
+      "uk": "Якщо щось розбилося",
+      "en": "If something gets broken",
+      "ru": "Если что-то разбилось"
+    },
+    "note": {
+      "uk": "Розбите в закладі йде окремо в рахунок:",
+      "en": "Anything broken on the premises is charged separately:",
+      "ru": "Разбитое в заведении идёт отдельно в счёт:"
+    },
+    "items": [
+      {
+        "name": {
+          "uk": "Колба",
+          "en": "Hookah base",
+          "ru": "Колба"
+        },
+        "price_pence": 4500
+      },
+      {
+        "name": {
+          "uk": "Чаша",
+          "en": "Bowl",
+          "ru": "Чаша"
+        },
+        "price_pence": 3500
+      },
+      {
+        "name": {
+          "uk": "Кальян",
+          "en": "Whole hookah",
+          "ru": "Кальян"
+        },
+        "price_pence": 20000
+      }
+    ]
+  },
   "categories": [
     {
       "key": "platters",
