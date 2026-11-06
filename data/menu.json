@@ -4168,7 +4168,7 @@
       "station": "bar",
       "price_pence": 700,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Грузинський лимонад, 500 мл",
         "en": "Georgian lemonade, 500 ml",
@@ -4428,7 +4428,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Червоне вино",
         "en": "Red wine",
@@ -4474,7 +4474,7 @@
       "station": "bar",
       "price_pence": 1500,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Червоне грузинське напівсолодке",
         "en": "Georgian red, semi-sweet",
@@ -5291,6 +5291,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-11-06T21:40Z"
+    "at": "2026-11-06T21:42Z"
   }
 }
