@@ -2108,7 +2108,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Текіла · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Tequila · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -2198,7 +2198,7 @@
     },
     {
       "key": "sierra",
-      "name": "Sierra Tequila",
+      "name": "Tequila",
       "category": "spirits",
       "station": "bar",
       "price_pence": 1300,
@@ -2298,7 +2298,7 @@
       "station": "bar",
       "price_pence": 1300,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Текіла · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Tequila · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -5291,6 +5291,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-11-06T21:42Z"
+    "at": "2026-11-06T21:43Z"
   }
 }
