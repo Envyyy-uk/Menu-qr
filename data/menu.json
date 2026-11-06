@@ -1290,7 +1290,7 @@
       "station": "bar",
       "price_pence": 26000,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -1412,15 +1412,6 @@
                 "ru": "Бутылка"
               },
               "price_pence": 23000
-            },
-            {
-              "key": "premium",
-              "name": {
-                "uk": "Пляшка (преміум)",
-                "en": "Bottle (Premium)",
-                "ru": "Бутылка (премиум)"
-              },
-              "price_pence": 26000
             }
           ]
         }
@@ -1514,16 +1505,7 @@
               "price_pence": 7800
             },
             {
-              "key": "bottle",
-              "name": {
-                "uk": "Пляшка",
-                "en": "Bottle",
-                "ru": "Бутылка"
-              },
-              "price_pence": 23000
-            },
-            {
-              "key": "premium",
+              "key": "bottle-premium",
               "name": {
                 "uk": "Пляшка (преміум)",
                 "en": "Bottle (Premium)",
@@ -1738,15 +1720,6 @@
                 "ru": "Бутылка"
               },
               "price_pence": 23000
-            },
-            {
-              "key": "premium",
-              "name": {
-                "uk": "Пляшка (преміум)",
-                "en": "Bottle (Premium)",
-                "ru": "Бутылка (премиум)"
-              },
-              "price_pence": 26000
             }
           ]
         }
@@ -1843,15 +1816,6 @@
                 "ru": "Бутылка"
               },
               "price_pence": 23000
-            },
-            {
-              "key": "premium",
-              "name": {
-                "uk": "Пляшка (преміум)",
-                "en": "Bottle (Premium)",
-                "ru": "Бутылка (премиум)"
-              },
-              "price_pence": 26000
             }
           ]
         }
@@ -1948,15 +1912,6 @@
                 "ru": "Бутылка"
               },
               "price_pence": 23000
-            },
-            {
-              "key": "premium",
-              "name": {
-                "uk": "Пляшка (преміум)",
-                "en": "Bottle (Premium)",
-                "ru": "Бутылка (премиум)"
-              },
-              "price_pence": 26000
             }
           ]
         }
@@ -2052,15 +2007,6 @@
                 "ru": "Бутылка"
               },
               "price_pence": 23000
-            },
-            {
-              "key": "premium",
-              "name": {
-                "uk": "Пляшка (преміум)",
-                "en": "Bottle (Premium)",
-                "ru": "Бутылка (премиум)"
-              },
-              "price_pence": 26000
             }
           ]
         }
@@ -2465,7 +2411,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Текіла · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
         "en": "Tequila · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
@@ -2639,7 +2585,7 @@
                 "en": "Bottle",
                 "ru": "Бутылка"
               },
-              "price_pence": 23000
+              "price_pence": 26000
             }
           ]
         }
@@ -3348,7 +3294,7 @@
       "station": "bar",
       "price_pence": 1000,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Настоянка на ягодах і фруктах",
         "en": "Fruit and berry infusion",
@@ -3561,11 +3507,11 @@
               "price_pence": 6000
             },
             {
-              "key": "bottle750",
+              "key": "bottle",
               "name": {
-                "uk": "Пляшка 750 мл",
-                "en": "Bottle 750 ml",
-                "ru": "Бутылка 750 мл"
+                "uk": "Пляшка",
+                "en": "Bottle",
+                "ru": "Бутылка"
               },
               "price_pence": 11000
             }
@@ -5363,6 +5309,6 @@
   ],
   "updated": {
     "by": "Ярик",
-    "at": "2026-11-06T19:42Z"
+    "at": "2026-11-06T21:37Z"
   }
 }
