@@ -1061,9 +1061,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Водка · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Горілка · Мікс до міцного — £3.",
+        "en": "Vodka · Mixer for spirits £3.",
+        "ru": "Водка · Микс к крепкому — £3."
       },
       "ing": [
         "grain-spirit",
@@ -1156,9 +1156,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Водка · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Горілка · Мікс до міцного — £3.",
+        "en": "Vodka · Mixer for spirits £3.",
+        "ru": "Водка · Микс к крепкому — £3."
       },
       "ing": [
         "grain-spirit",
@@ -1251,9 +1251,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Водка · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Горілка · Мікс до міцного — £3.",
+        "en": "Vodka · Mixer for spirits £3.",
+        "ru": "Водка · Микс к крепкому — £3."
       },
       "ing": [
         "grain-spirit",
@@ -1292,9 +1292,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Горілка · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Vodka · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Водка · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Горілка · Мікс до міцного — £3.",
+        "en": "Vodka · Mixer for spirits £3.",
+        "ru": "Водка · Микс к крепкому — £3."
       },
       "ing": [
         "grain-spirit",
@@ -1333,9 +1333,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Віскі з Теннессі · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Tennessee whiskey · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Виски из Теннесси · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Віскі з Теннессі · Мікс до міцного — £3.",
+        "en": "Tennessee whiskey · Mixer for spirits £3.",
+        "ru": "Виски из Теннесси · Микс к крепкому — £3."
       },
       "ing": [
         "maize",
@@ -1433,9 +1433,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Шотландське купажоване віскі · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Blended Scotch whisky · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Шотландский купажированный виски · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Шотландське купажоване віскі · Мікс до міцного — £3.",
+        "en": "Blended Scotch whisky · Mixer for spirits £3.",
+        "ru": "Шотландский купажированный виски · Микс к крепкому — £3."
       },
       "ing": [
         "barley-malt",
@@ -1533,9 +1533,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Ірландське віскі · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Irish whiskey · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Ирландский виски · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Ірландське віскі · Мікс до міцного — £3.",
+        "en": "Irish whiskey · Mixer for spirits £3.",
+        "ru": "Ирландский виски · Микс к крепкому — £3."
       },
       "ing": [
         "barley-malt",
@@ -1633,9 +1633,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Шотландське солодове віскі · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Blended malt Scotch whisky · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Шотландский солодовый виски · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Шотландське солодове віскі · Мікс до міцного — £3.",
+        "en": "Blended malt Scotch whisky · Mixer for spirits £3.",
+        "ru": "Шотландский солодовый виски · Микс к крепкому — £3."
       },
       "ing": [
         "barley-malt",
@@ -1728,9 +1728,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Джин · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Gin · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Джин · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Джин · Мікс до міцного — £3.",
+        "en": "Gin · Mixer for spirits £3.",
+        "ru": "Джин · Микс к крепкому — £3."
       },
       "ing": [
         "grain-spirit",
@@ -1824,9 +1824,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Джин · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Gin · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Джин · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Джин · Мікс до міцного — £3.",
+        "en": "Gin · Mixer for spirits £3.",
+        "ru": "Джин · Микс к крепкому — £3."
       },
       "ing": [
         "grain-spirit",
@@ -1920,9 +1920,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Ром · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Rum · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Ром · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Ром · Мікс до міцного — £3.",
+        "en": "Rum · Mixer for spirits £3.",
+        "ru": "Ром · Микс к крепкому — £3."
       },
       "ing": [
         "sugar",
@@ -2015,9 +2015,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Білий ром · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "White rum · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Белый ром · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Білий ром · Мікс до міцного — £3.",
+        "en": "White rum · Mixer for spirits £3.",
+        "ru": "Белый ром · Микс к крепкому — £3."
       },
       "ing": [
         "sugar",
@@ -2110,9 +2110,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Текіла · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Tequila · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Текила · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Текіла · Мікс до міцного — £3.",
+        "en": "Tequila · Mixer for spirits £3.",
+        "ru": "Текила · Микс к крепкому — £3."
       },
       "ing": [
         "agave",
@@ -2205,9 +2205,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Текіла · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Tequila · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Текила · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Текіла · Мікс до міцного — £3.",
+        "en": "Tequila · Mixer for spirits £3.",
+        "ru": "Текила · Микс к крепкому — £3."
       },
       "ing": [
         "agave",
@@ -2300,9 +2300,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Текіла · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Tequila · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Текила · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Текіла · Мікс до міцного — £3.",
+        "en": "Tequila · Mixer for spirits £3.",
+        "ru": "Текила · Микс к крепкому — £3."
       },
       "ing": [
         "agave",
@@ -2395,9 +2395,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Текіла · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Tequila · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Текила · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Текіла · Мікс до міцного — £3.",
+        "en": "Tequila · Mixer for spirits £3.",
+        "ru": "Текила · Микс к крепкому — £3."
       },
       "ing": [
         "agave",
@@ -2490,9 +2490,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Коньяк · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Cognac · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Коньяк · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Коньяк · Мікс до міцного — £3.",
+        "en": "Cognac · Mixer for spirits £3.",
+        "ru": "Коньяк · Микс к крепкому — £3."
       },
       "ing": [
         "grapes",
@@ -2588,9 +2588,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Лікер амаретто · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Amaretto liqueur · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Ликёр амаретто · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Лікер амаретто · Мікс до міцного — £3.",
+        "en": "Amaretto liqueur · Mixer for spirits £3.",
+        "ru": "Ликёр амаретто · Микс к крепкому — £3."
       },
       "ing": [
         "sugar",
@@ -2688,9 +2688,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Вершковий лікер · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Cream liqueur · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Сливочный ликёр · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Вершковий лікер · Мікс до міцного — £3.",
+        "en": "Cream liqueur · Mixer for spirits £3.",
+        "ru": "Сливочный ликёр · Микс к крепкому — £3."
       },
       "ing": [
         "cream",
@@ -2790,9 +2790,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Німецький лікер · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "German liqueur · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Немецкий ликёр · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Німецький лікер · Мікс до міцного — £3.",
+        "en": "German liqueur · Mixer for spirits £3.",
+        "ru": "Немецкий ликёр · Микс к крепкому — £3."
       },
       "ing": [
         "herbs-spices",
@@ -2892,9 +2892,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Кокосовий лікер · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Coconut liqueur · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Кокосовый ликёр · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Кокосовий лікер · Мікс до міцного — £3.",
+        "en": "Coconut liqueur · Mixer for spirits £3.",
+        "ru": "Кокосовый ликёр · Микс к крепкому — £3."
       },
       "ing": [
         "rum",
@@ -2993,9 +2993,9 @@
       "orderable": true,
       "state": "available",
       "desc": {
-        "uk": "Диневий лікер · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Melon liqueur · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Дынный ликёр · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Диневий лікер · Мікс до міцного — £3.",
+        "en": "Melon liqueur · Mixer for spirits £3.",
+        "ru": "Дынный ликёр · Микс к крепкому — £3."
       },
       "ing": [
         "melon",
@@ -3088,9 +3088,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Італійський біттер · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Italian bitter · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Итальянский биттер · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Італійський біттер · Мікс до міцного — £3.",
+        "en": "Italian bitter · Mixer for spirits £3.",
+        "ru": "Итальянский биттер · Микс к крепкому — £3."
       },
       "ing": [
         "herbs-spices",
@@ -3183,9 +3183,9 @@
       "orderable": true,
       "state": "hidden",
       "desc": {
-        "uk": "Лікер маракуйї · Мікс до міцного — £3. Ціна пляшки включає два мікси на вибір.",
-        "en": "Passion fruit liqueur · Mixer for spirits £3. Bottle price includes two mixers of your choice.",
-        "ru": "Ликёр маракуйи · Микс к крепкому — £3. Цена бутылки включает два микса на выбор."
+        "uk": "Лікер маракуйї · Мікс до міцного — £3.",
+        "en": "Passion fruit liqueur · Mixer for spirits £3.",
+        "ru": "Ликёр маракуйи · Микс к крепкому — £3."
       },
       "ing": [
         "passion-fruit",
