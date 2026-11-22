@@ -3988,7 +3988,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Пряний ром, малинове пюре, корицевий сироп, лимон, сидр доверху — ягідний, пряний",
         "en": "Spiced rum, raspberry purée, cinnamon syrup, lemon, topped with cider — berry, spiced",
@@ -4020,7 +4020,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Текіла, блакитний Curaçao, ананасовий, апельсиновий і лаймовий сік — тропічний, кисло-солодкий",
         "en": "Tequila, blue Curaçao, pineapple, orange and lime juice — tropical, sweet and sour",
@@ -4053,7 +4053,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Горілка, полуничний сік, ванільний лікер, Supasawa, яєчний білок або веганська заміна — ягідний, мʼякий, із пінкою",
         "en": "Vodka, strawberry juice, vanilla liqueur, Supasawa, egg white or vegan alternative — berry, smooth, with foam",
@@ -4087,7 +4087,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Baileys, горілка, вершки, сироп тірамісу, кава — десертний, солодкий",
         "en": "Baileys, vodka, cream, tiramisu syrup, coffee — dessert-sweet",
@@ -4120,7 +4120,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Горілка, Kahlúa, кава, ірисковий сироп — кавовий, солодкий, бадьорить",
         "en": "Vodka, Kahlúa, coffee, toffee syrup — coffee, sweet, wakes you up",
@@ -4155,7 +4155,7 @@
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
-      "state": "available",
+      "state": "hidden",
       "desc": {
         "uk": "Джин, лимонний і гранатовий сік, цукровий сироп, яєчний білок — кислий, ягідний, із пінкою",
         "en": "Gin, lemon and pomegranate juice, sugar syrup, egg white — sour, berry, with foam",
