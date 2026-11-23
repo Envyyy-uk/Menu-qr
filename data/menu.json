@@ -47,6 +47,7 @@
       },
       "categories": [
         "spirits",
+        "signature",
         "cocktails",
         "beer-soft",
         "wine",
@@ -221,6 +222,14 @@
         "ru": "Крепкое"
       },
       "pricing": "spirit"
+    },
+    {
+      "key": "signature",
+      "names": {
+        "uk": "Авторські коктейлі",
+        "en": "Signature cocktails",
+        "ru": "Авторские коктейли"
+      }
     },
     {
       "key": "cocktails",
@@ -3682,7 +3691,7 @@
     {
       "key": "khvoyda",
       "name": "Khvoyda",
-      "category": "cocktails",
+      "category": "signature",
       "station": "bar",
       "price_pence": 1600,
       "orderable": true,
@@ -3710,6 +3719,206 @@
         "мідорі",
         "мидори",
         "midori"
+      ]
+    },
+    {
+      "key": "raspberry-kiss",
+      "name": "Raspberry Kiss",
+      "category": "signature",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "hidden",
+      "desc": {
+        "uk": "Пряний ром, малинове пюре, корицевий сироп, лимон, сидр доверху — ягідний, пряний",
+        "en": "Spiced rum, raspberry purée, cinnamon syrup, lemon, topped with cider — berry, spiced",
+        "ru": "Пряный ром, малиновое пюре, коричный сироп, лимон, сидр доверху — ягодный, пряный"
+      },
+      "ing": [
+        "rum",
+        "raspberry",
+        "cinnamon-syrup",
+        "lemon",
+        "cider"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "распберри кисс",
+        "малиновый поцелуй",
+        "малиновий поцілунок",
+        "raspberry kiss",
+        "сидр",
+        "малина"
+      ]
+    },
+    {
+      "key": "grinch-margarita",
+      "name": "Grinch Margarita",
+      "category": "signature",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "hidden",
+      "desc": {
+        "uk": "Текіла, блакитний Curaçao, ананасовий, апельсиновий і лаймовий сік — тропічний, кисло-солодкий",
+        "en": "Tequila, blue Curaçao, pineapple, orange and lime juice — tropical, sweet and sour",
+        "ru": "Текила, голубой Curaçao, ананасовый, апельсиновый и лаймовый сок — тропический, кисло-сладкий"
+      },
+      "ing": [
+        "tequila",
+        "curacao",
+        "pineapple",
+        "orange",
+        "lime"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "гринч",
+        "грінч",
+        "гринч маргарита",
+        "grinch",
+        "маргарита",
+        "кюрасао",
+        "курасао"
+      ]
+    },
+    {
+      "key": "campino",
+      "name": "Campino",
+      "category": "signature",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "hidden",
+      "desc": {
+        "uk": "Горілка, полуничний сік, ванільний лікер, Supasawa, яєчний білок або веганська заміна — ягідний, мʼякий, із пінкою",
+        "en": "Vodka, strawberry juice, vanilla liqueur, Supasawa, egg white or vegan alternative — berry, smooth, with foam",
+        "ru": "Водка, клубничный сок, ванильный ликёр, Supasawa, яичный белок или веганская замена — ягодный, мягкий, с пенкой"
+      },
+      "ing": [
+        "vodka",
+        "strawberry",
+        "vanilla",
+        "supasawa",
+        "eggs",
+        "foam"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "кампино",
+        "кампіно",
+        "campino",
+        "клубника",
+        "полуниця",
+        "веган",
+        "vegan"
+      ]
+    },
+    {
+      "key": "tiramisu-liquid",
+      "name": "Tiramisu Liquid",
+      "category": "signature",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "hidden",
+      "desc": {
+        "uk": "Baileys, горілка, вершки, сироп тірамісу, кава — десертний, солодкий",
+        "en": "Baileys, vodka, cream, tiramisu syrup, coffee — dessert-sweet",
+        "ru": "Baileys, водка, сливки, сироп тирамису, кофе — десертный, сладкий"
+      },
+      "ing": [
+        "irish-cream",
+        "vodka",
+        "cream",
+        "tiramisu-syrup",
+        "coffee"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "тирамису",
+        "тірамісу",
+        "tiramisu",
+        "бейлис",
+        "бейліс",
+        "baileys",
+        "десерт"
+      ]
+    },
+    {
+      "key": "toffee-espresso-martini",
+      "name": "Toffee Espresso Martini",
+      "category": "signature",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "hidden",
+      "desc": {
+        "uk": "Горілка, Kahlúa, кава, ірисковий сироп — кавовий, солодкий, бадьорить",
+        "en": "Vodka, Kahlúa, coffee, toffee syrup — coffee, sweet, wakes you up",
+        "ru": "Водка, Kahlúa, кофе, ирисковый сироп — кофейный, сладкий, бодрит"
+      },
+      "ing": [
+        "vodka",
+        "coffee-liqueur",
+        "coffee",
+        "toffee-syrup"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "эспрессо мартини",
+        "еспресо мартіні",
+        "espresso martini",
+        "тофи",
+        "тофі",
+        "ириска",
+        "калуа",
+        "kahlua",
+        "кофе",
+        "кава"
+      ]
+    },
+    {
+      "key": "holiday-sour",
+      "name": "Holiday Sour",
+      "category": "signature",
+      "station": "bar",
+      "price_pence": 1600,
+      "orderable": true,
+      "state": "hidden",
+      "desc": {
+        "uk": "Джин, лимонний і гранатовий сік, цукровий сироп, яєчний білок — кислий, ягідний, із пінкою",
+        "en": "Gin, lemon and pomegranate juice, sugar syrup, egg white — sour, berry, with foam",
+        "ru": "Джин, лимонный и гранатовый сок, сахарный сироп, яичный белок — кислый, ягодный, с пенкой"
+      },
+      "ing": [
+        "gin",
+        "lemon",
+        "pomegranate",
+        "sugar-syrup",
+        "eggs",
+        "foam"
+      ],
+      "w": [
+        "age-check"
+      ],
+      "alt": [
+        "холидей сауэр",
+        "холідей сауер",
+        "holiday sour",
+        "сауэр",
+        "гранат",
+        "granat"
       ]
     },
     {
@@ -3979,206 +4188,6 @@
         "малиновый",
         "распберри",
         "малина"
-      ]
-    },
-    {
-      "key": "raspberry-kiss",
-      "name": "Raspberry Kiss",
-      "category": "cocktails",
-      "station": "bar",
-      "price_pence": 1600,
-      "orderable": true,
-      "state": "hidden",
-      "desc": {
-        "uk": "Пряний ром, малинове пюре, корицевий сироп, лимон, сидр доверху — ягідний, пряний",
-        "en": "Spiced rum, raspberry purée, cinnamon syrup, lemon, topped with cider — berry, spiced",
-        "ru": "Пряный ром, малиновое пюре, коричный сироп, лимон, сидр доверху — ягодный, пряный"
-      },
-      "ing": [
-        "rum",
-        "raspberry",
-        "cinnamon-syrup",
-        "lemon",
-        "cider"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "распберри кисс",
-        "малиновый поцелуй",
-        "малиновий поцілунок",
-        "raspberry kiss",
-        "сидр",
-        "малина"
-      ]
-    },
-    {
-      "key": "grinch-margarita",
-      "name": "Grinch Margarita",
-      "category": "cocktails",
-      "station": "bar",
-      "price_pence": 1600,
-      "orderable": true,
-      "state": "hidden",
-      "desc": {
-        "uk": "Текіла, блакитний Curaçao, ананасовий, апельсиновий і лаймовий сік — тропічний, кисло-солодкий",
-        "en": "Tequila, blue Curaçao, pineapple, orange and lime juice — tropical, sweet and sour",
-        "ru": "Текила, голубой Curaçao, ананасовый, апельсиновый и лаймовый сок — тропический, кисло-сладкий"
-      },
-      "ing": [
-        "tequila",
-        "curacao",
-        "pineapple",
-        "orange",
-        "lime"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "гринч",
-        "грінч",
-        "гринч маргарита",
-        "grinch",
-        "маргарита",
-        "кюрасао",
-        "курасао"
-      ]
-    },
-    {
-      "key": "campino",
-      "name": "Campino",
-      "category": "cocktails",
-      "station": "bar",
-      "price_pence": 1600,
-      "orderable": true,
-      "state": "hidden",
-      "desc": {
-        "uk": "Горілка, полуничний сік, ванільний лікер, Supasawa, яєчний білок або веганська заміна — ягідний, мʼякий, із пінкою",
-        "en": "Vodka, strawberry juice, vanilla liqueur, Supasawa, egg white or vegan alternative — berry, smooth, with foam",
-        "ru": "Водка, клубничный сок, ванильный ликёр, Supasawa, яичный белок или веганская замена — ягодный, мягкий, с пенкой"
-      },
-      "ing": [
-        "vodka",
-        "strawberry",
-        "vanilla",
-        "supasawa",
-        "eggs",
-        "foam"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "кампино",
-        "кампіно",
-        "campino",
-        "клубника",
-        "полуниця",
-        "веган",
-        "vegan"
-      ]
-    },
-    {
-      "key": "tiramisu-liquid",
-      "name": "Tiramisu Liquid",
-      "category": "cocktails",
-      "station": "bar",
-      "price_pence": 1600,
-      "orderable": true,
-      "state": "hidden",
-      "desc": {
-        "uk": "Baileys, горілка, вершки, сироп тірамісу, кава — десертний, солодкий",
-        "en": "Baileys, vodka, cream, tiramisu syrup, coffee — dessert-sweet",
-        "ru": "Baileys, водка, сливки, сироп тирамису, кофе — десертный, сладкий"
-      },
-      "ing": [
-        "irish-cream",
-        "vodka",
-        "cream",
-        "tiramisu-syrup",
-        "coffee"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "тирамису",
-        "тірамісу",
-        "tiramisu",
-        "бейлис",
-        "бейліс",
-        "baileys",
-        "десерт"
-      ]
-    },
-    {
-      "key": "toffee-espresso-martini",
-      "name": "Toffee Espresso Martini",
-      "category": "cocktails",
-      "station": "bar",
-      "price_pence": 1600,
-      "orderable": true,
-      "state": "hidden",
-      "desc": {
-        "uk": "Горілка, Kahlúa, кава, ірисковий сироп — кавовий, солодкий, бадьорить",
-        "en": "Vodka, Kahlúa, coffee, toffee syrup — coffee, sweet, wakes you up",
-        "ru": "Водка, Kahlúa, кофе, ирисковый сироп — кофейный, сладкий, бодрит"
-      },
-      "ing": [
-        "vodka",
-        "coffee-liqueur",
-        "coffee",
-        "toffee-syrup"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "эспрессо мартини",
-        "еспресо мартіні",
-        "espresso martini",
-        "тофи",
-        "тофі",
-        "ириска",
-        "калуа",
-        "kahlua",
-        "кофе",
-        "кава"
-      ]
-    },
-    {
-      "key": "holiday-sour",
-      "name": "Holiday Sour",
-      "category": "cocktails",
-      "station": "bar",
-      "price_pence": 1600,
-      "orderable": true,
-      "state": "hidden",
-      "desc": {
-        "uk": "Джин, лимонний і гранатовий сік, цукровий сироп, яєчний білок — кислий, ягідний, із пінкою",
-        "en": "Gin, lemon and pomegranate juice, sugar syrup, egg white — sour, berry, with foam",
-        "ru": "Джин, лимонный и гранатовый сок, сахарный сироп, яичный белок — кислый, ягодный, с пенкой"
-      },
-      "ing": [
-        "gin",
-        "lemon",
-        "pomegranate",
-        "sugar-syrup",
-        "eggs",
-        "foam"
-      ],
-      "w": [
-        "age-check"
-      ],
-      "alt": [
-        "холидей сауэр",
-        "холідей сауер",
-        "holiday sour",
-        "сауэр",
-        "гранат",
-        "granat"
       ]
     },
     {
